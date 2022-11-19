@@ -1,8 +1,8 @@
 import { Layout } from 'antd'
-import { Content, Footer } from 'antd/es/layout/layout'
-import Sider from 'antd/es/layout/Sider'
 import React from 'react'
 import Header from '../components/Header'
+
+const { Content, Footer } = Layout
 
 export default function MainLayout({ children }: any) {
   return (

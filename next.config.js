@@ -10,6 +10,9 @@ const nextConfig = {
       },
     ]
   },
+  images: {
+    domains: ['d-themes.com'],
+  },
 }
 
 module.exports = nextConfig
