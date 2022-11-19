@@ -1,0 +1,10 @@
+module.exports = {
+  singleQuote: true,
+  semi: false,
+  endOfLine: 'auto',
+  tabWidth: 2,
+  indent_size: 2,
+  useTabs: false,
+  printWidth: 80,
+  'editor.formatOnSave': true,
+}
