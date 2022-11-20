@@ -1,6 +1,6 @@
 import { UserOutlined } from '@ant-design/icons'
 
-export default function MyAccount() {
+const MyAccount = () => {
   return (
     <>
       <div className="my-account">
@@ -12,3 +12,5 @@ export default function MyAccount() {
     </>
   )
 }
+
+export default MyAccount

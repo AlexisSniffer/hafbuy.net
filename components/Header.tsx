@@ -6,57 +6,27 @@ import {
   ShoppingOutlined,
   WhatsAppOutlined,
 } from '@ant-design/icons'
-import {
-  Button,
-  Col,
-  Divider,
-  Dropdown,
-  Form,
-  Input,
-  Menu,
-  MenuProps,
-  Row,
-  Space,
-} from 'antd'
+import { Button, Col, Dropdown, Menu, MenuProps, Row } from 'antd'
 import Image from 'next/image'
 import Container from './Container'
 import MyAccount from './MyAccount'
 import CartToggle from './CartToggle'
+import SearchForm from './SearchForm'
+import Social from './Social'
+import MenuCategories from './MenuCategories'
 
-const { Search } = Input
-
-const items: MenuProps['items'] = [
-  {
-    key: '0',
-    label: (
-      <div>
-        <MenuOutlined /> <a href="/shop=?category='moda'">Moda</a>
-      </div>
-    ),
-  },
-  {
-    key: '1',
-    label: (
-      <div>
-        <MenuOutlined /> <a href="/shop=?category='electronica'">Electrónica</a>
-      </div>
-    ),
-  },
-  {
-    key: '2',
-    label: (
-      <div>
-        <MenuOutlined /> <a href="/shop=?category='juegos'">Juegos</a>
-      </div>
-    ),
-  },
-]
-
-export default function Header() {
+const Header = () => {
   return (
     <header className="header">
       <Container>
-        <Row>
+        <Row className="header-top">
+          <Col flex="auto"></Col>
+          <Col>
+            <Social type="header" />
+          </Col>
+        </Row>
+
+        <Row align={'middle'} className="header-middle">
           <Col>
             <Image
               src="/logo.png"
@@ -67,15 +37,7 @@ export default function Header() {
             />
           </Col>
           <Col flex="auto">
-            <Form
-              name="searchForm"
-              labelCol={{ span: 8 }}
-              className="search-form"
-            >
-              <Form.Item name="search">
-                <Search size="large" placeholder="Buscar..." enterButton />
-              </Form.Item>
-            </Form>
+            <SearchForm />
           </Col>
           <Col>
             <MyAccount />
@@ -85,20 +47,9 @@ export default function Header() {
           </Col>
         </Row>
 
-        <Row align="middle">
+        <Row align={'middle'} className="header-bottom">
           <Col>
-            <Dropdown
-              menu={{ items }}
-              placement="bottom"
-              arrow
-              trigger={['click']}
-            >
-              <a onClick={(e) => e.preventDefault()}>
-                <Button type="primary" icon={<MenuOutlined />} size={'large'}>
-                  CATEGORIAS
-                </Button>
-              </a>
-            </Dropdown>
+            <MenuCategories />
           </Col>
           <Col flex="auto">
             <Menu
@@ -131,3 +82,5 @@ export default function Header() {
     </header>
   )
 }
+
+export default Header

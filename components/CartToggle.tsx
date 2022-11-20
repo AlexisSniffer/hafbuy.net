@@ -3,7 +3,7 @@ import { ShoppingOutlined } from '@ant-design/icons'
 import { Badge, Drawer, Button, Row, Col } from 'antd'
 import ProductDrawer from './products/ProductDrawer'
 
-export default function CartToggle() {
+const CartToggle = () => {
   const [open, setOpen] = useState(false)
 
   const showDrawer = () => {
@@ -40,3 +40,5 @@ export default function CartToggle() {
     </>
   )
 }
+
+export default CartToggle

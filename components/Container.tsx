@@ -1,11 +1,15 @@
 import { Col, Row } from 'antd'
 
-export default function Container({ children }: any) {
+const Container = ({ children }: any) => {
   return (
     <Row>
-      <Col flex={1}></Col>
-      <Col flex={5}>{children}</Col>
-      <Col flex={1}></Col>
+      <Col xs={1} lg={2}></Col>
+      <Col xs={22} lg={20}>
+        {children}
+      </Col>
+      <Col xs={1} lg={2}></Col>
     </Row>
   )
 }
+
+export default Container

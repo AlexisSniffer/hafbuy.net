@@ -1,21 +1,24 @@
 import { Layout } from 'antd'
 import React from 'react'
 import Header from '../components/Header'
+import Container from '../components/Container'
 
 const { Content, Footer } = Layout
 
-export default function MainLayout({ children }: any) {
+const MainLayout = ({ children }: any) => {
   return (
     <>
       <Layout>
         <Header />
         <Layout>
-          <Content>main content</Content>
+          <Content>
+            <Container>{children}</Container>
+          </Content>
         </Layout>
         <Footer>footer</Footer>
       </Layout>
-
-      {children}
     </>
   )
 }
+
+export default MainLayout
