@@ -1,10 +1,5 @@
 import Link from 'next/link'
-import {
-  FacebookFilled,
-  FacebookOutlined,
-  InstagramFilled,
-  InstagramOutlined,
-} from '@ant-design/icons'
+import { FacebookFilled, InstagramFilled } from '@ant-design/icons'
 
 type SocialProps = {
   type: string

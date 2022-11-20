@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ShoppingOutlined } from '@ant-design/icons'
 import { Badge, Drawer, Button, Row, Col } from 'antd'
-import ProductDrawer from './products/ProductDrawer'
+import ProductDrawer from './../products/ProductDrawer'
 
 const CartToggle = () => {
   const [open, setOpen] = useState(false)

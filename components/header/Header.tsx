@@ -6,14 +6,14 @@ import {
   ShoppingOutlined,
   WhatsAppOutlined,
 } from '@ant-design/icons'
-import { Button, Col, Dropdown, Menu, MenuProps, Row } from 'antd'
+import { Col, Menu, Row } from 'antd'
 import Image from 'next/image'
-import Container from './Container'
+import Container from '../Container'
 import MyAccount from './MyAccount'
 import CartToggle from './CartToggle'
 import SearchForm from './SearchForm'
-import Social from './Social'
-import MenuCategories from './MenuCategories'
+import Social from '../Social'
+import MenuCategories from './MenuDepartment'
 
 const Header = () => {
   return (

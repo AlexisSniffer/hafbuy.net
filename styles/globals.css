@@ -91,8 +91,16 @@ body {
   font-size: 2rem;
 }
 
+/*
+  Componente: SearchForm
+*/
+
 .search-form .ant-form-item {
   margin-bottom: 0 !important;
+}
+
+.select-after {
+  width: 150px;
 }
 
 /*
@@ -218,5 +226,25 @@ body {
 /*
   Componente: MenuCategories
 */
-.menu-category {
+
+.ant-dropdown-menu {
+  padding: 0;
+  width: 280px;
+}
+
+.ant-dropdown-menu .ant-dropdown-menu-submenu .ant-dropdown-menu-submenu-title,
+.ant-dropdown-menu .ant-dropdown-menu-item .ant-dropdown-menu-title-content {
+  padding: 0.5rem 0 0.5rem 1rem;
+}
+
+.ant-dropdown-menu
+  .ant-dropdown-menu-submenu
+  .ant-dropdown-menu-submenu-title
+  .ant-dropdown-menu-title-content
+  .anticon,
+.ant-dropdown-menu
+  .ant-dropdown-menu-item
+  .ant-dropdown-menu-title-content
+  .anticon {
+  margin-right: 1rem;
 }
