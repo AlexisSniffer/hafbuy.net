@@ -17,9 +17,9 @@ body {
 
 .header-top {
   padding-top: 0.5rem;
-  padding-bottom: 1rem;
+  padding-bottom: 0.5rem;
   color: #666;
-  font-size: 1rem;
+  font-size: 0.1rem;
   font-weight: 400;
   letter-spacing: 0.017em;
 }
@@ -104,17 +104,54 @@ body {
 }
 
 /*
-  Componente: HeaderMenu
+  Componente: HeaderMenuPages
 */
-.header-menu {
+.header-menu-pages {
   background-color: transparent;
   border-bottom: none;
   font-weight: 600;
   font-size: 1rem;
 }
 
-.header-menu .ant-menu-item .anticon,
-.header-menu .ant-menu-item .ant-menu-title-content,
+.header-menu-pages .ant-menu-item .anticon,
+.header-menu-pages .ant-menu-item .ant-menu-title-content {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.header-menu-pages .ant-menu-item a {
+  text-decoration: none;
+}
+
+/*
+  Componente: HeaderMenuPages
+*/
+.header-menu-others {
+  font-size: 0.7rem;
+  border-bottom: none;
+  margin-left: 3.5rem;
+  line-height: 25px;
+}
+
+.header-menu-others .ant-menu-item {
+  padding: 0;
+  margin-inline: 1rem;
+}
+
+/*TODO: quitar estilos hover*/
+.header-menu-others .ant-menu-item-active::hover .ant-menu-item::after {
+  border-width: 0 !important;
+  border-bottom-color: none;
+}
+
+.header-menu-others a {
+  text-decoration: none;
+}
+
+/*
+  Component: HeaderContact
+*/
+
 .header-contact {
   font-weight: 600;
   font-size: 1.1rem;
@@ -131,11 +168,14 @@ body {
 /*
   Component: CartToggle
 */
+.drawer-car .ant-drawer-body {
+  padding: 0 1rem 1.5rem;
+}
 
 .drawer-car-products .product {
   display: flex;
   margin: 0 !important;
-  padding: 1rem 0;
+  padding: 1rem;
   align-items: center;
   border-bottom: 1px solid #e6ebee;
   box-shadow: none !important;
@@ -176,6 +216,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.drawer-car-invoice {
+  padding: 1rem 0;
 }
 
 /*

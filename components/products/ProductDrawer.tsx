@@ -19,8 +19,8 @@ export default function ProductDrawer() {
           <Image
             src="https://d-themes.com/vue/porto/server/uploads/shop36_product1_1_150x150_6f1a148efa.jpg"
             alt="logo"
-            width={80}
-            height={80}
+            width={60}
+            height={60}
             className="image"
           />
         </a>

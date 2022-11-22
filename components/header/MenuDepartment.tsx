@@ -1,6 +1,6 @@
 import { Button, Dropdown, MenuProps, Popover, Space, Row, Col } from 'antd'
 import { MenuOutlined, ShoppingCartOutlined } from '@ant-design/icons'
-import { depart as data } from '../../data.test'
+import { depart as data } from '../../data'
 
 type DepartmentProps = {
   title: string
@@ -63,10 +63,6 @@ const items: MenuProps['items'] = data.map((category) => {
     }),
   }
 })
-
-const Prueba = () => {
-  return <h1>Prueba</h1>
-}
 
 const MenuDepartment = () => {
   return (
