@@ -35,7 +35,7 @@ body {
 }
 
 .header .logo {
-  margin-right: 0.5rem;
+  margin-right: 1rem;
 }
 
 /*
@@ -48,7 +48,7 @@ body {
 }
 
 .my-account {
-  margin-left: 2rem;
+  margin-left: 1rem;
   margin-right: 1rem;
   cursor: pointer;
 }

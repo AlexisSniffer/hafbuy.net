@@ -1,7 +1,9 @@
 import { ReactElement, ReactNode } from 'react'
+import { Provider } from 'react-redux'
 import type { AppProps } from 'next/app'
 import type { NextPage } from 'next'
 import { Analytics } from '@vercel/analytics/react'
+import { store } from './../store'
 import MainLayout from '../layouts/MainLayout'
 
 import '../styles/globals.css'
@@ -23,10 +25,14 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   )
 
   if (Component.getLayout) {
-    return Component.getLayout(page)
+    return <Provider store={store}>Component.getLayout(page)</Provider>
   }
 
-  return <MainLayout>{page}</MainLayout>
+  return (
+    <Provider store={store}>
+      <MainLayout>{page}</MainLayout>
+    </Provider>
+  )
 }
 
 export default App

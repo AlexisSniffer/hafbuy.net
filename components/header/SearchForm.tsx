@@ -1,26 +1,57 @@
-import { SearchOutlined } from '@ant-design/icons'
-import { Button, Form, Input, Select } from 'antd'
-const { Search } = Input
-const { Option } = Select
+import { Form, Input, Select } from 'antd'
+import { useDispatch } from 'react-redux'
+import { setFilters } from '../../store/searchSlice'
 
-const selectAfter = (
-  <Select defaultValue="all" className="select-after">
-    <Option value="all">Todos</Option>
-    <Option value="fashion">Moda</Option>
-    <Option value="electronic">Electrónica</Option>
-    <Option value="videogames">Videojuegos</Option>
-  </Select>
+const { Search } = Input
+
+const categoryOptions = [
+  { value: 'all', label: 'Todos' },
+  { value: 'fashion', label: 'Moda' },
+  { value: 'electronic', label: 'Electrónica' },
+]
+
+const categorySelect = (
+  <Form.Item name={'category'} noStyle initialValue="all">
+    <Select options={categoryOptions} />
+  </Form.Item>
 )
 
 const SearchForm = () => {
+  const dispatch = useDispatch()
+  const [form] = Form.useForm()
+
+  const onFinish = (values: any) => {
+    const { product, category } = values
+
+    dispatch(
+      setFilters({
+        filters: {
+          product: product,
+          category: category,
+          prices: {
+            start: 0.0,
+            final: 0.0,
+          },
+        },
+      })
+    )
+  }
+
   return (
-    <Form name="searchForm" labelCol={{ span: 8 }} className="search-form">
-      <Form.Item name="search">
+    <Form
+      form={form}
+      name="searchForm"
+      labelCol={{ span: 8 }}
+      className="search-form"
+      onFinish={onFinish}
+    >
+      <Form.Item name="product">
         <Search
           size="large"
           placeholder="Buscar..."
           enterButton
-          addonBefore={selectAfter}
+          addonBefore={categorySelect}
+          onSearch={form.submit}
         />
       </Form.Item>
     </Form>
