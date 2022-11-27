@@ -1,6 +1,8 @@
-import { Form, Input, Select } from 'antd'
+import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
-import { setFilters } from '../../store/searchSlice'
+import { Form, Input, Select } from 'antd'
+import { setFilter, setCategory, setQ } from '../../store/searchSlice'
+import { qsSearchProducts } from './../../store/queries/products'
 
 const { Search } = Input
 
@@ -11,7 +13,7 @@ const categoryOptions = [
 ]
 
 const categorySelect = (
-  <Form.Item name={'category'} noStyle initialValue="all">
+  <Form.Item name="category" noStyle initialValue="all">
     <Select options={categoryOptions} />
   </Form.Item>
 )
@@ -19,22 +21,16 @@ const categorySelect = (
 const SearchForm = () => {
   const dispatch = useDispatch()
   const [form] = Form.useForm()
+  const router = useRouter()
 
   const onFinish = (values: any) => {
-    const { product, category } = values
+    const { filter, category } = values
 
-    dispatch(
-      setFilters({
-        filters: {
-          product: product,
-          category: category,
-          prices: {
-            start: 0.0,
-            final: 0.0,
-          },
-        },
-      })
-    )
+    dispatch(setFilter(filter))
+    dispatch(setCategory(category))
+    dispatch(setQ(qsSearchProducts(1, 10, filter)))
+
+    router.push('/shop')
   }
 
   return (
@@ -45,7 +41,7 @@ const SearchForm = () => {
       className="search-form"
       onFinish={onFinish}
     >
-      <Form.Item name="product">
+      <Form.Item name="filter">
         <Search
           size="large"
           placeholder="Buscar..."

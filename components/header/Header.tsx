@@ -9,6 +9,7 @@ import SearchForm from './SearchForm'
 import Social from '../Social'
 import MenuCategories from './MenuDepartment'
 import { MenuPages, MenuOthers } from './HeaderMenu'
+import Link from 'next/link'
 
 const Header = () => {
   return (
@@ -26,13 +27,16 @@ const Header = () => {
 
         <Row align={'middle'} className="header-middle">
           <Col>
-            <Image
-              src="/logo.png"
-              alt="logo"
-              width={150}
-              height={50}
-              className="logo"
-            />
+            <Link href="/">
+              <Image
+                src="/logo.png"
+                alt="logo"
+                width={150}
+                height={50}
+                priority={true}
+                className="logo"
+              />
+            </Link>
           </Col>
           <Col flex="auto">
             <SearchForm />
