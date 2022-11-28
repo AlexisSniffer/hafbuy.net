@@ -1,6 +1,6 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import useSWR from 'swr'
 import {
   Alert,
@@ -12,12 +12,17 @@ import {
   Slider,
   Checkbox,
   Pagination,
+  Card,
+  Rate,
+  FloatButton,
 } from 'antd'
 import type { RootState } from '../../store'
-import { setQ } from '../../store/searchSlice'
 import { qsSearchProducts } from './../../store/queries/products'
+import Image from 'next/image'
+import Link from 'next/link'
 
 const { Panel } = Collapse
+const { Meta } = Card
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
@@ -25,37 +30,47 @@ const ShopPage = () => {
   const filters = useSelector((state: RootState) => state.filters)
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
-  // const [q, setQ] = useState('')
+  const [q, setQ] = useState('')
 
-  const dispatch = useDispatch()
   const router = useRouter()
   const { query } = router
 
   const { data, error } = useSWR(
-    `https://hafbuy-app-ps9eq.ondigitalocean.app/api/products?${filters.q}`,
+    `https://hafbuy-app-ps9eq.ondigitalocean.app/api/products?${q}`,
     fetcher
   )
 
   useEffect(() => {
-    if (query['pagination[page]']) {
-      let pageTemp =
-        Number(query['pagination[page]']) >= 1
-          ? Number(query['pagination[page]'])
-          : 1
-      setPage(pageTemp)
-    }
+    const page =
+      Number(query['pagination[page]']) >= 1
+        ? Number(query['pagination[page]'])
+        : 1
 
-    if (query['pagination[pageSize]']) {
-      let pageSizeTemp =
-        Number(query['pagination[pageSize]']) >= 1
-          ? Number(query['pagination[pageSize]'])
-          : 1
-      setPageSize(pageSizeTemp)
-    }
+    const pageSize =
+      Number(query['pagination[pageSize]']) >= 1
+        ? Number(query['pagination[pageSize]'])
+        : 10
 
-    dispatch(setQ(qsSearchProducts(page, pageSize, filters.filter)))
-    router.replace(`?${filters.q}`)
-  }, [filters.q])
+    setPagination(page, pageSize)
+  }, [query])
+
+  const setPagination = (page: number, pageSize: number) => {
+    setPage(page)
+    setPageSize(pageSize)
+
+    console.log('Primer Q')
+    console.log(q)
+
+    setQ(qsSearchProducts(page, pageSize, filters.filter))
+
+    console.log('Segundo Q')
+    console.log(q)
+
+    /*if (q != qsSearchProducts(page, pageSize, filters.filter)) {
+      
+      router.replace(`?${q}`)
+    }*/
+  }
 
   if (error) return <div>failed to load</div>
   if (!data) return <div>loading...</div>
@@ -104,26 +119,59 @@ const ShopPage = () => {
       </Col>
       <Col span={18}>
         <br />
-        <p>{page}</p>
+        {/* <p>{page}</p>
         <p>{pageSize}</p>
         <p>{data.data.length}</p>
-
-        <ul>
+ */}
+        <Row gutter={[16, 16]}>
           {data.data.map((product: any) => {
-            return <li>{product.attributes.name}</li>
+            return (
+              <Col span={6}>
+                <Card
+                  className="product-default"
+                  cover={
+                    <img
+                      /* 
+                      TODO: completar validación de imagenes
+                      src={`https://hafbuy-app-ps9eq.ondigitalocean.app${product.attributes.images.data[0].attributes.formats.small.url}`} */
+                      src="https://hafbuy-app-ps9eq.ondigitalocean.app/uploads/large_2022_32442_1531b9bb48.webp"
+                      alt={''}
+                      width={'100%'}
+                      height={'100%'}
+                    />
+                  }
+                >
+                  <span className="category-list">
+                    {product.attributes.categories != null &&
+                    product.attributes.categories.data.length > 0 ? (
+                      product.attributes.categories.data.map(
+                        (category: any) => {
+                          return (
+                            <a
+                              onClick={(e) => e.preventDefault()}
+                            >{`${category.attributes.name}`}</a>
+                          )
+                        }
+                      )
+                    ) : (
+                      <a>sin categoria</a>
+                    )}
+                  </span>
+                  <h3 className="product-title">{product.attributes.name}</h3>
+                  <Rate />
+                  <span className="product-price">$9.00 - 10.50$</span>
+                </Card>
+              </Col>
+            )
           })}
-        </ul>
+        </Row>
 
         <Pagination
           defaultCurrent={page}
           total={data.meta.pagination.total}
           pageSize={pageSize}
           onChange={(page, pageSize) => {
-            setPage(page)
-            setPageSize(pageSize)
-
-            dispatch(setQ(qsSearchProducts(page, pageSize, filters.filter)))
-            router.replace(`?${filters.q}`)
+            setPagination(page, pageSize)
           }}
         />
       </Col>

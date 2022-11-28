@@ -1,8 +1,7 @@
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { Form, Input, Select } from 'antd'
-import { setFilter, setCategory, setQ } from '../../store/searchSlice'
-import { qsSearchProducts } from './../../store/queries/products'
+import { setFilter, setCategory } from '../../store/searchSlice'
 
 const { Search } = Input
 
@@ -28,7 +27,6 @@ const SearchForm = () => {
 
     dispatch(setFilter(filter))
     dispatch(setCategory(category))
-    dispatch(setQ(qsSearchProducts(1, 10, filter)))
 
     router.push('/shop')
   }
