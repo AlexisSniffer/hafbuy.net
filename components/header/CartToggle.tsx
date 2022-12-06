@@ -3,9 +3,13 @@ import { ShoppingOutlined } from '@ant-design/icons'
 import { Badge, Drawer, Button, Row, Col, Space, Divider } from 'antd'
 import ProductDrawer from './../products/ProductDrawer'
 import Link from 'next/link'
+import { useSelector, useDispatch } from 'react-redux'
+import type { RootState } from '../../store'
+import { ProductCartType } from './../../store/types/ProductType'
 
 const CartToggle = () => {
   const [open, setOpen] = useState(false)
+  const cart = useSelector((state: RootState) => state.cart)
 
   const showDrawer = () => {
     setOpen(true)
@@ -17,7 +21,7 @@ const CartToggle = () => {
 
   return (
     <>
-      <Badge count={5}>
+      <Badge count={cart.qty}>
         <Button icon={<ShoppingOutlined />} onClick={showDrawer} />
       </Badge>
       <Drawer
@@ -32,15 +36,9 @@ const CartToggle = () => {
         <Row>
           <Col span={24}>
             <div className="drawer-car-products">
-              <ProductDrawer />
-              <ProductDrawer />
-              <ProductDrawer />
-              <ProductDrawer />
-              <ProductDrawer />
-              <ProductDrawer />
-              <ProductDrawer />
-              <ProductDrawer />
-              <ProductDrawer />
+              {cart.products.map((product: ProductCartType) => {
+                return <ProductDrawer product={product.product} />
+              })}
             </div>
           </Col>
         </Row>

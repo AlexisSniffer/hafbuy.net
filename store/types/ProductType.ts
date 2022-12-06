@@ -21,3 +21,14 @@ export type ProductType = {
     }
   }
 }
+
+export type ProductCartType = {
+  product: {
+    name: string
+    slug: string
+    qty: number
+    price: number
+    subtotal: number
+    image: string
+  }
+}

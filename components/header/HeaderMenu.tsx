@@ -1,7 +1,11 @@
 import { Menu } from 'antd'
 import { menuPages, menuOthers } from '../../data'
+import type { RootState } from '../../store'
+import { useSelector, useDispatch } from 'react-redux'
 
 export const MenuPages = () => {
+  const cart = useSelector((state: RootState) => state.cart)
+
   return (
     <>
       <Menu

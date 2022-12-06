@@ -1,23 +1,31 @@
-import { CloseOutlined } from '@ant-design/icons'
-import { Button } from 'antd'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useSelector, useDispatch } from 'react-redux'
+import { Button } from 'antd'
+import { CloseOutlined } from '@ant-design/icons'
 
-export default function ProductDrawer() {
+import type { RootState } from '../../store'
+import { addProduct, removeProduct } from '../../store/shoppingCartSlice'
+import { ProductCartType } from '../../store/types/ProductType'
+
+export default function ProductDrawer({ product }: ProductCartType) {
+  const cart = useSelector((state: RootState) => state.cart)
+  const dispatch = useDispatch()
+
   return (
     <div className="product">
       <div className="product-details">
         <h3 className="product-title">
-          <Link href="/shop/product">Drone Pro One</Link>
+          <Link href="/shop/product">{product.name}</Link>
         </h3>
         <span className="product-info">
-          <span className="product-qty">1</span>× $299.00
+          <span className="product-qty">1</span>× ${product.price}
         </span>
       </div>
       <figure className="product-image-container">
         <a href="#" className="">
           <Image
-            src="https://d-themes.com/vue/porto/server/uploads/shop36_product1_1_150x150_6f1a148efa.jpg"
+            src={`https://hafbuy-app-ps9eq.ondigitalocean.app${product.image}`}
             alt="logo"
             width={60}
             height={60}
