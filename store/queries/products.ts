@@ -20,7 +20,7 @@ export const qsSearchProducts = (
         page: page,
         pageSize: pageSize,
       },
-      fields: ['name', 'slug'],
+      fields: ['name', 'slug', 'description', 'price'],
       populate: '*',
       filters: {
         name: {

@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Jost';
+  src: url('./../public/fonts/Jost-Regular.ttf');
+}
+
 html,
 body {
   padding: 0;
@@ -191,7 +196,6 @@ body {
   margin-top: 0;
   margin-bottom: 0.5rem;
   color: #222529;
-  font-weight: 500;
 }
 
 .drawer-car-products .product .product-details .product-title a {
@@ -222,13 +226,33 @@ body {
   padding: 1rem 0;
 }
 
+/*
+  Component: ProductDefault
+*/
+.product-default:hover picture button {
+  transform: translate(5%, -20%);
+}
+
+.product-default picture {
+  position: relative;
+  overflow: hidden;
+  font-size: 0;
+}
+
+.product-default picture button {
+  bottom: 0;
+  left: 0;
+  width: 90%;
+  position: absolute;
+  transform: translate(5%, 100%);
+  text-transform: uppercase;
+}
+
 .product-default .category-list {
-  font-weight: 600;
   font-size: 0.7rem;
-  line-height: 1.7;
-  opacity: 0.8;
   text-transform: uppercase;
   text-overflow: ellipsis;
+  white-space: nowrap;
   overflow: hidden;
   width: calc(100% - 20px);
   text-align: left;
@@ -257,17 +281,18 @@ body {
 }
 
 .product-default .product-title {
-  color: #222529;
-  letter-spacing: -0.01em;
-  max-width: 100%;
-  font-weight: 400;
-  line-height: 1.35;
   margin: 0;
+  font-weight: 100;
+  max-width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.35;
   text-transform: capitalize;
-  font-weight: bold;
+}
+
+.product-default .product-title a {
+  color: #222529;
 }
 
 .product-default .ant-rate {
@@ -275,7 +300,48 @@ body {
 }
 
 .product-default .product-price {
-  font-size: 1.2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
+/*
+  Component: ProductDetail
+*/
+.product-detail.product-detail-info .product-detail-info-title {
+  font-size: 2rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.product-detail.product-detail-info .product-detail-info-price {
+  font-size: 1.5rem;
+  margin: 0;
+  font-weight: bold;
+  border-top: 1px solid #777;
+  padding-top: 0.5rem;
+}
+
+.product-detail.product-detail-info .product-detail-info-description {
+  font-size: 1rem;
+  color: #666;
+}
+
+.product-detail.product-detail-info .category-list {
+  text-transform: uppercase;
+}
+
+.product-detail.product-detail-info .category-list a {
+  color: #777;
+}
+
+.product-detail.product-detail-info .category-list a:hover {
+  color: #3b5a9a;
+  text-decoration: underline;
+}
+
+.product-detail.product-detail-info .category-list::before {
+  content: 'categorias: ';
   font-weight: bold;
 }
 

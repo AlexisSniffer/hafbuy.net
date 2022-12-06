@@ -28,6 +28,7 @@ const SearchForm = () => {
     dispatch(setFilter(filter))
     dispatch(setCategory(category))
 
+    /* TODO: busqueda con store */
     router.push('/shop')
   }
 

@@ -29,13 +29,14 @@ export default function ProductDrawer() {
           icon={<CloseOutlined />}
           shape="circle"
           size="small"
-          onClick={(event) => onRemove(1)}
+          onClick={(event) => onRemove(1)} /* TODO: remover registros */
         />
       </figure>
     </div>
   )
 }
 
+// TODO: añadir carrito de compra a store y eliminar registros
 function onRemove(id: number) {
   console.log('Click Id: ' + id)
 }
