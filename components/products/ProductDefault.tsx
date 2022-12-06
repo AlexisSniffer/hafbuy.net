@@ -83,7 +83,14 @@ export default function ProductDefault({ product }: ProductType) {
         <Button onClick={handleAdd}>Añadir</Button>
       </Card>
 
-      <Modal width={'60%'} centered={true} open={isModalOpen} footer={null}>
+      <Modal
+        width={'60%'}
+        centered={true}
+        footer={null}
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
         <ProductDetail product={product} />
       </Modal>
     </>
