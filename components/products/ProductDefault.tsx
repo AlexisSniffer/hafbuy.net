@@ -3,48 +3,7 @@ import { Button, Card, Modal } from 'antd'
 import Link from 'next/link'
 import ProductDetail from './ProductDetail'
 
-type ProductType = {
-  product: {
-    attributes: {
-      name: string
-      slug: string
-      description: string
-      price: string
-      categories: {
-        data: CategoryType[]
-      }
-      images: {
-        data: ImageType[]
-      }
-    }
-  }
-}
-
-type CategoryType = {
-  attributes: {
-    name: string
-    slug: string
-  }
-}
-
-type ImageType = {
-  attributes: {
-    name: string
-    alternativeText: string
-    caption: string
-    url: string
-    formats: {
-      small: ImageFormatType
-      medium: ImageFormatType
-      large: ImageFormatType
-      thumbnail: ImageFormatType
-    }
-  }
-}
-
-type ImageFormatType = {
-  url: string
-}
+import { ProductType } from './../../store/types/ProductType'
 
 export default function ProductDefault({ product }: ProductType) {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -60,6 +19,8 @@ export default function ProductDefault({ product }: ProductType) {
   const handleCancel = () => {
     setIsModalOpen(false)
   }
+
+  console.log(product)
 
   return (
     <>

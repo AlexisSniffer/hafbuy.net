@@ -1,49 +1,8 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Carousel, Col, Divider, Input, InputNumber, Row } from 'antd'
-import React from 'react'
 
-type ProductType = {
-  product: {
-    attributes: {
-      name: string
-      slug: string
-      description: string
-      price: string
-      categories: {
-        data: CategoryType[]
-      }
-      images: {
-        data: ImageType[]
-      }
-    }
-  }
-}
-
-type CategoryType = {
-  attributes: {
-    name: string
-    slug: string
-  }
-}
-
-type ImageType = {
-  attributes: {
-    name: string
-    alternativeText: string
-    caption: string
-    url: string
-    formats: {
-      small: ImageFormatType
-      medium: ImageFormatType
-      large: ImageFormatType
-      thumbnail: ImageFormatType
-    }
-  }
-}
-
-type ImageFormatType = {
-  url: string
-}
+import { ProductType } from './../../store/types/ProductType'
+import { MediaType } from './../../store/types/MediaType'
 
 const carouselRef = React.createRef()
 
@@ -57,7 +16,7 @@ const ProductDetail = ({ product }: ProductType) => {
       <Row gutter={16}>
         <Col span={12}>
           <Carousel>
-            {product.attributes.images.data.map((image: ImageType) => {
+            {product.attributes.images.data.map((image: MediaType) => {
               return (
                 <div>
                   <img
@@ -71,7 +30,7 @@ const ProductDetail = ({ product }: ProductType) => {
           </Carousel>
           <br />
           <Row gutter={[16, 16]}>
-            {product.attributes.images.data.map((image: ImageType) => {
+            {product.attributes.images.data.map((image: MediaType) => {
               return (
                 <Col span={6}>
                   <img
