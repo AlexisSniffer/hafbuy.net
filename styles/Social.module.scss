@@ -1,0 +1,37 @@
+.social {
+  &-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    padding: 0.8rem;
+    font-size: 1rem;
+    line-height: 1;
+    margin-left: 1rem;
+    border-radius: 50%;
+    border: 1px solid #e7e7e7;
+
+    &:hover {
+      color: #fff;
+    }
+
+    &-facebook:hover {
+      background-color: #3b5a9a;
+    }
+
+    &-instagram:hover {
+      background-color: #7c4a3a;
+    }
+  }
+
+  &-header {
+    padding-left: 3.5rem;
+
+    .social-icon {
+      font-size: 0.9rem;
+      padding: 0.6rem;
+      border: none;
+      margin-left: 0.5rem;
+    }
+  }
+}
