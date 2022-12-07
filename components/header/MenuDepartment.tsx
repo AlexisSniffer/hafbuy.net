@@ -34,7 +34,7 @@ const SubDepartment = (props: DepartmentProps) => {
         <ul>
           {props.categories?.map((category) => {
             return (
-              <li>
+              <li key={category.slug}>
                 <a href="">{category.title}</a>
               </li>
             )

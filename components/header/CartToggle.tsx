@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import { ShoppingOutlined } from '@ant-design/icons'
-import { Badge, Drawer, Button, Row, Col, Space, Divider } from 'antd'
-import ProductDrawer from './../products/ProductDrawer'
 import Link from 'next/link'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
+import { Badge, Drawer, Button, Row, Col, Space } from 'antd'
+import { ShoppingOutlined } from '@ant-design/icons'
+
 import type { RootState } from '../../store'
 import { ProductCartType } from './../../store/types/ProductType'
+import ProductDrawer from './../products/ProductDrawer'
 
 const CartToggle = () => {
   const [open, setOpen] = useState(false)
@@ -37,7 +38,12 @@ const CartToggle = () => {
           <Col span={24}>
             <div className="drawer-car-products">
               {cart.products.map((product: ProductCartType) => {
-                return <ProductDrawer product={product.product} />
+                return (
+                  <ProductDrawer
+                    key={product.product.slug}
+                    product={product.product}
+                  />
+                )
               })}
             </div>
           </Col>

@@ -3,6 +3,7 @@ import { Button, Carousel, Col, Divider, Input, InputNumber, Row } from 'antd'
 
 import { ProductType } from './../../store/types/ProductType'
 import { MediaType } from './../../store/types/MediaType'
+import Image from 'next/image'
 
 const carouselRef = React.createRef()
 
@@ -18,13 +19,13 @@ const ProductDetail = ({ product }: ProductType) => {
           <Carousel>
             {product.attributes.images.data.map((image: MediaType) => {
               return (
-                <div>
-                  <img
-                    src={`https://hafbuy-app-ps9eq.ondigitalocean.app${image.attributes.url}`}
-                    width={'100%'}
-                    height={'auto'}
-                  />
-                </div>
+                <img
+                  key={image.attributes.url}
+                  src={`https://hafbuy-app-ps9eq.ondigitalocean.app${image.attributes.url}`}
+                  alt={image.attributes.alternativeText}
+                  width={'100%'}
+                  height={'auto'}
+                />
               )
             })}
           </Carousel>
@@ -32,9 +33,10 @@ const ProductDetail = ({ product }: ProductType) => {
           <Row gutter={[16, 16]}>
             {product.attributes.images.data.map((image: MediaType) => {
               return (
-                <Col span={6}>
+                <Col span={6} key={image.attributes.url}>
                   <img
                     src={`https://hafbuy-app-ps9eq.ondigitalocean.app${image.attributes.url}`}
+                    alt={image.attributes.alternativeText}
                     width={'100%'}
                     height={'auto'}
                   />
@@ -86,6 +88,17 @@ const ProductDetail = ({ product }: ProductType) => {
             </Input.Group>
 
             <Divider />
+
+            <p>
+              <span>
+                <b>Tiempo de envío:</b> 48 horas
+              </span>
+            </p>
+            <p>
+              <span>
+                <b>Costo de envío:</b> $30.00
+              </span>
+            </p>
           </section>
         </Col>
       </Row>

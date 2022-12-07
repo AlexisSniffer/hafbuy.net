@@ -84,6 +84,11 @@ export const menuPages: MenuProps['items'] = [
     key: 'shop',
     icon: <ShoppingOutlined />,
   },
+  {
+    label: <Link href="/car">Carros</Link>,
+    key: 'car',
+    icon: <ShoppingOutlined />,
+  },
 ]
 
 export const menuOthers: MenuProps['items'] = [
