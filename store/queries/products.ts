@@ -7,7 +7,8 @@ export const qsSearchProducts = (
   page: number,
   pageSize: number,
   filter: string,
-  categories: string[]
+  categories: string[],
+  prices: [number, number]
 ) => {
   return qs.stringify(
     {
@@ -25,6 +26,9 @@ export const qsSearchProducts = (
           slug: {
             $in: categories,
           },
+        },
+        price: {
+          $between: prices,
         },
       },
     },

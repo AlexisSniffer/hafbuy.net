@@ -11,6 +11,7 @@ import {
   setPageSize,
   addCategory,
   removeCategory,
+  setPrice,
   setQuery,
 } from '../../store/searchProductsSlice'
 
@@ -81,6 +82,16 @@ export const FilterCategories = () => {
 }
 
 export const FilterPrices = () => {
+  const dispatch = useDispatch()
+  const filters = useSelector((state: RootState) => state.filters)
+
+  const onFilter = (prices: any) => {
+    dispatch(setPage(1))
+    dispatch(setPageSize(10))
+    dispatch(setPrice(prices))
+    dispatch(setQuery())
+  }
+
   return (
     <Collapse
       defaultActiveKey={['1']}
@@ -88,7 +99,13 @@ export const FilterPrices = () => {
       onChange={() => {}}
     >
       <Panel header="Precio" key="1">
-        <Slider range defaultValue={[0, 500]} min={0} max={500} />
+        <Slider
+          range
+          defaultValue={filters.prices}
+          min={0}
+          max={500}
+          onChange={onFilter}
+        />
       </Panel>
     </Collapse>
   )

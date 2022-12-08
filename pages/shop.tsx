@@ -38,7 +38,7 @@ const ShopPage = () => {
         <Space direction="vertical" style={{ display: 'flex' }}>
           <FilterCategories />
           <FilterPrices />
-          <FilterBrand />
+          {/* TODO: añadir filtro de marcas<FilterBrand />  */}
         </Space>
       </Col>
       <Col span={18}>
@@ -82,7 +82,7 @@ const ShopPage = () => {
               <Alert
                 showIcon
                 type="warning"
-                description={`Tu búsqueda "panamasingas" no consiguió resultados. Mira en otros productos en nuestra tienda.`}
+                description={`Tu búsqueda ${filters.filter} no consiguió resultados. Mira en otros productos en nuestra tienda.`}
               ></Alert>
             )}
           </>

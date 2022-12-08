@@ -8,6 +8,7 @@ export interface SearchProductsState {
   pageSize: number
   filter: string
   categories: string[]
+  prices: [number, number]
   query: string
 }
 
@@ -16,7 +17,8 @@ const initialState: SearchProductsState = {
   pageSize: 10,
   filter: '',
   categories: [],
-  query: qsSearchProducts(1, 10, '', []),
+  prices: [0, 500],
+  query: qsSearchProducts(1, 10, '', [], [0, 500]),
 }
 
 export const searchProductsSlice = createSlice({
@@ -49,12 +51,17 @@ export const searchProductsSlice = createSlice({
       state.categories = []
     },
 
+    setPrice(state, action: PayloadAction<[number, number]>) {
+      state.prices = action.payload
+    },
+
     setQuery(state) {
       state.query = qsSearchProducts(
         state.page,
         state.pageSize,
         state.filter,
-        state.categories
+        state.categories,
+        state.prices
       )
     },
   },
@@ -68,6 +75,7 @@ export const {
   addCategory,
   removeCategory,
   clearCategories,
+  setPrice,
   setQuery,
 } = searchProductsSlice.actions
 
