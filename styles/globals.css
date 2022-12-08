@@ -22,3 +22,7 @@ body {
   flex-direction: column;
   padding: 1rem !important;
 }
+
+.ant-select-selector {
+  width: 150px;
+}

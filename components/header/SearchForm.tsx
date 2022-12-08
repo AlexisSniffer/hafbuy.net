@@ -1,36 +1,59 @@
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
+import useSWR from 'swr'
 import { Form, Input, Select } from 'antd'
 
-import { setFilter, setCategory } from '../../store/searchProductsSlice'
+import { qsSearchCategoriesRoot } from '../../store/queries/categories'
+import {
+  setPage,
+  setPageSize,
+  setFilter,
+  clearCategories,
+  addCategory,
+  setQuery,
+} from '../../store/searchProductsSlice'
 import styles from '../../styles/SearchForm.module.scss'
 
 const { Search } = Input
+const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
-const categoryOptions = [
-  { value: 'all', label: 'Todos' },
-  { value: 'fashion', label: 'Moda' },
-  { value: 'electronic', label: 'Electrónica' },
-]
+const categorySelect = (data: any) => {
+  let categoryOptions: any = [{ value: 'all', label: 'Todos' }]
 
-const categorySelect = (
-  <Form.Item name="category" noStyle initialValue="all">
-    <Select options={categoryOptions} />
-  </Form.Item>
-)
+  data.data.forEach((category: any) => {
+    categoryOptions.push({
+      value: category.attributes.slug,
+      label: category.attributes.name,
+    })
+  })
+
+  return (
+    <Form.Item name="category" noStyle initialValue="all">
+      <Select options={categoryOptions} />
+    </Form.Item>
+  )
+}
 
 const SearchForm = () => {
+  const { data, error } = useSWR(
+    `https://hafbuy-app-ps9eq.ondigitalocean.app/api/categories?${qsSearchCategoriesRoot}`,
+    fetcher
+  )
+
   const dispatch = useDispatch()
-  const [form] = Form.useForm()
   const router = useRouter()
+  const [form] = Form.useForm()
 
   const onFinish = (values: any) => {
     const { filter, category } = values
 
+    dispatch(setPage(1))
+    dispatch(setPageSize(10))
     dispatch(setFilter(filter))
-    dispatch(setCategory(category))
+    dispatch(clearCategories())
+    dispatch(addCategory(category))
+    dispatch(setQuery())
 
-    /* TODO: busqueda con store */
     router.push('/shop')
   }
 
@@ -47,7 +70,7 @@ const SearchForm = () => {
           size="large"
           placeholder="Buscar..."
           enterButton
-          addonBefore={categorySelect}
+          addonBefore={data ? categorySelect(data) : null}
           onSearch={form.submit}
         />
       </Form.Item>

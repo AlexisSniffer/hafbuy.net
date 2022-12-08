@@ -2,17 +2,12 @@ import qs from 'qs'
 
 /**
  * Query products with pagination
- *
- * @param page - page number
- * @param pageSize - record limit
- * @returns Search string
- *
- * @beta
  */
 export const qsSearchProducts = (
   page: number,
   pageSize: number,
-  filter: string
+  filter: string,
+  categories: string[]
 ) => {
   return qs.stringify(
     {
@@ -24,7 +19,12 @@ export const qsSearchProducts = (
       populate: '*',
       filters: {
         name: {
-          $contains: filter,
+          $containsi: filter,
+        },
+        categories: {
+          slug: {
+            $in: categories,
+          },
         },
       },
     },

@@ -1,21 +1,9 @@
-import { useState, useEffect } from 'react'
-// import { useRouter } from 'next/router'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import useSWR from 'swr'
-import {
-  Alert,
-  Col,
-  Row,
-  Spin,
-  Space,
-  Collapse,
-  Slider,
-  Checkbox,
-  Pagination,
-  Divider,
-} from 'antd'
+import { Alert, Col, Row, Spin, Space, Pagination, Divider } from 'antd'
+
 import type { RootState } from '../store'
-import { qsSearchProducts } from '../store/queries/products'
+import { setPage, setPageSize, setQuery } from '../store/searchProductsSlice'
 import ProductDefault from '../components/products/ProductDefault'
 import {
   FilterCategories,
@@ -23,39 +11,23 @@ import {
   FilterBrand,
 } from '../components/shop/Filters'
 
-const { Panel } = Collapse
-
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 const ShopPage = () => {
+  const dispatch = useDispatch()
   const filters = useSelector((state: RootState) => state.filters)
-  const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
-  const [q, setQ] = useState(qsSearchProducts(page, pageSize, filters.filter))
-
-  // const router = useRouter()
-  // const { query } = router
 
   const { data, error } = useSWR(
-    `https://hafbuy-app-ps9eq.ondigitalocean.app/api/products?${q}`,
+    `https://hafbuy-app-ps9eq.ondigitalocean.app/api/products?${filters.query}`,
     fetcher
   )
-
-  const setPagination = async (
-    page: number,
-    pageSize: number,
-    filter: string
-  ) => {
-    setPage(page)
-    setPageSize(pageSize)
-    setQ(qsSearchProducts(page, pageSize, filter))
-  }
 
   if (error) {
     return (
       <Alert
+        showIcon
         type="error"
-        description="Error: No se pudo obtener la infomación"
+        description="Error: No se pudo obtener la infomación, intentelo mas tarde."
       ></Alert>
     )
   }
@@ -78,31 +50,41 @@ const ShopPage = () => {
           </Row>
         ) : (
           <>
-            <Space direction="vertical">
-              <Row gutter={[16, 16]}>
-                {data.data.map((product: any) => {
-                  return (
-                    <Col span={6} key={product.attributes.slug}>
-                      <ProductDefault product={product}></ProductDefault>
-                    </Col>
-                  )
-                })}
-              </Row>
-              <Divider />
-              <Row justify={'end'}>
-                <Col flex={'auto'} />
-                <Col>
-                  <Pagination
-                    defaultCurrent={page}
-                    total={data.meta.pagination.total}
-                    pageSize={pageSize}
-                    onChange={(page, pageSize) => {
-                      setPagination(page, pageSize, filters.filter)
-                    }}
-                  />
-                </Col>
-              </Row>
-            </Space>
+            {data.data.length > 0 ? (
+              <Space direction="vertical">
+                <Row gutter={[16, 16]}>
+                  {data.data.map((product: any) => {
+                    return (
+                      <Col span={6} key={product.attributes.slug}>
+                        <ProductDefault product={product}></ProductDefault>
+                      </Col>
+                    )
+                  })}
+                </Row>
+                <Divider />
+                <Row justify={'end'}>
+                  <Col flex={'auto'} />
+                  <Col>
+                    <Pagination
+                      defaultCurrent={filters.page}
+                      total={data.meta.pagination.total}
+                      pageSize={filters.pageSize}
+                      onChange={(page, pageSize) => {
+                        dispatch(setPage(page))
+                        dispatch(setPageSize(pageSize))
+                        dispatch(setQuery())
+                      }}
+                    />
+                  </Col>
+                </Row>
+              </Space>
+            ) : (
+              <Alert
+                showIcon
+                type="warning"
+                description={`Tu búsqueda "panamasingas" no consiguió resultados. Mira en otros productos en nuestra tienda.`}
+              ></Alert>
+            )}
           </>
         )}
       </Col>
