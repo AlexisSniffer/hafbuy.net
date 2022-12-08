@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { Form, Input, Select } from 'antd'
 
 import { setFilter, setCategory } from '../../store/searchProductsSlice'
-import styles from '../../styles/Header.module.scss'
+import styles from '../../styles/SearchForm.module.scss'
 
 const { Search } = Input
 
