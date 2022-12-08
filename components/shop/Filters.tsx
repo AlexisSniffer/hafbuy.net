@@ -99,12 +99,13 @@ export const FilterPrices = () => {
       onChange={() => {}}
     >
       <Panel header="Precio" key="1">
+        <span>{`$${filters.prices[0]} - $${filters.prices[1]}`}</span>
         <Slider
           range
           defaultValue={filters.prices}
           min={0}
           max={500}
-          onChange={onFilter}
+          onAfterChange={onFilter}
         />
       </Panel>
     </Collapse>
