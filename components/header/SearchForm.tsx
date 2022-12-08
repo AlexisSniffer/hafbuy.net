@@ -10,6 +10,7 @@ import {
   setFilter,
   clearCategories,
   addCategory,
+  setPrice,
   setQuery,
 } from '../../store/searchProductsSlice'
 import styles from '../../styles/SearchForm.module.scss'
@@ -51,6 +52,7 @@ const SearchForm = () => {
     dispatch(setPageSize(10))
     dispatch(setFilter(filter))
     dispatch(clearCategories())
+    dispatch(setPrice([0, 500]))
     dispatch(addCategory(category))
     dispatch(setQuery())
 

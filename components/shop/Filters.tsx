@@ -103,6 +103,7 @@ export const FilterPrices = () => {
         <Slider
           range
           defaultValue={filters.prices}
+          value={filters.prices}
           min={0}
           max={500}
           onAfterChange={onFilter}
