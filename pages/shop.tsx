@@ -63,7 +63,6 @@ const ShopPage = () => {
   return (
     <Row gutter={16}>
       <Col span={6}>
-        <br />
         <Space direction="vertical" style={{ display: 'flex' }}>
           <FilterCategories />
           <FilterPrices />
@@ -71,8 +70,6 @@ const ShopPage = () => {
         </Space>
       </Col>
       <Col span={18}>
-        <br />
-
         {!data ? (
           <Row justify={'center'}>
             <Col>

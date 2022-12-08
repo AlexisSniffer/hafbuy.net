@@ -12,3 +12,13 @@ body {
 * {
   box-sizing: border-box;
 }
+
+.ant-layout-content {
+  padding-top: 1rem;
+}
+
+.ant-card-body {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem !important;
+}
