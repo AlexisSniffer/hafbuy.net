@@ -1,32 +1,27 @@
 import { Menu } from 'antd'
+
 import { menuPages, menuOthers } from '../../data'
-import type { RootState } from '../../store'
-import { useSelector, useDispatch } from 'react-redux'
+import styles from '../../styles/HeaderMenu.module.scss'
 
 export const MenuPages = () => {
-  const cart = useSelector((state: RootState) => state.cart)
-
   return (
-    <>
-      <Menu
-        mode="horizontal"
-        defaultSelectedKeys={['home']}
-        className="header-menu-pages "
-        items={menuPages}
-      ></Menu>
-    </>
+    <Menu
+      items={menuPages}
+      mode="horizontal"
+      defaultSelectedKeys={['home']}
+      disabledOverflow={true}
+      className={styles['header-menu-pages']}
+    ></Menu>
   )
 }
 
 export const MenuOthers = () => {
   return (
-    <>
-      <Menu
-        mode="horizontal"
-        defaultSelectedKeys={['home']}
-        className="header-menu-others "
-        items={menuOthers}
-      ></Menu>
-    </>
+    <Menu
+      items={menuOthers}
+      mode="horizontal"
+      disabledOverflow={true}
+      className={styles['header-menu-others']}
+    ></Menu>
   )
 }

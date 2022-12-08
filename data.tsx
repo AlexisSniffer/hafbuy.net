@@ -101,7 +101,7 @@ export const menuOthers: MenuProps['items'] = [
     key: 'car',
   },
   {
-    label: <Link href="/login">Iniciar Sesiòn</Link>,
+    label: <Link href="/login">Iniciar Sesión</Link>,
     key: 'shop',
   },
 ]

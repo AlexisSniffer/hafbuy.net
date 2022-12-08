@@ -1,0 +1,15 @@
+.header-menu {
+  &-pages,
+  &-others {
+    border-bottom: none;
+  }
+
+  &-pages {
+    font-size: 1rem;
+  }
+
+  &-others {
+    color: #666;
+    font-size: 0.8rem;
+  }
+}

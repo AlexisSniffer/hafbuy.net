@@ -1,7 +1,9 @@
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { Form, Input, Select } from 'antd'
+
 import { setFilter, setCategory } from '../../store/searchProductsSlice'
+import styles from '../../styles/Header.module.scss'
 
 const { Search } = Input
 
@@ -37,10 +39,10 @@ const SearchForm = () => {
       form={form}
       name="searchForm"
       labelCol={{ span: 8 }}
-      className="search-form"
+      className={styles['search-form']}
       onFinish={onFinish}
     >
-      <Form.Item name="filter">
+      <Form.Item name="filter" className={styles['search-form-item']}>
         <Search
           size="large"
           placeholder="Buscar..."

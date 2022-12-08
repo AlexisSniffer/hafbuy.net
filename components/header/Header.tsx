@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Col, Row } from 'antd'
+import { Layout, Col, Row } from 'antd'
 import { PhoneOutlined, WhatsAppOutlined } from '@ant-design/icons'
 
 import Container from '../Container'
@@ -11,12 +11,15 @@ import MenuCategories from './MenuDepartment'
 import { MenuPages, MenuOthers } from './HeaderMenu'
 import Link from 'next/link'
 
-const Header = () => {
+import styles from '../../styles/Header.module.scss'
+
+const { Header } = Layout
+
+const HeaderHome = () => {
   return (
-    <header className="header">
+    <Header className={styles.header}>
       <Container>
-        <Row align={'middle'} className="header-top">
-          <Col flex="auto"></Col>
+        <Row justify={'end'} align={'middle'} className={styles['header-top']}>
           <Col>
             <MenuOthers />
           </Col>
@@ -24,8 +27,7 @@ const Header = () => {
             <Social type="header" />
           </Col>
         </Row>
-
-        <Row align={'middle'} className="header-middle">
+        <Row align={'middle'} className={styles['header-middle']}>
           <Col>
             <Link href="/">
               <Image
@@ -34,7 +36,7 @@ const Header = () => {
                 width={150}
                 height={50}
                 priority={true}
-                className="logo"
+                className={styles.logo}
               />
             </Link>
           </Col>
@@ -48,8 +50,7 @@ const Header = () => {
             <CartToggle />
           </Col>
         </Row>
-
-        <Row align={'middle'} className="header-bottom">
+        <Row align={'middle'} className={styles['header-bottom']}>
           <Col>
             <MenuCategories />
           </Col>
@@ -57,21 +58,30 @@ const Header = () => {
             <MenuPages />
           </Col>
           <Col>
-            <div className="header-contact">
-              <span>
-                <PhoneOutlined />
-                6250-5218
-              </span>
-              <span>
-                <WhatsAppOutlined />
-                6523-9438
-              </span>
+            <div className={styles['header-contact']}>
+              <Link
+                href={`tel:6523-9438}`}
+                className={styles['header-contact-info']}
+              >
+                <PhoneOutlined className={styles['header-contact-info-icon']} />
+                <span>6250-5218</span>
+              </Link>
+
+              <Link
+                href={`tel:6523-9438}`}
+                className={styles['header-contact-info']}
+              >
+                <WhatsAppOutlined
+                  className={styles['header-contact-info-icon']}
+                />
+                <span>6523-9438</span>
+              </Link>
             </div>
           </Col>
         </Row>
       </Container>
-    </header>
+    </Header>
   )
 }
 
-export default Header
+export default HeaderHome

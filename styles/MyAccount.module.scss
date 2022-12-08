@@ -1,0 +1,37 @@
+.my-account {
+  display: flex;
+  align-items: center;
+  margin-left: 2rem;
+  margin-right: 1rem;
+  cursor: pointer;
+
+  &:hover &-info {
+    span {
+      text-decoration: underline;
+    }
+  }
+
+  &-icon {
+    margin-right: 1rem;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    font-size: 30px;
+    border-radius: 50%;
+    border: 2px solid #222529;
+  }
+
+  &-info {
+    display: flex;
+    flex-direction: column;
+
+    h3,
+    span {
+      line-height: 1.5;
+    }
+
+    h3 {
+      margin: 0 !important;
+    }
+  }
+}
