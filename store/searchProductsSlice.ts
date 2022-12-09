@@ -17,8 +17,8 @@ const initialState: SearchProductsState = {
   pageSize: 10,
   filter: '',
   categories: [],
-  prices: [0, 500],
-  query: qsSearchProducts(1, 10, '', [], [0, 500]),
+  prices: [0, 20000],
+  query: qsSearchProducts(1, 10, '', [], [0, 20000]),
 }
 
 export const searchProductsSlice = createSlice({

@@ -1,11 +1,19 @@
-import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import useSWR from 'swr'
-import { Space, Collapse, Checkbox, Slider, Alert, Spin } from 'antd'
+import {
+  Space,
+  Collapse,
+  Checkbox,
+  Slider,
+  Alert,
+  Spin,
+  InputNumber,
+} from 'antd'
 import { CheckboxChangeEvent } from 'antd/es/checkbox'
 
 import type { RootState } from '../../store'
 import { qsSearchCategoriesRoot } from '../../store/queries/categories'
+import { qsMaxPrice } from '../../store/queries/products'
 import {
   setPage,
   setPageSize,
@@ -50,7 +58,7 @@ export const FilterCategories = () => {
   return (
     <>
       {!data ? (
-        <Spin size="large" />
+        <Spin />
       ) : (
         <Collapse
           defaultActiveKey={['1']}
@@ -84,32 +92,84 @@ export const FilterCategories = () => {
 export const FilterPrices = () => {
   const dispatch = useDispatch()
   const filters = useSelector((state: RootState) => state.filters)
+  const { data, error } = useSWR(
+    `https://hafbuy-app-ps9eq.ondigitalocean.app/api/products?${qsMaxPrice}`,
+    fetcher
+  )
+  const rangePrice = {
+    min: 0,
+    max: 20000,
+  }
 
-  const onFilter = (prices: any) => {
+  const filterPrices = (prices: [number, number]) => {
     dispatch(setPage(1))
     dispatch(setPageSize(10))
     dispatch(setPrice(prices))
     dispatch(setQuery())
   }
 
+  const onFilter = (prices: any) => {
+    filterPrices(prices)
+  }
+
+  const onMinPrice = (value: number | string | null) => {
+    filterPrices([Number(value), filters.prices[1]])
+  }
+
+  const onMaxPrice = (value: number | string | null) => {
+    filterPrices([filters.prices[0], Number(value)])
+  }
+
+  if (error) {
+    return (
+      <Alert
+        showIcon
+        type="error"
+        description="Error: No se pudo obtener la infomación, intentelo mas tarde."
+      ></Alert>
+    )
+  }
+
   return (
-    <Collapse
-      defaultActiveKey={['1']}
-      expandIconPosition="end"
-      onChange={() => {}}
-    >
-      <Panel header="Precio" key="1">
-        <span>{`$${filters.prices[0]} - $${filters.prices[1]}`}</span>
-        <Slider
-          range
-          defaultValue={filters.prices}
-          value={filters.prices}
-          min={0}
-          max={500}
-          onAfterChange={onFilter}
-        />
-      </Panel>
-    </Collapse>
+    <>
+      {!data ? (
+        <Spin />
+      ) : (
+        <Collapse
+          defaultActiveKey={['1']}
+          expandIconPosition="end"
+          onChange={() => {}}
+        >
+          <Panel header="Precio" key="1">
+            <Space>
+              <InputNumber
+                min={rangePrice.min}
+                max={rangePrice.max}
+                value={filters.prices[0]}
+                //formatter={(value) => `$${value}`}
+                onChange={onMinPrice}
+              />
+              <InputNumber
+                min={rangePrice.min}
+                max={rangePrice.max}
+                value={filters.prices[1]}
+                //formatter={(value) => `$${value}`}
+                onChange={onMaxPrice}
+              />
+            </Space>
+            <Slider
+              range
+              defaultValue={filters.prices}
+              value={filters.prices}
+              min={0}
+              max={20000}
+              /* TODO: precio maximo de producto max={data.data[0].attributes.price} */
+              onAfterChange={onFilter}
+            />
+          </Panel>
+        </Collapse>
+      )}
+    </>
   )
 }
 

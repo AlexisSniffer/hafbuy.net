@@ -37,3 +37,22 @@ export const qsSearchProducts = (
     }
   )
 }
+
+/**
+ * Query max price's products
+ */
+export const qsMaxPrice = () => {
+  return qs.stringify(
+    {
+      pagination: {
+        page: 1,
+        pageSize: 1,
+      },
+      fields: ['price'],
+      sort: ['price:desc'],
+    },
+    {
+      encodeValuesOnly: true,
+    }
+  )
+}

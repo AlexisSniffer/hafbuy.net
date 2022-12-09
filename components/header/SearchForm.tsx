@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import useSWR from 'swr'
-import { Form, Input, Select } from 'antd'
+import { Form, Input, Select, Spin } from 'antd'
 
 import { qsSearchCategoriesRoot } from '../../store/queries/categories'
+import { qsMaxPrice } from '../../store/queries/products'
 import {
   setPage,
   setPageSize,
@@ -41,6 +42,11 @@ const SearchForm = () => {
     fetcher
   )
 
+  const maxPrice = useSWR(
+    `https://hafbuy-app-ps9eq.ondigitalocean.app/api/products?${qsMaxPrice}`,
+    fetcher
+  )
+
   const dispatch = useDispatch()
   const router = useRouter()
   const [form] = Form.useForm()
@@ -60,7 +66,9 @@ const SearchForm = () => {
 
     dispatch(setPage(1))
     dispatch(setPageSize(10))
-    dispatch(setPrice([0, 500]))
+    /* TODO: precio maximo de producto
+    dispatch(setPrice([0, maxPrice.data.data[0].attributes.price])) */
+    dispatch(setPrice([0, 20000]))
     dispatch(setQuery())
 
     router.push('/shop')
@@ -80,7 +88,7 @@ const SearchForm = () => {
           size="large"
           placeholder="Buscar..."
           defaultValue={''}
-          addonBefore={data ? categorySelect(data) : null}
+          addonBefore={data ? categorySelect(data) : <Spin />}
           onSearch={form.submit}
         />
       </Form.Item>
