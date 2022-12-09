@@ -97,7 +97,7 @@ export const menuOthers: MenuProps['items'] = [
     key: 'account',
   },
   {
-    label: <Link href="/"> Carrito</Link>,
+    label: <Link href="/cart"> Carrito</Link>,
     key: 'car',
   },
   {
