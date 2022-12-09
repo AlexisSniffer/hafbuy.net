@@ -1,7 +1,7 @@
 import React from 'react'
 import { Carousel } from 'antd'
 
-export default function HomePage() {
+const HomePage = () => {
   const contentStyle: React.CSSProperties = {
     margin: 0,
     height: '350px',
@@ -34,3 +34,5 @@ export default function HomePage() {
     </>
   )
 }
+
+export default HomePage
