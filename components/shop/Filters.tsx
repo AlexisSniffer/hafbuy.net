@@ -6,8 +6,8 @@ import {
   Checkbox,
   Slider,
   Alert,
-  Spin,
   InputNumber,
+  Skeleton,
 } from 'antd'
 import { CheckboxChangeEvent } from 'antd/es/checkbox'
 
@@ -58,7 +58,7 @@ export const FilterCategories = () => {
   return (
     <>
       {!data ? (
-        <Spin />
+        <Skeleton />
       ) : (
         <Collapse
           defaultActiveKey={['1']}
@@ -133,7 +133,7 @@ export const FilterPrices = () => {
   return (
     <>
       {!data ? (
-        <Spin />
+        <Skeleton />
       ) : (
         <Collapse
           defaultActiveKey={['1']}
