@@ -160,7 +160,6 @@ export const FilterPrices = () => {
             <Slider
               range
               defaultValue={filters.prices}
-              value={filters.prices}
               min={0}
               max={20000}
               /* TODO: precio maximo de producto max={data.data[0].attributes.price} */
