@@ -5,8 +5,8 @@ import { Badge, Drawer, Button, Row, Col, Space } from 'antd'
 import { ShoppingOutlined } from '@ant-design/icons'
 
 import type { RootState } from '../../store'
-import { ProductCartType } from './../../store/types/ProductType'
-import ProductDrawer from './../products/ProductDrawer'
+import { ProductCartType } from '../../store/types/ProductType'
+import ProductDrawer from '../products/ProductDrawer'
 
 const CartToggle = () => {
   const [open, setOpen] = useState(false)

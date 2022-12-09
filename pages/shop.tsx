@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 import useSWR from 'swr'
-import { Alert, Col, Row, Spin, Space, Pagination, Divider } from 'antd'
+import { Alert, Col, Row, Space, Pagination, Divider, Skeleton } from 'antd'
 
 import type { RootState } from '../store'
 import { setPage, setPageSize, setQuery } from '../store/searchProductsSlice'
@@ -43,11 +43,7 @@ const ShopPage = () => {
       </Col>
       <Col span={18}>
         {!data ? (
-          <Row justify={'center'}>
-            <Col>
-              <Spin size="large" />
-            </Col>
-          </Row>
+          <Skeleton />
         ) : (
           <>
             {data.data.length > 0 ? (

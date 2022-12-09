@@ -1,10 +1,10 @@
 import Image from 'next/image'
-import { Layout, Col, Row } from 'antd'
+import { Layout, Col, Row, Affix } from 'antd'
 import { PhoneOutlined, WhatsAppOutlined } from '@ant-design/icons'
 
 import Container from '../Container'
 import MyAccount from './MyAccount'
-import CartToggle from './CartToggle'
+import CartDrawer from './CartDrawer'
 import SearchForm from './SearchForm'
 import Social from '../Social'
 import MenuCategories from './MenuDepartment'
@@ -47,7 +47,7 @@ const HeaderHome = () => {
             <MyAccount />
           </Col>
           <Col>
-            <CartToggle />
+            <CartDrawer />
           </Col>
         </Row>
         <Row align={'middle'} className={styles['header-bottom']}>
