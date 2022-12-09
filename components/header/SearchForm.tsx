@@ -19,7 +19,7 @@ const { Search } = Input
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 const categorySelect = (data: any) => {
-  let categoryOptions: any = [{ value: 'all', label: 'Todos' }]
+  let categoryOptions: any = [{ value: '', label: 'Todos' }]
 
   data.data.forEach((category: any) => {
     categoryOptions.push({
@@ -29,7 +29,7 @@ const categorySelect = (data: any) => {
   })
 
   return (
-    <Form.Item name="category" noStyle initialValue="all">
+    <Form.Item name="category" noStyle initialValue="">
       <Select options={categoryOptions} />
     </Form.Item>
   )
@@ -48,12 +48,19 @@ const SearchForm = () => {
   const onFinish = (values: any) => {
     const { filter, category } = values
 
+    dispatch(clearCategories())
+
+    if (category !== '') {
+      dispatch(addCategory(category))
+    }
+
+    if (filter !== undefined) {
+      dispatch(setFilter(filter))
+    }
+
     dispatch(setPage(1))
     dispatch(setPageSize(10))
-    dispatch(setFilter(filter))
-    dispatch(clearCategories())
     dispatch(setPrice([0, 500]))
-    dispatch(addCategory(category))
     dispatch(setQuery())
 
     router.push('/shop')
@@ -69,9 +76,10 @@ const SearchForm = () => {
     >
       <Form.Item name="filter" className={styles['search-form-item']}>
         <Search
+          enterButton
           size="large"
           placeholder="Buscar..."
-          enterButton
+          defaultValue={''}
           addonBefore={data ? categorySelect(data) : null}
           onSearch={form.submit}
         />
