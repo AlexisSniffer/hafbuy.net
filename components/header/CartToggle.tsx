@@ -13,11 +13,7 @@ const CartToggle = () => {
   const cart = useSelector((state: RootState) => state.cart)
 
   const showDrawer = () => {
-    setOpen(true)
-  }
-
-  const onClose = () => {
-    setOpen(false)
+    setOpen(!open)
   }
 
   return (
@@ -30,52 +26,44 @@ const CartToggle = () => {
         placement="right"
         size="default"
         closable={false}
-        onClose={onClose}
+        onClose={showDrawer}
         open={open}
         className="drawer-car"
       >
         <Row>
           <Col span={24}>
-            <div className="drawer-car-products">
-              {cart.products.map((product: ProductCartType) => {
-                return (
-                  <ProductDrawer
-                    key={product.product.slug}
-                    product={product.product}
-                  />
-                )
-              })}
-            </div>
+            {cart.products.map((product: ProductCartType) => {
+              return (
+                <ProductDrawer
+                  key={product.product.slug}
+                  product={product.product}
+                />
+              )
+            })}
           </Col>
         </Row>
-
+        <br />
         <Row>
           <Col span={24}>
-            <div className="drawer-car-invoice">
+            <Space direction="vertical" style={{ width: '100%' }}>
               <Row justify="space-between">
                 <Col>
-                  <h3>
-                    <b>TOTAL:</b>
-                  </h3>
+                  <b>SUBTOTAL:</b>
                 </Col>
                 <Col>
-                  <h3>
-                    <b>$900.00</b>
-                  </h3>
+                  <b>$900.00</b>
                 </Col>
               </Row>
-            </div>
-
-            <Space direction="vertical" style={{ width: '100%' }}>
               <Link href="/cart">
-                <Button type="default" size="large" block onClick={onClose}>
+                <Button type="default" size="large" block onClick={showDrawer}>
                   Ver Carrito
                 </Button>
               </Link>
-
-              <Button type="primary" size="large" block>
-                Pagar
-              </Button>
+              <Link href="/checkout">
+                <Button type="primary" size="large" block onClick={showDrawer}>
+                  Pagar
+                </Button>
+              </Link>
             </Space>
           </Col>
         </Row>

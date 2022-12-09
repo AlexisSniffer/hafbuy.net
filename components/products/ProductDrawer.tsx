@@ -1,46 +1,45 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { useSelector, useDispatch } from 'react-redux'
 import { Button } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 
-import type { RootState } from '../../store'
-import { addProduct, removeProduct } from '../../store/shoppingCartSlice'
 import { ProductCartType } from '../../store/types/ProductType'
+import styles from '../../styles/ProductDrawer.module.scss'
 
 export default function ProductDrawer({ product }: ProductCartType) {
-  const cart = useSelector((state: RootState) => state.cart)
-  const dispatch = useDispatch()
+  const onRemove = (slug: string) => {
+    console.log('Eliminando: ' + slug)
+  }
 
   return (
-    <div className="product">
-      <div className="product-details">
-        <h3 className="product-title">
+    <article className={styles['product-drawer']}>
+      <div className={styles['product-drawer-info']}>
+        <h3 className={styles['product-drawer-title']}>
           <Link href="/shop/product">{product.name}</Link>
         </h3>
-        <span className="product-info">
-          <span className="product-qty">1</span>× ${product.price}
-        </span>
+        <span
+          className={styles['product-drawer-price']}
+        >{`${product.qty} x $${product.price}`}</span>
       </div>
-      <figure className="product-image-container">
-        <a href="#" className="">
+      <figure className={styles['product-drawer-picture']}>
+        <Link href={`/product/${product.slug}`}>
           <Image
             src={`https://hafbuy-app-ps9eq.ondigitalocean.app${product.image}`}
-            alt="logo"
-            width={60}
-            height={60}
-            className="image"
+            alt={`product:${product.slug}`}
+            width={70}
+            height={70}
+            className={styles['product-drawer-picture-image']}
           />
-        </a>
+        </Link>
         <Button
-          className="btn-remove"
+          className={styles['product-drawer-picture-remove']}
           icon={<CloseOutlined />}
           shape="circle"
           size="small"
-          onClick={(event) => onRemove(1)} /* TODO: remover registros */
+          onClick={(event) => onRemove(product.slug)}
         />
       </figure>
-    </div>
+    </article>
   )
 }
 
