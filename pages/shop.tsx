@@ -69,6 +69,11 @@ const ShopPage = () => {
                         dispatch(setPage(page))
                         dispatch(setPageSize(pageSize))
                         dispatch(setQuery())
+
+                        window.scrollTo({
+                          top: 0,
+                          behavior: 'smooth',
+                        })
                       }}
                     />
                   </Col>
