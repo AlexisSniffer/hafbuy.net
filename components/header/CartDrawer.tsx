@@ -42,45 +42,61 @@ const CartToggle = () => {
         open={open}
         className="drawer-car"
       >
-        <Row>
-          <Col span={24}>
-            {cart.products.map((product: ProductCartType) => {
-              if (product != undefined) {
-                return (
-                  <ProductDrawer
-                    key={product.product.slug}
-                    product={product.product}
-                  />
-                )
-              }
-            })}
-          </Col>
-        </Row>
-        <br />
-        <Row>
-          <Col span={24}>
-            <Space direction="vertical" style={{ width: '100%' }}>
-              <Row justify="space-between">
-                <Col>
-                  <b>SUBTOTAL:</b>
-                </Col>
-                <Col>
-                  <b>{money.format(subtotal)}</b>
-                </Col>
-              </Row>
-              <Link href="/cart">
-                <Button type="default" size="large" block onClick={showDrawer}>
-                  Ver Carrito
-                </Button>
-              </Link>
-              <Link href="/checkout">
-                <Button type="primary" size="large" block onClick={showDrawer}>
-                  Pagar
-                </Button>
-              </Link>
-            </Space>
-          </Col>
-        </Row>
+        {cart.products.length > 0 ? (
+          <>
+            <Row>
+              <Col span={24}>
+                {cart.products.map((product: ProductCartType) => {
+                  if (product != undefined) {
+                    return (
+                      <ProductDrawer
+                        key={product.product.slug}
+                        product={product.product}
+                      />
+                    )
+                  }
+                })}
+              </Col>
+            </Row>
+            <br />
+            <Row>
+              <Col span={24}>
+                <Space direction="vertical" style={{ width: '100%' }}>
+                  <Row justify="space-between">
+                    <Col>
+                      <b>SUBTOTAL:</b>
+                    </Col>
+                    <Col>
+                      <b>{money.format(subtotal)}</b>
+                    </Col>
+                  </Row>
+                  <Link href="/cart">
+                    <Button
+                      type="default"
+                      size="large"
+                      block
+                      onClick={showDrawer}
+                    >
+                      Ver Carrito
+                    </Button>
+                  </Link>
+                  <Link href="/checkout">
+                    <Button
+                      type="primary"
+                      size="large"
+                      block
+                      onClick={showDrawer}
+                    >
+                      Pagar
+                    </Button>
+                  </Link>
+                </Space>
+              </Col>
+            </Row>
+          </>
+        ) : (
+          <p>No hay productos en el carrito.</p>
+        )}
       </Drawer>
     </>
   )
