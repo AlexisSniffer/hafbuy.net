@@ -7,6 +7,7 @@ import { ShoppingOutlined } from '@ant-design/icons'
 import type { RootState } from '../../store'
 import { ProductCartType } from '../../store/types/ProductType'
 import ProductDrawer from '../products/ProductDrawer'
+import { money } from '../../utils/formatters'
 
 const CartToggle = () => {
   const [open, setOpen] = useState(false)
@@ -18,6 +19,12 @@ const CartToggle = () => {
 
   let qty = cart.products.reduce(
     (accumulator, current) => accumulator + current.product.qty,
+    0
+  )
+
+  const subtotal = cart.products.reduce(
+    (accumulator, current) =>
+      accumulator + current.product.price * current.product.qty,
     0
   )
 
@@ -58,7 +65,7 @@ const CartToggle = () => {
                   <b>SUBTOTAL:</b>
                 </Col>
                 <Col>
-                  <b>$900.00</b>
+                  <b>{money.format(subtotal)}</b>
                 </Col>
               </Row>
               <Link href="/cart">
