@@ -8,6 +8,7 @@ import type { RootState } from '../../store'
 import { removeProduct } from '../../store/shoppingCartSlice'
 import { ProductCartType } from '../../store/types/ProductType'
 import styles from '../../styles/ProductCart.module.scss'
+import { money } from '../../utils/formatters'
 
 export default function ProductCart({ product }: ProductCartType) {
   const cart = useSelector((state: RootState) => state.cart)
@@ -41,12 +42,12 @@ export default function ProductCart({ product }: ProductCartType) {
             </h3>
           </div>
         </Col>
-        <Col span={4}>${product.price}</Col>
+        <Col span={4}>{money.format(product.price)}</Col>
         <Col span={4}>
           <InputNumber min={1} max={20} value={product.qty} />
         </Col>
         <Col span={4} style={{ textAlign: 'right' }}>
-          ${product.price * product.qty}
+          {money.format(product.price * product.qty)}
         </Col>
       </Row>
     </article>

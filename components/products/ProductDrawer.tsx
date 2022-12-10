@@ -1,16 +1,15 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Button } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 
-import type { RootState } from '../../store'
 import { removeProduct } from '../../store/shoppingCartSlice'
 import { ProductCartType } from '../../store/types/ProductType'
 import styles from '../../styles/ProductDrawer.module.scss'
+import { money } from '../../utils/formatters'
 
 export default function ProductDrawer({ product }: ProductCartType) {
-  const cart = useSelector((state: RootState) => state.cart)
   const dispatch = useDispatch()
 
   return (
@@ -19,9 +18,9 @@ export default function ProductDrawer({ product }: ProductCartType) {
         <h3 className={styles['product-drawer-title']}>
           <Link href="/shop/product">{product.name}</Link>
         </h3>
-        <span
-          className={styles['product-drawer-price']}
-        >{`${product.qty} x $${product.price}`}</span>
+        <span className={styles['product-drawer-price']}>{`${
+          product.qty
+        } x ${money.format(product.price)}`}</span>
       </div>
       <figure className={styles['product-drawer-picture']}>
         <Link href={`/product/${product.slug}`}>

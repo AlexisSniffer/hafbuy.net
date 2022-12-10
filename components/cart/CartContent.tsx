@@ -4,9 +4,18 @@ import { Col, Row, Card, Alert } from 'antd'
 import type { RootState } from '../../store'
 import { ProductCartType } from '../../store/types/ProductType'
 import ProductCart from '../products/ProductCart'
+import { money } from '../../utils/formatters'
 
 const CartContent = () => {
   const cart = useSelector((state: RootState) => state.cart)
+
+  const subtotal = cart.products.reduce(
+    (accumulator, current) =>
+      accumulator + current.product.price * current.product.qty,
+    0
+  )
+
+  let itbms = subtotal * 0.07
 
   return (
     <>
@@ -33,10 +42,10 @@ const CartContent = () => {
         <Col span={6}>
           <Card title="Totales del carrito">
             <h3>
-              Subtotal: <span>$1000.00</span>
+              Subtotal: <span>{money.format(subtotal)}</span>
             </h3>
             <h3>
-              Subtotal: <span>$2000.00</span>
+              ITBMS: <span>{money.format(itbms)}</span>
             </h3>
           </Card>
         </Col>

@@ -4,6 +4,7 @@ import { Button, Carousel, Col, Divider, Input, InputNumber, Row } from 'antd'
 import { ProductType } from './../../store/types/ProductType'
 import { MediaType } from './../../store/types/MediaType'
 import Image from 'next/image'
+import { money } from '../../utils/formatters'
 
 const carouselRef = React.createRef()
 
@@ -52,7 +53,7 @@ const ProductDetail = ({ product }: ProductType) => {
             </h1>
 
             <span className="product-detail-info-price">
-              ${product.attributes.price}
+              {money.format(product.attributes.price)}
             </span>
 
             <p className="product-detail-info-description">

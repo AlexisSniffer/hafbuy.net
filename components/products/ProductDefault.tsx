@@ -4,11 +4,11 @@ import { Button, Card, Modal, Tooltip } from 'antd'
 import Link from 'next/link'
 
 import ProductDetail from './ProductDetail'
-import { addProduct, removeProduct } from '../../store/shoppingCartSlice'
+import { addProduct } from '../../store/shoppingCartSlice'
 import { ProductType } from './../../store/types/ProductType'
 import styles from '../../styles/ProductDefault.module.scss'
 import { ShoppingCartOutlined } from '@ant-design/icons'
-import Image from 'next/image'
+import { money } from '../../utils/formatters'
 
 export default function ProductDefault({ product }: ProductType) {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -86,7 +86,9 @@ export default function ProductDefault({ product }: ProductType) {
         </h3>
 
         <span className={styles['product-default-price']}>
-          {product.attributes.price ? product.attributes.price : '0.00'}
+          {product.attributes.price
+            ? money.format(product.attributes.price)
+            : '0.00'}
         </span>
 
         <Modal
