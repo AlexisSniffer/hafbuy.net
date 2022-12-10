@@ -1,15 +1,17 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { useSelector, useDispatch } from 'react-redux'
 import { Button } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 
+import type { RootState } from '../../store'
+import { removeProduct } from '../../store/shoppingCartSlice'
 import { ProductCartType } from '../../store/types/ProductType'
 import styles from '../../styles/ProductDrawer.module.scss'
 
 export default function ProductDrawer({ product }: ProductCartType) {
-  const onRemove = (slug: string) => {
-    console.log('Eliminando: ' + slug)
-  }
+  const cart = useSelector((state: RootState) => state.cart)
+  const dispatch = useDispatch()
 
   return (
     <article className={styles['product-drawer']}>
@@ -36,7 +38,7 @@ export default function ProductDrawer({ product }: ProductCartType) {
           icon={<CloseOutlined />}
           shape="circle"
           size="small"
-          onClick={(event) => onRemove(product.slug)}
+          onClick={(event) => dispatch(removeProduct(product.slug))}
         />
       </figure>
     </article>

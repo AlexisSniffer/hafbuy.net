@@ -3,13 +3,14 @@ import { Col, Row, Card, Alert } from 'antd'
 
 import type { RootState } from '../../store'
 import { ProductCartType } from '../../store/types/ProductType'
+import ProductCart from '../products/ProductCart'
 
 const CartContent = () => {
   const cart = useSelector((state: RootState) => state.cart)
 
   return (
     <>
-      <Row>
+      <Row gutter={32}>
         <Col span={18}>
           <Row>
             <Col span={12}>
@@ -26,21 +27,17 @@ const CartContent = () => {
             </Col>
           </Row>
           {cart.products.map((product: ProductCartType) => {
-            return (
-              <Row>
-                <Col span={12}>A</Col>
-                <Col span={4}>B</Col>
-                <Col span={4}>C</Col>
-                <Col span={4}>D</Col>
-              </Row>
-            )
+            return <ProductCart product={product.product} />
           })}
         </Col>
         <Col span={6}>
           <Card title="Totales del carrito">
-            <p>Card content</p>
-            <p>Card content</p>
-            <p>Card content</p>
+            <h3>
+              Subtotal: <span>$1000.00</span>
+            </h3>
+            <h3>
+              Subtotal: <span>$2000.00</span>
+            </h3>
           </Card>
         </Col>
       </Row>

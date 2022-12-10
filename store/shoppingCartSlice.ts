@@ -5,14 +5,10 @@ import { ProductCartType } from './types/ProductType'
 
 export interface ProductCartState {
   products: ProductCartType[]
-  total: number
-  qty: number
 }
 
 const initialState: ProductCartState = {
   products: [],
-  total: 0.0,
-  qty: 0,
 }
 
 export const ProductCartSlice = createSlice({
@@ -20,15 +16,23 @@ export const ProductCartSlice = createSlice({
   initialState,
   reducers: {
     addProduct(state, action: PayloadAction<ProductCartType>) {
-      state.products.push(action.payload)
-      state.qty = state.qty + action.payload.product.qty
+      let index = state.products.findIndex(
+        (product) => product.product.slug === action.payload.product.slug
+      )
+
+      if (index < 0) {
+        state.products.push(action.payload)
+      } else {
+        const product = state.products[index].product
+        product.price += action.payload.product.qty
+        product.qty += action.payload.product.qty
+      }
     },
 
-    removeProduct(state, action: PayloadAction<ProductCartType>) {
+    removeProduct(state, action: PayloadAction<string>) {
       state.products = state.products.filter(
-        (product) => product.product.slug !== action.payload.product.slug
+        (product) => product.product.slug != action.payload
       )
-      state.qty = state.qty + action.payload.product.qty
     },
   },
 })

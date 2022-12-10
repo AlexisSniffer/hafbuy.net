@@ -16,9 +16,14 @@ const CartToggle = () => {
     setOpen(!open)
   }
 
+  let qty = cart.products.reduce(
+    (accumulator, current) => accumulator + current.product.qty,
+    0
+  )
+
   return (
     <>
-      <Badge count={cart.qty}>
+      <Badge count={qty}>
         <Button icon={<ShoppingOutlined />} onClick={showDrawer} />
       </Badge>
       <Drawer
@@ -33,12 +38,14 @@ const CartToggle = () => {
         <Row>
           <Col span={24}>
             {cart.products.map((product: ProductCartType) => {
-              return (
-                <ProductDrawer
-                  key={product.product.slug}
-                  product={product.product}
-                />
-              )
+              if (product != undefined) {
+                return (
+                  <ProductDrawer
+                    key={product.product.slug}
+                    product={product.product}
+                  />
+                )
+              }
             })}
           </Col>
         </Row>
