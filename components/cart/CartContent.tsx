@@ -36,7 +36,12 @@ const CartContent = () => {
             </Col>
           </Row>
           {cart.products.map((product: ProductCartType) => {
-            return <ProductCart product={product.product} />
+            return (
+              <ProductCart
+                key={product.product.slug}
+                product={product.product}
+              />
+            )
           })}
         </Col>
         <Col span={6}>
