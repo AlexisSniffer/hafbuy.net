@@ -92,7 +92,7 @@ export default function ProductDefault({ product }: ProductType) {
         </span>
 
         <Modal
-          width={'60%'}
+          width={'50%'}
           centered={true}
           footer={null}
           open={isModalOpen}

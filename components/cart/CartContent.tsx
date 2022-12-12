@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { Col, Row, Card, Alert, Divider, Space } from 'antd'
+import { Col, Row, Card, Button, Divider, Space } from 'antd'
 
 import type { RootState } from '../../store'
 import { ProductCartType } from '../../store/types/ProductType'
@@ -70,16 +70,21 @@ const CartContent = () => {
               </Row>
             </Space>
             <Divider />
-            <Row justify={'space-between'} align={'middle'}>
-              <Col>
-                <h3 className={styles['total-title']}>Total</h3>
-              </Col>
-              <Col>
-                <span className={styles['total-money']}>
-                  {money.format(total)}
-                </span>
-              </Col>
-            </Row>
+            <Space direction="vertical">
+              <Row justify={'space-between'} align={'middle'}>
+                <Col>
+                  <h3 className={styles['total-title']}>Total</h3>
+                </Col>
+                <Col>
+                  <span className={styles['total-money']}>
+                    {money.format(total)}
+                  </span>
+                </Col>
+              </Row>
+              <Button type="primary" size="large" block>
+                Pasar por la caja
+              </Button>
+            </Space>
           </Card>
         </Col>
       </Row>
