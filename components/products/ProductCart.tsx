@@ -47,7 +47,7 @@ export default function ProductCart({ product }: ProductCartType) {
           <InputNumber min={1} max={20} value={product.qty} />
         </Col>
         <Col span={4} style={{ textAlign: 'right' }}>
-          {money.format(product.price * product.qty)}
+          {money.format(product.subtotal)}
         </Col>
       </Row>
     </article>
