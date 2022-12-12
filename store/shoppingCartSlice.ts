@@ -24,8 +24,20 @@ export const ProductCartSlice = createSlice({
         state.products.push(action.payload)
       } else {
         const product = state.products[index].product
-        product.price += action.payload.product.qty
         product.qty += action.payload.product.qty
+        product.subtotal += product.price * action.payload.product.qty
+      }
+    },
+
+    editProduct(state, action: PayloadAction<ProductCartType>) {
+      let index = state.products.findIndex(
+        (product) => product.product.slug === action.payload.product.slug
+      )
+
+      if (index >= 0) {
+        const product = state.products[index].product
+        product.qty = action.payload.product.qty
+        product.subtotal = product.price * action.payload.product.qty
       }
     },
 
@@ -37,6 +49,7 @@ export const ProductCartSlice = createSlice({
   },
 })
 
-export const { addProduct, removeProduct } = ProductCartSlice.actions
+export const { addProduct, editProduct, removeProduct } =
+  ProductCartSlice.actions
 
 export default ProductCartSlice.reducer

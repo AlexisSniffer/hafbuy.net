@@ -109,7 +109,7 @@ const ProductDetail = ({ product }: ProductType) => {
 
             <Form
               form={form}
-              name="searchForm"
+              name="productDetailForm"
               labelCol={{ span: 8 }}
               initialValues={{
                 ['qty']: 1,
