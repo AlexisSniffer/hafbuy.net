@@ -1,7 +1,26 @@
-.cart {
-  padding-top: 2rem;
-}
-
 .cart-content {
   padding-top: 2rem;
+
+  .title-col {
+    text-align: center;
+  }
+}
+
+.subtotal,
+.itbms,
+.total {
+  &-title {
+    margin: 0;
+  }
+
+  &-money {
+    text-align: right;
+  }
+}
+
+.total {
+  &-money {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
 }

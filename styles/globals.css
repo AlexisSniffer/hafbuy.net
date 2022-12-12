@@ -14,7 +14,9 @@ body {
 }
 
 .ant-layout-content {
-  padding-top: 1rem;
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+  background-color: #fff;
 }
 
 .ant-card-body {

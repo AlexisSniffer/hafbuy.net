@@ -1,10 +1,11 @@
 import { useSelector } from 'react-redux'
-import { Col, Row, Card, Alert } from 'antd'
+import { Col, Row, Card, Alert, Divider, Space } from 'antd'
 
 import type { RootState } from '../../store'
 import { ProductCartType } from '../../store/types/ProductType'
 import ProductCart from '../products/ProductCart'
 import { money } from '../../utils/formatters'
+import styles from '../../styles/Cart.module.scss'
 
 const CartContent = () => {
   const cart = useSelector((state: RootState) => state.cart)
@@ -14,8 +15,8 @@ const CartContent = () => {
       accumulator + current.product.price * current.product.qty,
     0
   )
-
-  let itbms = subtotal * 0.07
+  const itbms = subtotal * 0.07
+  const total = subtotal + itbms
 
   return (
     <>
@@ -23,16 +24,16 @@ const CartContent = () => {
         <Col span={18}>
           <Row>
             <Col span={12}>
-              <h3>Producto</h3>
+              <h3 className={styles['title-col']}>Producto</h3>
             </Col>
             <Col span={4}>
-              <h3>Precio</h3>
+              <h3 className={styles['title-col']}>Precio</h3>
             </Col>
             <Col span={4}>
-              <h3>Cantidad</h3>
+              <h3 className={styles['title-col']}>Cantidad</h3>
             </Col>
             <Col span={4}>
-              <h3>Subtotal</h3>
+              <h3 className={styles['title-col']}>Subtotal</h3>
             </Col>
           </Row>
           {cart.products.map((product: ProductCartType) => {
@@ -46,12 +47,39 @@ const CartContent = () => {
         </Col>
         <Col span={6}>
           <Card title="Totales del carrito">
-            <h3>
-              Subtotal: <span>{money.format(subtotal)}</span>
-            </h3>
-            <h3>
-              ITBMS: <span>{money.format(itbms)}</span>
-            </h3>
+            <Space direction="vertical">
+              <Row justify={'space-between'} align={'middle'}>
+                <Col>
+                  <h3 className={styles['subtotal-title']}>Subtotal</h3>
+                </Col>
+                <Col>
+                  <span className={styles['subtotal-money']}>
+                    {money.format(subtotal)}
+                  </span>
+                </Col>
+              </Row>
+              <Row justify={'space-between'} align={'middle'}>
+                <Col>
+                  <h3 className={styles['itbms-title']}>ITBMS</h3>
+                </Col>
+                <Col>
+                  <span className={styles['itbms-money']}>
+                    {money.format(itbms)}
+                  </span>
+                </Col>
+              </Row>
+            </Space>
+            <Divider />
+            <Row justify={'space-between'} align={'middle'}>
+              <Col>
+                <h3 className={styles['total-title']}>Total</h3>
+              </Col>
+              <Col>
+                <span className={styles['total-money']}>
+                  {money.format(total)}
+                </span>
+              </Col>
+            </Row>
           </Card>
         </Col>
       </Row>
