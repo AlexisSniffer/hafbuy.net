@@ -18,9 +18,9 @@ export default function ProductDrawer({ product }: ProductCartType) {
         <h3 className={styles['product-drawer-title']}>
           <Link href="/shop/product">{product.name}</Link>
         </h3>
-        <span className={styles['product-drawer-price']}>{`${
-          product.qty
-        } x ${money.format(product.price)}`}</span>
+        <span className={styles['product-drawer-price']}>
+          {`${product.qty} x ${money.format(product.price)}`}
+        </span>
       </div>
       <figure className={styles['product-drawer-picture']}>
         <Link href={`/product/${product.slug}`}>

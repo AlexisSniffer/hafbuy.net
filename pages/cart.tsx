@@ -42,7 +42,7 @@ const CartPage = () => {
   }
 
   return (
-    <section className={styles.cart}>
+    <>
       {cart.products.length > 0 ? (
         <>
           <Steps items={items} current={current} onChange={onChange} />
@@ -55,7 +55,7 @@ const CartPage = () => {
           description={`No hay productos agregados al carrito.`}
         ></Alert>
       )}
-    </section>
+    </>
   )
 }
 

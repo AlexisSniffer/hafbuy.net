@@ -1,17 +1,47 @@
 import React, { useState } from 'react'
-import { Button, Carousel, Col, Divider, Input, InputNumber, Row } from 'antd'
+import { useDispatch } from 'react-redux'
+import {
+  Button,
+  Carousel,
+  Col,
+  Divider,
+  Form,
+  Input,
+  InputNumber,
+  Row,
+} from 'antd'
 
+import { addProduct } from '../../store/shoppingCartSlice'
 import { ProductType } from './../../store/types/ProductType'
 import { MediaType } from './../../store/types/MediaType'
-import Image from 'next/image'
 import { money } from '../../utils/formatters'
 
-const carouselRef = React.createRef()
-
 const ProductDetail = ({ product }: ProductType) => {
+  const dispatch = useDispatch()
+  const [form] = Form.useForm()
+  const carouselRef = React.createRef()
   const [selectImage, setSelectImage] = useState(
     product.attributes.images.data[0].attributes.url
   )
+
+  const onFinish = (values: any) => {
+    const { qty } = values
+
+    dispatch(
+      addProduct({
+        product: {
+          name: product.attributes.name,
+          slug: product.attributes.slug,
+          qty: qty,
+          price: product.attributes.price,
+          subtotal: product.attributes.price * qty,
+          image: product.attributes.images.data[0].attributes.url,
+        },
+      })
+    )
+
+    //TODO: verificar: error de react - form.resetFields()
+  }
 
   return (
     <>
@@ -77,16 +107,29 @@ const ProductDetail = ({ product }: ProductType) => {
 
             <Divider />
 
-            <Input.Group compact>
-              <InputNumber
-                style={{ width: '100px' }}
-                defaultValue={1}
-                maxLength={16}
-                min={1}
-                max={20}
-              />
-              <Button type="primary">AÑADIR A CARRITO</Button>
-            </Input.Group>
+            <Form
+              form={form}
+              name="searchForm"
+              labelCol={{ span: 8 }}
+              initialValues={{
+                ['qty']: 1,
+              }}
+              onFinish={onFinish}
+            >
+              <Input.Group compact>
+                <Form.Item name="qty" rules={[{ required: true }]}>
+                  <InputNumber
+                    style={{ width: '100px' }}
+                    maxLength={16}
+                    min={1}
+                    max={20}
+                  />
+                </Form.Item>
+                <Button type="primary" onClick={form.submit}>
+                  Añadir a carrito
+                </Button>
+              </Input.Group>
+            </Form>
 
             <Divider />
 
