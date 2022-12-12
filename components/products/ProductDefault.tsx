@@ -34,74 +34,72 @@ export default function ProductDefault({ product }: ProductType) {
   }
 
   return (
-    <Tooltip title={product.attributes.name}>
-      <Card
-        className={styles['product-default']}
-        cover={
-          <picture className={styles['product-default-cover']}>
-            <img
-              src={`https://hafbuy-app-ps9eq.ondigitalocean.app${product.attributes.images.data[0].attributes.url}`}
-              alt={product.attributes.images.data[0].attributes.alternativeText}
-              width={'100%'}
-              height={'100%'}
-            />
+    <Card
+      className={styles['product-default']}
+      cover={
+        <picture className={styles['product-default-cover']}>
+          <img
+            src={`https://hafbuy-app-ps9eq.ondigitalocean.app${product.attributes.images.data[0].attributes.url}`}
+            alt={product.attributes.images.data[0].attributes.alternativeText}
+            width={'100%'}
+            height={'100%'}
+          />
 
-            <Button
-              type="primary"
-              shape="circle"
-              icon={<ShoppingCartOutlined />}
-              onClick={handleAdd}
-              className={styles['product-default-cover-add']}
-            />
+          <Button
+            type="primary"
+            shape="circle"
+            icon={<ShoppingCartOutlined />}
+            onClick={handleAdd}
+            className={styles['product-default-cover-add']}
+          />
 
-            <Button
-              type="primary"
-              onClick={showModal}
-              className={styles['product-default-cover-view']}
-            >
-              vista rápida
-            </Button>
-          </picture>
-        }
+          <Button
+            type="primary"
+            onClick={showModal}
+            className={styles['product-default-cover-view']}
+          >
+            vista rápida
+          </Button>
+        </picture>
+      }
+    >
+      <span className={styles['product-default-categories']}>
+        {product.attributes.categories.data.length > 0 ? (
+          product.attributes.categories.data.map((category: any) => {
+            return (
+              <a
+                key={category.attributes.slug}
+                onClick={(e) => e.preventDefault()}
+              >{`${category.attributes.name}`}</a>
+            )
+          })
+        ) : (
+          <a>sin categoria</a>
+        )}
+      </span>
+
+      <h3 className={styles['product-default-title']}>
+        <Link href={`/product/${product.attributes.slug}`}>
+          {product.attributes.name}
+        </Link>
+      </h3>
+
+      <span className={styles['product-default-price']}>
+        {product.attributes.price
+          ? money.format(product.attributes.price)
+          : '0.00'}
+      </span>
+
+      <Modal
+        width={'50%'}
+        centered={true}
+        footer={null}
+        open={isModalOpen}
+        onOk={showModal}
+        onCancel={showModal}
       >
-        <span className={styles['product-default-categories']}>
-          {product.attributes.categories.data.length > 0 ? (
-            product.attributes.categories.data.map((category: any) => {
-              return (
-                <a
-                  key={category.attributes.slug}
-                  onClick={(e) => e.preventDefault()}
-                >{`${category.attributes.name}`}</a>
-              )
-            })
-          ) : (
-            <a>sin categoria</a>
-          )}
-        </span>
-
-        <h3 className={styles['product-default-title']}>
-          <Link href={`/product/${product.attributes.slug}`}>
-            {product.attributes.name}
-          </Link>
-        </h3>
-
-        <span className={styles['product-default-price']}>
-          {product.attributes.price
-            ? money.format(product.attributes.price)
-            : '0.00'}
-        </span>
-
-        <Modal
-          width={'50%'}
-          centered={true}
-          footer={null}
-          open={isModalOpen}
-          onOk={showModal}
-          onCancel={showModal}
-        >
-          <ProductDetail product={product} />
-        </Modal>
-      </Card>
-    </Tooltip>
+        <ProductDetail product={product} />
+      </Modal>
+    </Card>
   )
 }
