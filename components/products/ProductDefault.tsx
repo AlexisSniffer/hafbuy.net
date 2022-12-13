@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Button, Card, Modal, Tooltip } from 'antd'
+import { Button, Card, Modal, Rate, Space, Tooltip } from 'antd'
 import Link from 'next/link'
 
 import ProductDetail from './ProductDetail'
@@ -83,6 +83,8 @@ export default function ProductDefault({ product }: ProductType) {
           {product.attributes.name}
         </Link>
       </h3>
+
+      <Rate disabled style={{ fontSize: '1rem' }}></Rate>
 
       <span className={styles['product-default-price']}>
         {product.attributes.price

@@ -54,11 +54,11 @@
 
   &-title {
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
     text-overflow: ellipsis;
     text-transform: capitalize;
     font-weight: 100;
-    white-space: nowrap;
-    overflow: hidden;
 
     a {
       color: #000;
@@ -68,5 +68,6 @@
   &-price {
     font-size: 1rem;
     margin-top: 0.5rem;
+    font-weight: bold;
   }
 }
