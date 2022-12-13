@@ -78,7 +78,6 @@ const SearchForm = () => {
     <Form
       form={form}
       name="searchForm"
-      labelCol={{ span: 8 }}
       className={styles['search-form']}
       onFinish={onFinish}
     >

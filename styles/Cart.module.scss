@@ -24,3 +24,15 @@
     font-weight: bold;
   }
 }
+
+.product {
+  &-title {
+    margin: 0;
+    font-weight: 100;
+    text-transform: capitalize;
+  }
+}
+
+.order-title {
+  margin: 0;
+}

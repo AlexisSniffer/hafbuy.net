@@ -21,7 +21,7 @@ const CartContent = () => {
   return (
     <>
       <Row gutter={32}>
-        <Col span={18}>
+        <Col span={16}>
           <Row>
             <Col span={12}>
               <h3 className={styles['title-col']}>Producto</h3>
@@ -45,7 +45,7 @@ const CartContent = () => {
             )
           })}
         </Col>
-        <Col span={6}>
+        <Col span={8}>
           <Card title="Totales del carrito">
             <Space direction="vertical">
               <Row justify={'space-between'} align={'middle'}>
