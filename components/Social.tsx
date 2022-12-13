@@ -1,9 +1,10 @@
 import Link from 'next/link'
-import { FacebookFilled, InstagramFilled } from '@ant-design/icons'
+import { FacebookFilled, InstagramFilled, MailFilled } from '@ant-design/icons'
 import styles from '../styles/Social.module.scss'
 
 type SocialProps = {
-  type: 'normal' | 'header'
+  type?: 'header'
+  size?: 'small' | 'large'
 }
 
 const Social = (props: SocialProps) => {
@@ -11,7 +12,17 @@ const Social = (props: SocialProps) => {
 
   switch (props.type) {
     case 'header':
-      className = `${styles.social} ${styles['social-header']}`
+      className += ` ${styles['social-header']}`
+      break
+  }
+
+  switch (props.size) {
+    case 'small':
+      className += ` ${styles['social-small']}`
+      break
+
+    case 'large':
+      className += ` ${styles['social-large']}`
       break
   }
 
@@ -29,6 +40,13 @@ const Social = (props: SocialProps) => {
         target={'_blank'}
       >
         <InstagramFilled />
+      </Link>
+      <Link
+        href="email:info@hafbuy.com"
+        className={`${styles['social-icon']} ${styles['social-icon-email']}`}
+        target={'_blank'}
+      >
+        <MailFilled />
       </Link>
     </article>
   )
