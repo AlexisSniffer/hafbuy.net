@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import {
   Button,
@@ -12,20 +12,19 @@ import {
   Row,
   Space,
 } from 'antd'
+import { CarouselRef } from 'antd/es/carousel'
 
 import { addProduct } from '../../store/shoppingCartSlice'
 import { ProductType } from './../../store/types/ProductType'
 import { MediaType } from './../../store/types/MediaType'
 import { money } from '../../utils/formatters'
 import styles from '../../styles/ProductDetail.module.scss'
+import Social from '../Social'
 
 const ProductDetail = ({ product }: ProductType) => {
   const dispatch = useDispatch()
   const [form] = Form.useForm()
-  const carouselRef = React.createRef()
-  const [selectImage, setSelectImage] = useState(
-    product.attributes.images.data[0].attributes.url
-  )
+  let carouselRef = useRef<CarouselRef>()
 
   const onFinish = (values: any) => {
     const { qty } = values
@@ -46,14 +45,14 @@ const ProductDetail = ({ product }: ProductType) => {
     //TODO: verificar: error de react - form.resetFields()
   }
 
-  const verificarRef = () => {
-    console.log(carouselRef)
-  }
-
   return (
     <Row gutter={16}>
       <Col span={12}>
-        <Carousel autoplay>
+        {/* TODO:
+          - seleccionar la foto
+          - cambiar a Image next.js
+        */}
+        <Carousel autoplay draggable pauseOnHover ref={(ref) => carouselRef}>
           {product.attributes.images.data.map((image: MediaType) => {
             return (
               <img
@@ -67,18 +66,20 @@ const ProductDetail = ({ product }: ProductType) => {
           })}
         </Carousel>
         <Row gutter={[8, 8]}>
-          {product.attributes.images.data.map((image: MediaType) => {
-            return (
-              <Col span={6} key={image.attributes.url}>
-                <img
-                  src={`https://hafbuy-app-ps9eq.ondigitalocean.app${image.attributes.url}`}
-                  alt={image.attributes.alternativeText}
-                  width={'100%'}
-                  height={'auto'}
-                />
-              </Col>
-            )
-          })}
+          {product.attributes.images.data.map(
+            (image: MediaType, index: number) => {
+              return (
+                <Col span={6} key={image.attributes.url}>
+                  <img
+                    src={`https://hafbuy-app-ps9eq.ondigitalocean.app${image.attributes.url}`}
+                    alt={image.attributes.alternativeText}
+                    width={'100%'}
+                    height={'auto'}
+                  />
+                </Col>
+              )
+            }
+          )}
         </Row>
       </Col>
 
@@ -126,7 +127,11 @@ const ProductDetail = ({ product }: ProductType) => {
             onFinish={onFinish}
           >
             <Input.Group compact>
-              <Form.Item name="qty" rules={[{ required: true }]}>
+              <Form.Item
+                name="qty"
+                rules={[{ required: true }]}
+                style={{ width: '100px', margin: 0 }}
+              >
                 <InputNumber
                   style={{ width: '100px' }}
                   maxLength={16}
@@ -141,6 +146,8 @@ const ProductDetail = ({ product }: ProductType) => {
           </Form>
 
           <Divider />
+
+          <Social size="small" />
 
           <p>
             <span>
