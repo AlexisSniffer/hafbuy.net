@@ -1,15 +1,5 @@
 import { useSelector } from 'react-redux'
-import {
-  Badge,
-  Button,
-  Card,
-  Col,
-  Divider,
-  Form,
-  Input,
-  Row,
-  Space,
-} from 'antd'
+import { Button, Card, Col, Divider, Form, Input, Row, Space } from 'antd'
 import { InfoCircleOutlined } from '@ant-design/icons'
 
 import type { RootState } from '../../store'
@@ -32,8 +22,6 @@ const CheckoutContent = () => {
   const total = subtotal + itbms
 
   const onFinish = (values: any) => {
-    //
-
     console.log(values)
   }
 
@@ -48,11 +36,7 @@ const CheckoutContent = () => {
             layout="vertical"
             onFinish={onFinish}
           >
-            <Form.Item
-              label="Nombre"
-              style={{ marginBottom: 0 }}
-              rules={[{ required: true }]}
-            >
+            <Form.Item label="Nombre" style={{ marginBottom: 0 }} required>
               <Form.Item
                 name="name"
                 rules={[{ required: true, message: 'El nombre es requerido' }]}
@@ -117,7 +101,7 @@ const CheckoutContent = () => {
                   >
                     <Col>
                       <h3 className={styles['product-title']}>
-                        {`${product.product.name}  ${product.product.qty}`}
+                        {`${product.product.name} x ${product.product.qty}`}
                       </h3>
                     </Col>
                     <Col>
