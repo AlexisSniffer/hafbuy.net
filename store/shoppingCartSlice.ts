@@ -5,10 +5,12 @@ import { ProductCartType } from './types/ProductType'
 
 export interface ProductCartState {
   products: ProductCartType[]
+  step: number
 }
 
 const initialState: ProductCartState = {
   products: [],
+  step: 0,
 }
 
 export const ProductCartSlice = createSlice({
@@ -46,10 +48,14 @@ export const ProductCartSlice = createSlice({
         (product) => product.product.slug != action.payload
       )
     },
+
+    setStep(state, action: PayloadAction<number>) {
+      state.step = action.payload
+    },
   },
 })
 
-export const { addProduct, editProduct, removeProduct } =
+export const { addProduct, editProduct, removeProduct, setStep } =
   ProductCartSlice.actions
 
 export default ProductCartSlice.reducer

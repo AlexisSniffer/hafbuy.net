@@ -1,7 +1,8 @@
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Col, Row, Card, Button, Divider, Space } from 'antd'
 
 import type { RootState } from '../../store'
+import { setStep } from '../../store/shoppingCartSlice'
 import { ProductCartType } from '../../store/types/ProductType'
 import ProductCart from '../products/ProductCart'
 import { money } from '../../utils/formatters'
@@ -9,6 +10,7 @@ import styles from '../../styles/Cart.module.scss'
 
 const CartContent = () => {
   const cart = useSelector((state: RootState) => state.cart)
+  const dispatch = useDispatch()
 
   const subtotal = cart.products.reduce(
     (accumulator, current) =>
@@ -81,7 +83,12 @@ const CartContent = () => {
                   </span>
                 </Col>
               </Row>
-              <Button type="primary" size="large" block>
+              <Button
+                type="primary"
+                size="large"
+                block
+                onClick={() => dispatch(setStep(1))}
+              >
                 Pasar por la caja
               </Button>
             </Space>

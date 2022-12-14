@@ -1,8 +1,9 @@
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Button, Card, Col, Divider, Form, Input, Row, Space } from 'antd'
 import { InfoCircleOutlined } from '@ant-design/icons'
 
 import type { RootState } from '../../store'
+import { setStep } from '../../store/shoppingCartSlice'
 import { ProductCartType } from '../../store/types/ProductType'
 import styles from '../../styles/Cart.module.scss'
 import { money } from '../../utils/formatters'
@@ -11,6 +12,7 @@ const { TextArea } = Input
 
 const CheckoutContent = () => {
   const cart = useSelector((state: RootState) => state.cart)
+  const dispatch = useDispatch()
   const [form] = Form.useForm()
 
   const subtotal = cart.products.reduce(
@@ -23,6 +25,7 @@ const CheckoutContent = () => {
 
   const onFinish = (values: any) => {
     console.log(values)
+    dispatch(setStep(2))
   }
 
   return (

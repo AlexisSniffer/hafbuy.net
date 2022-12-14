@@ -1,6 +1,5 @@
 import { useState } from 'react'
-
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Alert, Steps } from 'antd'
 import {
   CheckCircleOutlined,
@@ -9,6 +8,7 @@ import {
 } from '@ant-design/icons'
 
 import type { RootState } from '../store'
+import { setStep } from '../store/shoppingCartSlice'
 import CartContent from '../components/cart/CartContent'
 import CheckoutContent from '../components/cart/CheckoutContent'
 import CompleteContent from '../components/cart/CompleteContext'
@@ -35,18 +35,20 @@ const items = [
 
 const CartPage = () => {
   const cart = useSelector((state: RootState) => state.cart)
-  const [current, setCurrent] = useState(0)
+  const dispatch = useDispatch()
 
   const onChange = (value: number) => {
-    setCurrent(value)
+    dispatch(setStep(value))
   }
 
   return (
     <>
       {cart.products.length > 0 ? (
         <>
-          <Steps items={items} current={current} onChange={onChange} />
-          <div className={styles['cart-content']}>{items[current].content}</div>
+          <Steps items={items} current={cart.step} onChange={onChange} />
+          <div className={styles['cart-content']}>
+            {items[cart.step].content}
+          </div>
         </>
       ) : (
         <Alert
