@@ -34,7 +34,7 @@ export default function ProductCart({ product }: ProductCartType) {
 
   return (
     <article className={styles['product-cart']}>
-      <Row>
+      <Row align={'middle'}>
         <Col span={12}>
           <div className={styles['product-cart-product']}>
             <figure className={styles['product-cart-picture']}>
@@ -71,7 +71,11 @@ export default function ProductCart({ product }: ProductCartType) {
             }}
             onFinish={onFinish}
           >
-            <Form.Item name="qty" rules={[{ required: true }]}>
+            <Form.Item
+              name="qty"
+              rules={[{ required: true }]}
+              style={{ marginBottom: 0 }}
+            >
               <InputNumber
                 value={product.qty}
                 maxLength={16}
