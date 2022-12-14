@@ -1,11 +1,23 @@
 import { useSelector } from 'react-redux'
-import { Button, Card, Col, Divider, Form, Input, Row, Space } from 'antd'
+import {
+  Badge,
+  Button,
+  Card,
+  Col,
+  Divider,
+  Form,
+  Input,
+  Row,
+  Space,
+} from 'antd'
+import { InfoCircleOutlined } from '@ant-design/icons'
 
 import type { RootState } from '../../store'
 import { ProductCartType } from '../../store/types/ProductType'
 import styles from '../../styles/Cart.module.scss'
 import { money } from '../../utils/formatters'
-import { InfoCircleOutlined } from '@ant-design/icons'
+
+const { TextArea } = Input
 
 const CheckoutContent = () => {
   const cart = useSelector((state: RootState) => state.cart)
@@ -20,31 +32,76 @@ const CheckoutContent = () => {
   const total = subtotal + itbms
 
   const onFinish = (values: any) => {
-    const { filter, category } = values
+    //
+
+    console.log(values)
   }
 
   return (
     <>
       <Row gutter={32}>
         <Col span={16}>
-          <Form form={form} name="cheackoutForm" onFinish={onFinish}>
-            <Form.Item label="Address">
-              <Input.Group compact>
-                <Form.Item
-                  name={['address', 'province']}
-                  noStyle
-                  rules={[{ required: true, message: 'Province is required' }]}
-                >
-                  <Input></Input>
-                </Form.Item>
-                <Form.Item
-                  name={['address', 'street']}
-                  noStyle
-                  rules={[{ required: true, message: 'Street is required' }]}
-                >
-                  <Input style={{ width: '50%' }} placeholder="Input street" />
-                </Form.Item>
-              </Input.Group>
+          <h2>Detalles de facturación</h2>
+          <Form
+            form={form}
+            name="cheackoutForm"
+            layout="vertical"
+            onFinish={onFinish}
+          >
+            <Form.Item
+              label="Nombre"
+              style={{ marginBottom: 0 }}
+              rules={[{ required: true }]}
+            >
+              <Form.Item
+                name="name"
+                rules={[{ required: true, message: 'El nombre es requerido' }]}
+                style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}
+              >
+                <Input placeholder="Ingrese su nombre" />
+              </Form.Item>
+              <Form.Item
+                name="lastname"
+                rules={[
+                  { required: true, message: 'El apellido es requerido' },
+                ]}
+                style={{
+                  display: 'inline-block',
+                  width: 'calc(50% - 8px)',
+                  margin: '0 8px',
+                }}
+              >
+                <Input placeholder="Ingrese su apellido" />
+              </Form.Item>
+            </Form.Item>
+            <Form.Item
+              name="direction"
+              label="Dirección"
+              rules={[{ required: true, message: 'La dirección es requerida' }]}
+            >
+              <TextArea size="middle" placeholder="Ingrese su dirección" />
+            </Form.Item>
+            <Form.Item
+              name="phone"
+              label="Teléfono"
+              rules={[{ required: true, message: 'El teléfono es requerido' }]}
+            >
+              <Input placeholder="Ingrese su teléfono" />
+            </Form.Item>
+            <Form.Item
+              name="email"
+              label="Correo Electrónico"
+              rules={[
+                {
+                  required: true,
+                  message: 'El correo electrónico es requerido',
+                },
+              ]}
+            >
+              <Input placeholder="Ingrese su correo electrónico" />
+            </Form.Item>
+            <Form.Item name="notes" label="Notas del pedido (opcional)">
+              <TextArea size="middle" placeholder="Notas sobre tu pedido" />
             </Form.Item>
           </Form>
         </Col>
@@ -60,12 +117,12 @@ const CheckoutContent = () => {
                   >
                     <Col>
                       <h3 className={styles['product-title']}>
-                        {`${product.product.name} x ${product.product.qty}`}
+                        {`${product.product.name}  ${product.product.qty}`}
                       </h3>
                     </Col>
                     <Col>
                       <span className={styles['subtotal-money']}>
-                        {money.format(product.product.qty)}
+                        {money.format(product.product.price)}
                       </span>
                     </Col>
                   </Row>
@@ -114,9 +171,9 @@ const CheckoutContent = () => {
             <p>
               <InfoCircleOutlined /> Lo sentimos, parece que no hay métodos de
               pago disponibles para su estado. Comuníquese con nosotros si
-              necesita ayuda o desea hacer arreglos alternativos..
+              necesita ayuda o desea hacer arreglos alternativos.
             </p>
-            <Button type="primary" size="large" block>
+            <Button type="primary" size="large" block onClick={form.submit}>
               Realizar pedido
             </Button>
           </Card>
