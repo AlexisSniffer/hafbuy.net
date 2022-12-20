@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import {
   Button,
@@ -20,11 +20,31 @@ import { MediaType } from './../../store/types/MediaType'
 import { money } from '../../utils/formatters'
 import styles from '../../styles/ProductDetail.module.scss'
 import Social from '../Social'
+import ProductVariants from './ProductVariants'
 
 const ProductDetail = ({ product }: ProductType) => {
   const dispatch = useDispatch()
   const [form] = Form.useForm()
+  const [variants, setVariants] = useState(new Map())
   let carouselRef = useRef<CarouselRef>()
+
+  useEffect(() => {
+    if (product.attributes.variants.length > 0) {
+      let map = new Map()
+
+      product.attributes.variants.forEach((el) => {
+        el.variant.forEach((el2: any) => {
+          if (map.get(el2.type) === undefined) {
+            map.set(el2.type, new Set())
+          }
+
+          map.get(el2.type).add(el2.value)
+        })
+      })
+
+      setVariants(map)
+    }
+  }, [])
 
   const onFinish = (values: any) => {
     const { qty } = values
@@ -57,7 +77,7 @@ const ProductDetail = ({ product }: ProductType) => {
             return (
               <img
                 key={image.attributes.url}
-                src={`https://hafbuy-app-ps9eq.ondigitalocean.app${image.attributes.url}`}
+                src={`${process.env.NEXT_PUBLIC_API_URL}${image.attributes.url}`}
                 alt={image.attributes.alternativeText}
                 width={'100%'}
                 height={'auto'}
@@ -71,7 +91,7 @@ const ProductDetail = ({ product }: ProductType) => {
               return (
                 <Col span={6} key={image.attributes.url}>
                   <img
-                    src={`https://hafbuy-app-ps9eq.ondigitalocean.app${image.attributes.url}`}
+                    src={`${process.env.NEXT_PUBLIC_API_URL}${image.attributes.url}`}
                     alt={image.attributes.alternativeText}
                     width={'100%'}
                     height={'auto'}
@@ -101,8 +121,8 @@ const ProductDetail = ({ product }: ProductType) => {
 
           <span className={styles['product-detail-categories']}>
             categorias:{' '}
-            {product.attributes.categories.data.length > 0 ? (
-              product.attributes.categories.data.map((category: any) => {
+            {product.attributes.subcategories.data.length > 0 ? (
+              product.attributes.subcategories.data.map((category: any) => {
                 return (
                   <a
                     key={category.attributes.slug}
@@ -114,6 +134,8 @@ const ProductDetail = ({ product }: ProductType) => {
               <a>sin categoria</a>
             )}
           </span>
+
+          <ProductVariants variants={variants} />
 
           <Divider />
 

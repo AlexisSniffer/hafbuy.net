@@ -12,12 +12,13 @@ export type ProductType = {
       stock: number
       until: Date
       ratings: number
-      categories: {
+      subcategories: {
         data: CategoryType[]
       }
       images: {
         data: MediaType[]
       }
+      variants: any[]
     }
   }
 }

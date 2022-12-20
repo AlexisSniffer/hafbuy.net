@@ -39,7 +39,7 @@ export default function ProductDefault({ product }: ProductType) {
       cover={
         <picture className={styles['product-default-cover']}>
           <img
-            src={`https://hafbuy-app-ps9eq.ondigitalocean.app${product.attributes.images.data[0].attributes.url}`}
+            src={`${process.env.NEXT_PUBLIC_API_URL}${product.attributes.images.data[0].attributes.url}`}
             alt={product.attributes.images.data[0].attributes.alternativeText}
             width={'100%'}
             height={'100%'}
@@ -64,8 +64,8 @@ export default function ProductDefault({ product }: ProductType) {
       }
     >
       <span className={styles['product-default-categories']}>
-        {product.attributes.categories.data.length > 0 ? (
-          product.attributes.categories.data.map((category: any) => {
+        {product.attributes.subcategories.data.length > 0 ? (
+          product.attributes.subcategories.data.map((category: any) => {
             return (
               <a
                 key={category.attributes.slug}

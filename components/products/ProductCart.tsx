@@ -40,7 +40,7 @@ export default function ProductCart({ product }: ProductCartType) {
             <figure className={styles['product-cart-picture']}>
               <Link href={`/product/${product.slug}`}>
                 <Image
-                  src={`https://hafbuy-app-ps9eq.ondigitalocean.app${product.image}`}
+                  src={`${process.env.NEXT_PUBLIC_API_URL}${product.image}`}
                   alt={`product:${product.slug}`}
                   width={70}
                   height={70}

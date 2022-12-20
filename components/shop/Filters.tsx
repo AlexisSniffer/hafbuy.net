@@ -12,7 +12,7 @@ import {
 import { CheckboxChangeEvent } from 'antd/es/checkbox'
 
 import type { RootState } from '../../store'
-import { qsSearchCategoriesRoot } from '../../store/queries/categories'
+import { qsSubcategories } from '../../store/queries/categories'
 import { qsMaxPrice } from '../../store/queries/products'
 import {
   setPage,
@@ -30,7 +30,7 @@ export const FilterCategories = () => {
   const dispatch = useDispatch()
   const filters = useSelector((state: RootState) => state.filters)
   const { data, error } = useSWR(
-    `https://hafbuy-app-ps9eq.ondigitalocean.app/api/categories?${qsSearchCategoriesRoot}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/subcategories?${qsSubcategories}`,
     fetcher
   )
 
@@ -93,7 +93,7 @@ export const FilterPrices = () => {
   const dispatch = useDispatch()
   const filters = useSelector((state: RootState) => state.filters)
   const { data, error } = useSWR(
-    `https://hafbuy-app-ps9eq.ondigitalocean.app/api/products?${qsMaxPrice}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/products?${qsMaxPrice}`,
     fetcher
   )
   const rangePrice = {

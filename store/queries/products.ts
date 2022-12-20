@@ -3,7 +3,7 @@ import qs from 'qs'
 /**
  * Query products with pagination
  */
-export const qsSearchProducts = (
+export const qsProducts = (
   page: number,
   pageSize: number,
   filter: string,
@@ -17,12 +17,22 @@ export const qsSearchProducts = (
         pageSize: pageSize,
       },
       fields: ['name', 'slug', 'description', 'price'],
-      populate: '*',
+      populate: {
+        subcategories: true,
+        images: true,
+        variants: {
+          populate: {
+            variant: {
+              populate: true,
+            },
+          },
+        },
+      },
       filters: {
         name: {
           $containsi: filter,
         },
-        categories: {
+        subcategories: {
           slug: {
             $in: categories,
           },

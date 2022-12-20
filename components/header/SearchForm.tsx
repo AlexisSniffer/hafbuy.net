@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import useSWR from 'swr'
 import { Form, Input, Select, Spin } from 'antd'
 
-import { qsSearchCategoriesRoot } from '../../store/queries/categories'
+import { qsCategoriesRoot } from '../../store/queries/categories'
 import { qsMaxPrice } from '../../store/queries/products'
 import {
   setPage,
@@ -38,12 +38,12 @@ const categorySelect = (data: any) => {
 
 const SearchForm = () => {
   const { data, error } = useSWR(
-    `https://hafbuy-app-ps9eq.ondigitalocean.app/api/categories?${qsSearchCategoriesRoot}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/categories?${qsCategoriesRoot}`,
     fetcher
   )
 
   const maxPrice = useSWR(
-    `https://hafbuy-app-ps9eq.ondigitalocean.app/api/products?${qsMaxPrice}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/products?${qsMaxPrice}`,
     fetcher
   )
 

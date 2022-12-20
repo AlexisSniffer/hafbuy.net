@@ -32,3 +32,17 @@
     }
   }
 }
+
+.variants {
+  display: flex;
+  margin-top: 1rem;
+
+  &-key {
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  &-values {
+    text-transform: uppercase;
+  }
+}

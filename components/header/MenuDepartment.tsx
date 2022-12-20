@@ -1,70 +1,59 @@
+import useSWR from 'swr'
 import { Button, Dropdown, MenuProps, Popover, Space, Row, Col } from 'antd'
 import { MenuOutlined, ShoppingCartOutlined } from '@ant-design/icons'
-import { depart as data } from '../../data'
+
+import { qsCategories } from '../../store/queries/categories'
 
 type DepartmentProps = {
-  title: string
+  name: string
   slug?: string
   categories?: DepartmentProps[]
 }
 
-const Department = (props: DepartmentProps) => {
-  const content = (
-    <div>
-      <p>Content</p>
-      <p>Content</p>
-    </div>
-  )
+const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
-  return (
-    <span>
-      <ShoppingCartOutlined />
-      <span>{props.title}</span>
-    </span>
-  )
+const Department = (props: DepartmentProps) => {
+  return <span>{props.name}</span>
 }
 
 const SubDepartment = (props: DepartmentProps) => {
-  return (
-    <Row>
-      <Col span={12}>
-        <h4>
-          <a href="">{props.title}</a>
-        </h4>
-        <ul>
-          {props.categories?.map((category) => {
-            return (
-              <li key={category.slug}>
-                <a href="">{category.title}</a>
-              </li>
-            )
-          })}
-        </ul>
-      </Col>
-    </Row>
-  )
+  return <span>{props.name}</span>
 }
 
-const items: MenuProps['items'] = data.map((category) => {
-  return {
-    key: category.slug,
-    label: <Department title={category.title} slug={category.slug} />,
-    children: category.categories.map((subcategory) => {
-      return {
-        key: subcategory.slug,
-        label: <Department title={subcategory.title} />,
-        children: subcategory.categories.map((subcategory2) => {
-          return {
-            key: subcategory2.slug,
-            label: <Department title={subcategory2.title} />,
-          }
-        }),
-      }
-    }),
-  }
-})
-
 const MenuDepartment = () => {
+  const { data, error } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/categories?${qsCategories()}`,
+    fetcher
+  )
+
+  const items: MenuProps['items'] =
+    data != null
+      ? data.data.map((category: any) => {
+          return {
+            key: category.attributes.slug,
+            label: (
+              <Department
+                name={category.attributes.name}
+                slug={category.attributes.slug}
+              />
+            ),
+            children:
+              category.attributes.subcategories.data.length > 0
+                ? category.attributes.subcategories.data.map(
+                    (subcategory: any) => {
+                      return {
+                        key: subcategory.attributes.slug,
+                        label: (
+                          <SubDepartment name={subcategory.attributes.name} />
+                        ),
+                      }
+                    }
+                  )
+                : null,
+          }
+        })
+      : []
+
   return (
     <Dropdown
       menu={{ items }}

@@ -11,7 +11,11 @@ const nextConfig = {
     ]
   },
   images: {
-    domains: ['d-themes.com', 'hafbuy-app-ps9eq.ondigitalocean.app'],
+    domains: [
+      'localhost',
+      'd-themes.com',
+      'hafbuy-app-ps9eq.ondigitalocean.app',
+    ],
   },
 }
 

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
-import { qsSearchProducts } from '../store/queries/products'
+import { qsProducts } from '../store/queries/products'
 
 export interface SearchProductsState {
   page: number
@@ -18,7 +18,7 @@ const initialState: SearchProductsState = {
   filter: '',
   categories: [],
   prices: [0, 20000],
-  query: qsSearchProducts(1, 10, '', [], [0, 20000]),
+  query: qsProducts(1, 10, '', [], [0, 20000]),
 }
 
 export const searchProductsSlice = createSlice({
@@ -56,7 +56,7 @@ export const searchProductsSlice = createSlice({
     },
 
     setQuery(state) {
-      state.query = qsSearchProducts(
+      state.query = qsProducts(
         state.page,
         state.pageSize,
         state.filter,

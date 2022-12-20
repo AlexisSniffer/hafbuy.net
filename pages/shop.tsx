@@ -18,7 +18,7 @@ const ShopPage = () => {
   const filters = useSelector((state: RootState) => state.filters)
 
   const { data, error } = useSWR(
-    `https://hafbuy-app-ps9eq.ondigitalocean.app/api/products?${filters.query}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/products?${filters.query}`,
     fetcher
   )
 

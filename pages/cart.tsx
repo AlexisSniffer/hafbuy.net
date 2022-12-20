@@ -16,7 +16,7 @@ import styles from '../styles/Cart.module.scss'
 
 const items = [
   {
-    title: 'Carrito de compras',
+    title: 'Carrito',
     icon: <ShoppingCartOutlined />,
     content: <CartContent />,
   },
@@ -26,7 +26,7 @@ const items = [
     content: <CheckoutContent />,
   },
   {
-    title: 'Orden completada',
+    title: 'Finalizar',
     icon: <CheckCircleOutlined />,
     content: <CompleteContent />,
     disabled: true,

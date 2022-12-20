@@ -9,6 +9,12 @@
     }
   }
 
+  > div {
+    margin-top: 0 !important;
+    margin-inline-start: 0 !important;
+    margin-inline-end: 0 !important;
+  }
+
   &-cover {
     position: relative;
     overflow: hidden;
