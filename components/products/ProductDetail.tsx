@@ -78,7 +78,7 @@ const ProductDetail = ({ product }: ProductType) => {
             return (
               <img
                 key={image.attributes.url}
-                src={`${process.env.NEXT_PUBLIC_API_URL}${image.attributes.url}`}
+                src={image.attributes.url}
                 alt={image.attributes.alternativeText}
                 width={'100%'}
                 height={'auto'}
@@ -92,7 +92,7 @@ const ProductDetail = ({ product }: ProductType) => {
               return (
                 <Col span={6} key={image.attributes.url}>
                   <img
-                    src={`${process.env.NEXT_PUBLIC_API_URL}${image.attributes.url}`}
+                    src={image.attributes.url}
                     alt={image.attributes.alternativeText}
                     width={'100%'}
                     height={'auto'}

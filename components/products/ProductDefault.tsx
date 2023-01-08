@@ -40,7 +40,7 @@ export default function ProductDefault({ product }: ProductType) {
       cover={
         <picture className={styles['product-default-cover']}>
           <img
-            src={`{product.attributes.images.data[0].attributes.url}`}
+            src={product.attributes.images.data[0].attributes.url}
             alt={product.attributes.images.data[0].attributes.alternativeText}
             width={'100%'}
             height={'100%'}

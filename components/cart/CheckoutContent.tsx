@@ -149,11 +149,11 @@ const CheckoutContent = () => {
               layout="vertical"
               onFinish={onFinish}
               initialValues={{
-                ['name']: 'Alexis',
-                ['lastname']: 'Sniffer',
-                ['adress']: 'Panama',
-                ['phone']: '68710788',
-                ['email']: 'alexis.sniffer@gmail.com',
+                ['name']: '',
+                ['lastname']: '',
+                ['adress']: '',
+                ['phone']: '',
+                ['email']: '',
               }}
             >
               <Form.Item label="Nombre" style={{ marginBottom: 0 }} required>

@@ -41,7 +41,7 @@ export default function ProductCart({ product }: ProductCartType) {
             <figure className={styles['product-cart-picture']}>
               <Link href={`/product/${product.slug}`}>
                 <Image
-                  src={`${product.image}`}
+                  src={product.image}
                   alt={`product:${product.slug}`}
                   width={70}
                   height={70}
