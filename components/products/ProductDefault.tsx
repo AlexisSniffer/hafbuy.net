@@ -22,6 +22,7 @@ export default function ProductDefault({ product }: ProductType) {
     dispatch(
       addProduct({
         product: {
+          id: product.id,
           name: product.attributes.name,
           slug: product.attributes.slug,
           qty: 1,
@@ -39,7 +40,7 @@ export default function ProductDefault({ product }: ProductType) {
       cover={
         <picture className={styles['product-default-cover']}>
           <img
-            src={`${process.env.NEXT_PUBLIC_API_URL}${product.attributes.images.data[0].attributes.url}`}
+            src={`{product.attributes.images.data[0].attributes.url}`}
             alt={product.attributes.images.data[0].attributes.alternativeText}
             width={'100%'}
             height={'100%'}

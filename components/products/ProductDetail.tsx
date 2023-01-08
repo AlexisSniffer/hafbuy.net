@@ -52,6 +52,7 @@ const ProductDetail = ({ product }: ProductType) => {
     dispatch(
       addProduct({
         product: {
+          id: product.id,
           name: product.attributes.name,
           slug: product.attributes.slug,
           qty: qty,

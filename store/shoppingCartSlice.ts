@@ -6,11 +6,13 @@ import { ProductCartType } from './types/ProductType'
 export interface ProductCartState {
   products: ProductCartType[]
   step: number
+  order: any
 }
 
 const initialState: ProductCartState = {
   products: [],
   step: 0,
+  order: {},
 }
 
 export const ProductCartSlice = createSlice({
@@ -49,13 +51,27 @@ export const ProductCartSlice = createSlice({
       )
     },
 
+    cleanProducts(state) {
+      state.products = []
+    },
+
     setStep(state, action: PayloadAction<number>) {
       state.step = action.payload
+    },
+
+    setOrder(state, action: PayloadAction<any>) {
+      state.order = action.payload
     },
   },
 })
 
-export const { addProduct, editProduct, removeProduct, setStep } =
-  ProductCartSlice.actions
+export const {
+  addProduct,
+  editProduct,
+  removeProduct,
+  cleanProducts,
+  setStep,
+  setOrder,
+} = ProductCartSlice.actions
 
 export default ProductCartSlice.reducer

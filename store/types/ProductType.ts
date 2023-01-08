@@ -3,6 +3,7 @@ import { MediaType } from './MediaType'
 
 export type ProductType = {
   product: {
+    id: number
     attributes: {
       name: string
       slug: string
@@ -25,6 +26,7 @@ export type ProductType = {
 
 export type ProductCartType = {
   product: {
+    id: number
     name: string
     slug: string
     qty: number

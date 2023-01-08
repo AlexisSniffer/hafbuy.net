@@ -81,6 +81,7 @@ const CartToggle = () => {
                     </Button>
                   </Link>
                   <Link href="/checkout">
+                    {/* TODO: enlace para cart, step checkout */}
                     <Button
                       type="primary"
                       size="large"

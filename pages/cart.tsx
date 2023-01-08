@@ -1,6 +1,5 @@
-import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Alert, Steps } from 'antd'
+import { Steps } from 'antd'
 import {
   CheckCircleOutlined,
   EyeOutlined,
@@ -43,20 +42,8 @@ const CartPage = () => {
 
   return (
     <>
-      {cart.products.length > 0 ? (
-        <>
-          <Steps items={items} current={cart.step} onChange={onChange} />
-          <div className={styles['cart-content']}>
-            {items[cart.step].content}
-          </div>
-        </>
-      ) : (
-        <Alert
-          showIcon
-          type="warning"
-          description={`No hay productos agregados al carrito.`}
-        ></Alert>
-      )}
+      <Steps items={items} current={cart.step} onChange={onChange} />
+      <div className={styles['cart-content']}>{items[cart.step].content}</div>
     </>
   )
 }
