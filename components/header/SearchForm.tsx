@@ -80,13 +80,15 @@ const SearchForm = () => {
       name="searchForm"
       className={styles['search-form']}
       onFinish={onFinish}
+      initialValues={{
+        ['filter']: '',
+      }}
     >
       <Form.Item name="filter" className={styles['search-form-item']}>
         <Search
           enterButton
           size="large"
           placeholder="Buscar..."
-          defaultValue={''}
           addonBefore={data ? categorySelect(data) : <Spin />}
           onSearch={form.submit}
         />

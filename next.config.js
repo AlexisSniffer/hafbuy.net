@@ -11,11 +11,7 @@ const nextConfig = {
     ]
   },
   images: {
-    domains: [
-      'localhost',
-      'd-themes.com',
-      'hafbuy-app-ps9eq.ondigitalocean.app',
-    ],
+    domains: ['hafbuy-strapi-space.nyc3.digitaloceanspaces.com'],
   },
 }
 
