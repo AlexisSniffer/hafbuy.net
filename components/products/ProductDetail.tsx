@@ -75,6 +75,7 @@ const ProductDetail = ({ product }: ProductType) => {
       [type]: value,
     }
 
+    setSelectedVariant(null)
     allVariantOptions.map((item) => {
       if (JSON.stringify(item.variant) === JSON.stringify(selection)) {
         setSelectedVariant(item)
