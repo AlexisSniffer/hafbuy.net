@@ -43,8 +43,3 @@ export default function ProductDrawer({ product }: ProductCartType) {
     </article>
   )
 }
-
-// TODO: añadir carrito de compra a store y eliminar registros
-function onRemove(id: number) {
-  console.log('Click Id: ' + id)
-}

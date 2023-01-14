@@ -89,21 +89,35 @@ const ProductDetail = ({ product }: ProductType) => {
 
   const onFinish = (values: any) => {
     const { qty } = values
-    const price =
-      product.attributes.variants.length > 0
-        ? selectedVariant.isDiscount
-          ? selectedVariant.discount
-          : selectedVariant.price
-        : product.attributes.isDiscount
+
+    let price: number
+    let name: string
+    let slug: string
+
+    if (product.attributes.variants.length > 0) {
+      const nameVariant = Object.entries(selectedVariant.variant)
+        .map(([key, value]) => `${key}: ${value}`)
+        .toString()
+
+      name = `${product.attributes.name} [${nameVariant}]`
+      slug = `${product.attributes.slug}-[${nameVariant}]`
+      price = selectedVariant.isDiscount
+        ? selectedVariant.discount
+        : selectedVariant.price
+    } else {
+      name = product.attributes.name
+      slug = product.attributes.slug
+      price = product.attributes.isDiscount
         ? product.attributes.discount
         : product.attributes.price
+    }
 
     dispatch(
       addProduct({
         product: {
           id: product.id,
-          name: product.attributes.name,
-          slug: product.attributes.slug,
+          name: name,
+          slug: slug,
           qty: qty,
           price: price,
           subtotal: price * qty,
@@ -111,8 +125,6 @@ const ProductDetail = ({ product }: ProductType) => {
         },
       })
     )
-
-    //TODO: verificar: error de react - form.resetFields()
   }
 
   return (
