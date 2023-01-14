@@ -9,6 +9,7 @@ import { ProductType } from './../../store/types/ProductType'
 import styles from '../../styles/ProductDefault.module.scss'
 import { ShoppingCartOutlined } from '@ant-design/icons'
 import { money } from '../../utils/formatters'
+import { valMinMax } from '../../utils/valMinMax'
 
 export default function ProductDefault({ product }: ProductType) {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -88,13 +89,34 @@ export default function ProductDefault({ product }: ProductType) {
       <Rate disabled style={{ fontSize: '1rem' }}></Rate>
 
       <span className={styles['product-default-price']}>
-        {product.attributes.price
-          ? money.format(product.attributes.price)
-          : '0.00'}
+        {product.attributes.variants.length > 0 ? (
+          valMinMax(
+            product.attributes.variants.map((variant) => {
+              let price: number
+              price = variant.isDiscount ? variant.discount : variant.price
+              return price
+            })
+          )
+        ) : (
+          <>
+            {product.attributes.isDiscount ? (
+              <Space>
+                <span>{money.format(product.attributes.discount)}</span>
+                <span
+                  className={`${styles['product-default-price']} ${styles['is-discount']}`}
+                >
+                  {money.format(product.attributes.price)}
+                </span>
+              </Space>
+            ) : (
+              <span>{money.format(product.attributes.price)}</span>
+            )}
+          </>
+        )}
       </span>
 
       <Modal
-        width={'50%'}
+        width={'70%'}
         centered={true}
         footer={null}
         open={isModalOpen}

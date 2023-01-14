@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import Link from 'next/link'
 import {
   Button,
   Carousel,
@@ -21,33 +22,80 @@ import { money } from '../../utils/formatters'
 import styles from '../../styles/ProductDetail.module.scss'
 import Social from '../Social'
 import ProductVariants from './ProductVariants'
+import { valMinMax } from '../../utils/valMinMax'
 
 const ProductDetail = ({ product }: ProductType) => {
+  const allVariantOptions = product.attributes.variants?.map((variant) => {
+    const allOptions: any = {}
+
+    variant.variant.map((item: any) => {
+      allOptions[item.type] = item.value
+    })
+
+    return {
+      id: variant.id,
+      price: variant.price,
+      discount: variant.discount,
+      isDiscount: variant.isDiscount,
+      until: variant.until,
+      variant: allOptions,
+    }
+  })
+
+  const options = [
+    {
+      type: 'size',
+      values: ['s', 'm', 'l'],
+    },
+    {
+      type: 'color',
+      values: ['blue', 'red'],
+    },
+  ]
+
+  const defaultValues: any = {}
+  options.map((item) => {
+    defaultValues[item.type] = item.values[0]
+  })
+
   const dispatch = useDispatch()
   const [form] = Form.useForm()
-  const [variants, setVariants] = useState(new Map())
+  const [selectedVariant, setSelectedVariant] = useState<any | null>(
+    allVariantOptions[0]
+  )
+  const [selectedOptions, setSelectedOptions] = useState(defaultValues)
+
+  const setOptions = (type: string, value: string) => {
+    setSelectedOptions((prevState: any) => {
+      return { ...prevState, [type]: value }
+    })
+
+    const selection = {
+      ...selectedOptions,
+      [type]: value,
+    }
+
+    allVariantOptions.map((item) => {
+      if (JSON.stringify(item.variant) === JSON.stringify(selection)) {
+        setSelectedVariant(item)
+      }
+    })
+  }
+
   let carouselRef = useRef<CarouselRef>()
 
-  useEffect(() => {
-    if (product.attributes.variants.length > 0) {
-      let map = new Map()
-
-      product.attributes.variants.forEach((el) => {
-        el.variant.forEach((el2: any) => {
-          if (map.get(el2.type) === undefined) {
-            map.set(el2.type, new Set())
-          }
-
-          map.get(el2.type).add(el2.value)
-        })
-      })
-
-      setVariants(map)
-    }
-  }, [])
+  useEffect(() => {}, [])
 
   const onFinish = (values: any) => {
     const { qty } = values
+    const price =
+      product.attributes.variants.length > 0
+        ? selectedVariant.isDiscount
+          ? selectedVariant.discount
+          : selectedVariant.price
+        : product.attributes.isDiscount
+        ? product.attributes.discount
+        : product.attributes.price
 
     dispatch(
       addProduct({
@@ -56,8 +104,8 @@ const ProductDetail = ({ product }: ProductType) => {
           name: product.attributes.name,
           slug: product.attributes.slug,
           qty: qty,
-          price: product.attributes.price,
-          subtotal: product.attributes.price * qty,
+          price: price,
+          subtotal: price * qty,
           image: product.attributes.images.data[0].attributes.url,
         },
       })
@@ -106,82 +154,149 @@ const ProductDetail = ({ product }: ProductType) => {
 
       <Col span={12}>
         <section className={styles['product-detail']}>
-          <h1 className={styles['product-detail-title']}>
-            {product.attributes.name}
-          </h1>
-
-          <Space>
-            <Rate disabled style={{ fontSize: '1rem' }}></Rate> (0 Reseñas)
+          <Space direction="vertical">
+            <h1 className={styles['product-detail-title']}>
+              {product.attributes.name}
+            </h1>
+            <Space>
+              <Rate disabled style={{ fontSize: '1rem' }}></Rate> (0 Reseñas)
+            </Space>
+            <p className={styles['product-detail-price']}>
+              {product.attributes.variants.length > 0 ? (
+                valMinMax(
+                  product.attributes.variants.map((variant) => {
+                    let price: number
+                    price = variant.isDiscount
+                      ? variant.discount
+                      : variant.price
+                    return price
+                  })
+                )
+              ) : (
+                <>
+                  {product.attributes.isDiscount ? (
+                    <Space>
+                      <span>{money.format(product.attributes.discount)}</span>
+                      <span
+                        className={`${styles['product-detail-price']} ${styles['is-discount']}`}
+                      >
+                        {money.format(product.attributes.price)}
+                      </span>
+                    </Space>
+                  ) : (
+                    <span>{money.format(product.attributes.price)}</span>
+                  )}
+                </>
+              )}
+            </p>
           </Space>
-
-          <p className={styles['product-detail-price']}>
-            {money.format(product.attributes.price)}
-          </p>
 
           <p>{product.attributes.description}</p>
 
-          <span className={styles['product-detail-categories']}>
-            categorias:{' '}
-            {product.attributes.subcategories.data.length > 0 ? (
-              product.attributes.subcategories.data.map((category: any) => {
-                return (
-                  <a
-                    key={category.attributes.slug}
-                    onClick={(e) => e.preventDefault()}
-                  >{`${category.attributes.name}`}</a>
-                )
-              })
-            ) : (
-              <a>sin categoria</a>
-            )}
-          </span>
+          <p>
+            <span className={styles['product-detail-categories']}>
+              categorias:{' '}
+              {product.attributes.subcategories.data.length > 0 ? (
+                product.attributes.subcategories.data.map((category: any) => {
+                  return (
+                    <a
+                      key={category.attributes.slug}
+                      onClick={(e) => e.preventDefault()}
+                    >{`${category.attributes.name}`}</a>
+                  )
+                })
+              ) : (
+                <a>sin categoria</a>
+              )}
+            </span>
+          </p>
 
-          <ProductVariants variants={variants} />
+          <p>
+            VENDEDOR: <Link href="vendor/jhondoe">Jhon Doe</Link>
+          </p>
+
+          {product.attributes.variants.length > 0 ? (
+            <Space direction="vertical">
+              {options.map(({ type, values }) => (
+                <ProductVariants
+                  key={type}
+                  type={type}
+                  values={values}
+                  selectedOptions={selectedOptions}
+                  setOptions={setOptions}
+                />
+              ))}
+            </Space>
+          ) : (
+            <></>
+          )}
 
           <Divider />
 
-          <Form
-            form={form}
-            name="productDetailForm"
-            labelCol={{ span: 8 }}
-            initialValues={{
-              ['qty']: 1,
-            }}
-            onFinish={onFinish}
-          >
-            <Input.Group compact>
-              <Form.Item
-                name="qty"
-                rules={[{ required: true }]}
-                style={{ width: '100px', margin: 0 }}
-              >
-                <InputNumber
-                  style={{ width: '100px' }}
-                  maxLength={16}
-                  min={1}
-                  max={20}
-                />
-              </Form.Item>
-              <Button type="primary" onClick={form.submit}>
-                Añadir a carrito
-              </Button>
-            </Input.Group>
-          </Form>
+          <Space direction="vertical">
+            {product.attributes.variants.length > 0 &&
+            selectedVariant != null ? (
+              <p className={styles['product-detail-price']}>
+                {selectedVariant.isDiscount ? (
+                  <Space>
+                    <span>{money.format(selectedVariant.discount)}</span>
+                    <span
+                      className={`${styles['product-detail-price']} ${styles['is-discount']}`}
+                    >
+                      {money.format(selectedVariant.price)}
+                    </span>
+                  </Space>
+                ) : (
+                  <span>{money.format(selectedVariant.price)}</span>
+                )}
+              </p>
+            ) : null}
+
+            <Form
+              form={form}
+              name="productDetailForm"
+              labelCol={{ span: 8 }}
+              initialValues={{
+                ['qty']: 1,
+              }}
+              onFinish={onFinish}
+            >
+              <Input.Group compact>
+                <Form.Item
+                  name="qty"
+                  rules={[{ required: true }]}
+                  style={{ width: '100px', margin: 0 }}
+                >
+                  <InputNumber
+                    style={{ width: '100px' }}
+                    maxLength={16}
+                    min={1}
+                    max={20}
+                    disabled={
+                      product.attributes.variants.length > 0
+                        ? selectedVariant == null
+                        : false
+                    }
+                  />
+                </Form.Item>
+                <Button
+                  type="primary"
+                  onClick={form.submit}
+                  disabled={
+                    product.attributes.variants.length > 0
+                      ? selectedVariant == null
+                      : false
+                  }
+                >
+                  Añadir a carrito
+                </Button>
+              </Input.Group>
+            </Form>
+          </Space>
 
           <Divider />
 
           <Social size="small" />
-
-          <p>
-            <span>
-              <b>Tiempo de envío:</b> 48 horas
-            </span>
-          </p>
-          <p>
-            <span>
-              <b>Costo de envío:</b> $30.00
-            </span>
-          </p>
         </section>
       </Col>
     </Row>

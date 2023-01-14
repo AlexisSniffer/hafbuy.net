@@ -6,9 +6,19 @@
   }
 
   &-price {
-    font-size: 1rem;
-    margin-top: 1rem;
+    font-size: 1.4rem;
+    margin: 0;
     font-weight: bold;
+
+    span {
+      font-size: 1.4rem;
+    }
+
+    .is-discount {
+      color: #777;
+      font-size: 1rem;
+      text-decoration: line-through;
+    }
   }
 
   &-categories {

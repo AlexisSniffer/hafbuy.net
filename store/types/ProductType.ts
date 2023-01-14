@@ -9,6 +9,7 @@ export type ProductType = {
       slug: string
       description: string
       price: number
+      isDiscount: boolean
       discount: number
       stock: number
       until: Date
