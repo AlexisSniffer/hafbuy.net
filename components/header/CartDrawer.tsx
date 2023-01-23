@@ -1,20 +1,27 @@
 import { useState } from 'react'
 import Link from 'next/link'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Badge, Drawer, Button, Row, Col, Space } from 'antd'
 import { ShoppingOutlined } from '@ant-design/icons'
 
 import type { RootState } from '../../store'
 import { ProductCartType } from '../../store/types/ProductType'
+import { setStep } from '../../store/shoppingCartSlice'
 import ProductDrawer from '../products/ProductDrawer'
 import { money } from '../../utils/formatters'
 
 const CartToggle = () => {
   const [open, setOpen] = useState(false)
   const cart = useSelector((state: RootState) => state.cart)
+  const dispatch = useDispatch()
 
   const showDrawer = () => {
     setOpen(!open)
+  }
+
+  const showCart = (step: number) => {
+    showDrawer()
+    dispatch(setStep(step))
   }
 
   let qty = cart.products.reduce(
@@ -75,18 +82,18 @@ const CartToggle = () => {
                       type="default"
                       size="large"
                       block
-                      onClick={showDrawer}
+                      onClick={() => showCart(0)}
                     >
                       Ver Carrito
                     </Button>
                   </Link>
-                  <Link href="/checkout">
+                  <Link href="/cart">
                     {/* TODO: enlace para cart, step checkout */}
                     <Button
                       type="primary"
                       size="large"
                       block
-                      onClick={showDrawer}
+                      onClick={() => showCart(1)}
                     >
                       Pagar
                     </Button>

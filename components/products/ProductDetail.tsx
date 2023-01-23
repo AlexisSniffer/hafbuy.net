@@ -42,6 +42,15 @@ const ProductDetail = ({ product }: ProductType) => {
     }
   })
 
+  /*
+    const variants = variantsObj.map(e => e.variant).forEach(e => {
+      Object.keys(e).forEach(key =>  {
+        if(map.get(key) === undefined) map.set(key, new Set())
+        map.get(key).add(e[key])
+      })
+    })
+  */
+
   const options = [
     {
       type: 'size',
@@ -205,6 +214,8 @@ const ProductDetail = ({ product }: ProductType) => {
           </Space>
 
           <p>{product.attributes.description}</p>
+
+          {/* <pre>{JSON.stringify(allVariantOptions, null, 2)}</pre> */}
 
           <p>
             <span className={styles['product-detail-categories']}>
