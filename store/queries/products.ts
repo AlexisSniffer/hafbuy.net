@@ -16,7 +16,14 @@ export const qsProducts = (
         page: page,
         pageSize: pageSize,
       },
-      fields: ['name', 'slug', 'description', 'price'],
+      fields: [
+        'name',
+        'slug',
+        'description',
+        'price',
+        'isDiscount',
+        'discount',
+      ],
       populate: {
         subcategories: true,
         images: true,

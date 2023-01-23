@@ -75,5 +75,15 @@
     font-size: 1rem;
     margin-top: 0.5rem;
     font-weight: bold;
+
+    span {
+      font-size: 1rem;
+    }
+
+    .is-discount {
+      color: #777;
+      font-size: 0.8rem;
+      text-decoration: line-through;
+    }
   }
 }
