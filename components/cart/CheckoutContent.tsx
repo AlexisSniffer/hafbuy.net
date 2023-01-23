@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   Alert,
@@ -36,6 +37,7 @@ const CheckoutContent = () => {
   const cart = useSelector((state: RootState) => state.cart)
   const dispatch = useDispatch()
   const [form] = Form.useForm()
+  const [loading, setLoading] = useState<boolean>(false)
 
   const subtotal = cart.products.reduce(
     (accumulator, current) =>
@@ -117,10 +119,9 @@ const CheckoutContent = () => {
   }
 
   const onFinish = async (values: any) => {
+    setLoading(true)
     const responseOrderBilling = await saveOrderBilling(values)
     const responseOrderProducts = await saveOrderProducts()
-
-    console.log(responseOrderProducts)
 
     const responseOrder = await saveOrder(
       responseOrderBilling,
@@ -134,7 +135,8 @@ const CheckoutContent = () => {
 
     dispatch(cleanProducts())
     dispatch(setStep(2))
-    dispatch(setOrder(responseOrder.data.id))
+    dispatch(setOrder(responseOrder.data.attributes.order))
+    setLoading(false)
   }
 
   return (
@@ -283,7 +285,13 @@ const CheckoutContent = () => {
                 pago disponibles para su estado. Comuníquese con nosotros si
                 necesita ayuda o desea hacer arreglos alternativos.
               </p>
-              <Button type="primary" size="large" block onClick={form.submit}>
+              <Button
+                type="primary"
+                size="large"
+                block
+                loading={loading}
+                onClick={form.submit}
+              >
                 Realizar pedido
               </Button>
             </Card>
