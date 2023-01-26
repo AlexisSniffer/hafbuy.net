@@ -42,30 +42,31 @@ const ProductDetail = ({ product }: ProductType) => {
     }
   })
 
-  /*
-    const variants = variantsObj.map(e => e.variant).forEach(e => {
-      Object.keys(e).forEach(key =>  {
-        if(map.get(key) === undefined) map.set(key, new Set())
-        map.get(key).add(e[key])
+  let optionsMap: any = new Map()
+  allVariantOptions
+    .map((e) => e.variant)
+    .map((e) => {
+      const keys = Object.keys(e)
+
+      keys.forEach((key) => {
+        if (!optionsMap.has(key)) {
+          optionsMap.set(key, new Set())
+        }
+
+        optionsMap.get(key).add(e[key])
       })
     })
-  */
 
-  const options = [
-    {
-      type: 'size',
-      values: ['s', 'm', 'l'],
-    },
-    {
-      type: 'color',
-      values: ['blue', 'red'],
-    },
-  ]
-
+  let options = []
   const defaultValues: any = {}
-  options.map((item) => {
-    defaultValues[item.type] = item.values[0]
-  })
+  for (const [key, value] of optionsMap) {
+    defaultValues[key] = value.values().next().value
+
+    options.push({
+      type: key,
+      values: value,
+    })
+  }
 
   const dispatch = useDispatch()
   const [form] = Form.useForm()
@@ -215,8 +216,6 @@ const ProductDetail = ({ product }: ProductType) => {
 
           <p>{product.attributes.description}</p>
 
-          {/* <pre>{JSON.stringify(allVariantOptions, null, 2)}</pre> */}
-
           <p>
             <span className={styles['product-detail-categories']}>
               categorias:{' '}
@@ -245,7 +244,7 @@ const ProductDetail = ({ product }: ProductType) => {
                 <ProductVariants
                   key={type}
                   type={type}
-                  values={values}
+                  values={Array.from(values)}
                   selectedOptions={selectedOptions}
                   setOptions={setOptions}
                 />
