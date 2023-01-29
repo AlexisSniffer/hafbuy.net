@@ -23,9 +23,18 @@ const CategorySlider = (category: Category) => {
   return (
     <div>
       <Link href={'/'} className={styles['category-slider']}>
-        <figure>
-          <Image alt="category" src={category.image} width={128} height={128} />
-        </figure>
+        {category.image ? (
+          <figure>
+            <Image
+              alt="category"
+              src={category.image}
+              width={128}
+              height={128}
+            />
+          </figure>
+        ) : (
+          <></>
+        )}
         <Title level={5}>{category.name}</Title>
       </Link>
     </div>
