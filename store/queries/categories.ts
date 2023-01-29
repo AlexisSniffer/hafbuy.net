@@ -21,7 +21,7 @@ export const qsCategories = () => {
   return qs.stringify(
     {
       fields: ['name', 'slug'],
-      populate: ['subcategories'],
+      populate: ['subcategories', 'thumbnail'],
     },
     {
       encodeValuesOnly: true,

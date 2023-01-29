@@ -34,7 +34,9 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   if (Component.getLayout) {
     return (
       <Provider store={store}>
-        <ConfigProvider theme={theme}>Component.getLayout(page)</ConfigProvider>
+        <ConfigProvider theme={theme}>
+          {Component.getLayout(page)}
+        </ConfigProvider>
       </Provider>
     )
   }

@@ -1,6 +1,6 @@
 import useSWR from 'swr'
-import { Button, Dropdown, MenuProps, Popover, Space, Row, Col } from 'antd'
-import { MenuOutlined, ShoppingCartOutlined } from '@ant-design/icons'
+import { Button, Dropdown, MenuProps } from 'antd'
+import { MenuOutlined } from '@ant-design/icons'
 
 import { qsCategories } from '../../store/queries/categories'
 
