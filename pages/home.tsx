@@ -128,7 +128,11 @@ const HomePage = () => {
                     key={category.attributes.slug}
                     name={category.attributes.name}
                     slug={category.attributes.slug}
-                    image={category.attributes.thumbnail.data.attributes.url}
+                    image={
+                      category.attributes.thumbnail.data != null
+                        ? category.attributes.thumbnail.data.attributes.url
+                        : null
+                    }
                   />
                 )
               })
