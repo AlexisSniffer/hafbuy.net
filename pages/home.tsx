@@ -33,7 +33,11 @@ const CategorySlider = (category: Category) => {
             />
           </figure>
         ) : (
-          <></>
+          <div className={styles['category-slider']}>
+            <figure>
+              <div className={styles['category-slider-no-image']}></div>
+            </figure>
+          </div>
         )}
         <Title level={5}>{category.name}</Title>
       </Link>
@@ -83,6 +87,7 @@ const HomePage = () => {
             </div>
           </Carousel>
           <Carousel
+            style={{ marginTop: '1rem' }}
             afterChange={onChange}
             slidesToShow={8}
             draggable={true}
@@ -121,24 +126,20 @@ const HomePage = () => {
               },
             ]}
           >
-            {data ? (
-              data.data.map((category: any) => {
-                return (
-                  <CategorySlider
-                    key={category.attributes.slug}
-                    name={category.attributes.name}
-                    slug={category.attributes.slug}
-                    image={
-                      category.attributes.thumbnail.data != null
-                        ? category.attributes.thumbnail.data.attributes.url
-                        : null
-                    }
-                  />
-                )
-              })
-            ) : (
-              <></>
-            )}
+            {data.data.map((category: any) => {
+              return (
+                <CategorySlider
+                  key={category.attributes.slug}
+                  name={category.attributes.name}
+                  slug={category.attributes.slug}
+                  image={
+                    category.attributes.thumbnail.data != null
+                      ? category.attributes.thumbnail.data.attributes.url
+                      : null
+                  }
+                />
+              )
+            })}
           </Carousel>
         </Container>
       </section>

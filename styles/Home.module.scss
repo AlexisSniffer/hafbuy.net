@@ -10,4 +10,12 @@
   &-title {
     color: red;
   }
+
+  &-no-image {
+    display: block;
+    width: 128px;
+    height: 128px;
+    background-color: #fff;
+    border-radius: 50%;
+  }
 }
