@@ -2,11 +2,14 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import useSWR from 'swr'
-import { Layout, Carousel, Typography } from 'antd'
+import { Layout, Carousel, Typography, Col, Row, Skeleton } from 'antd'
+import { HourglassOutlined } from '@ant-design/icons'
 
 import Header from '../components/header/Header'
 import Container from '../components/Container'
+import ProductDefault from '../components/products/ProductDefault'
 import { qsCategories } from '../store/queries/categories'
+import { qsFilterUntil } from '../store/queries/products'
 import styles from '../styles/Home.module.scss'
 
 interface Category {
@@ -46,8 +49,13 @@ const CategorySlider = (category: Category) => {
 }
 
 const HomePage = () => {
-  const { data, error } = useSWR(
+  const { data: CategoriesData, error: CategoriesError } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/api/categories?${qsCategories()}`,
+    fetcher
+  )
+
+  const { data: filterUntil, error: filterUntilError } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/products?${qsFilterUntil()}`,
     fetcher
   )
 
@@ -62,10 +70,6 @@ const HomePage = () => {
 
   const onChange = (currentSlide: number) => {
     console.log(currentSlide)
-  }
-
-  if (error) {
-    return <>Error {error}</>
   }
 
   return (
@@ -126,23 +130,60 @@ const HomePage = () => {
               },
             ]}
           >
-            {data.data.map((category: any) => {
-              return (
-                <CategorySlider
-                  key={category.attributes.slug}
-                  name={category.attributes.name}
-                  slug={category.attributes.slug}
-                  image={
-                    category.attributes.thumbnail.data != null
-                      ? category.attributes.thumbnail.data.attributes.url
-                      : null
-                  }
-                />
-              )
-            })}
+            {CategoriesData ? (
+              CategoriesData.data.map((category: any) => {
+                return (
+                  <CategorySlider
+                    key={category.attributes.slug}
+                    name={category.attributes.name}
+                    slug={category.attributes.slug}
+                    image={
+                      category.attributes.thumbnail.data != null
+                        ? category.attributes.thumbnail.data.attributes.url
+                        : null
+                    }
+                  />
+                )
+              })
+            ) : (
+              <Skeleton />
+            )}
           </Carousel>
         </Container>
       </section>
+
+      {!filterUntilError && filterUntil && filterUntil.data.length > 0 ? (
+        <section style={{ padding: '1rem 0' }}>
+          <Container>
+            <Title level={3}>
+              <HourglassOutlined style={{ marginRight: '0.5rem' }} />
+              Ofertas Especiales
+            </Title>
+            <article>
+              <Row gutter={[16, 16]}>
+                <Col span={8}>
+                  <ProductDefault
+                    product={filterUntil.data[0]}
+                  ></ProductDefault>
+                </Col>
+                <Col span={16}>
+                  <Row gutter={[16, 16]}>
+                    {filterUntil.data.slice(1, 9).map((product: any) => {
+                      return (
+                        <Col span={6} key={product.attributes.slug}>
+                          <ProductDefault product={product}></ProductDefault>
+                        </Col>
+                      )
+                    })}
+                  </Row>
+                </Col>
+              </Row>
+            </article>
+          </Container>
+        </section>
+      ) : (
+        <></>
+      )}
     </>
   )
 }

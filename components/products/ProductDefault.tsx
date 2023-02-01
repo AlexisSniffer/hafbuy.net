@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Button, Card, Modal, Rate, Space, Tooltip } from 'antd'
+import { Button, Card, Modal, Rate, Space } from 'antd'
 import Link from 'next/link'
 
 import ProductDetail from './ProductDetail'
 import { addProduct } from '../../store/shoppingCartSlice'
 import { ProductType } from './../../store/types/ProductType'
 import styles from '../../styles/ProductDefault.module.scss'
-import { ShoppingCartOutlined } from '@ant-design/icons'
+import { ArrowRightOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import { money } from '../../utils/formatters'
 import { valMinMax } from '../../utils/valMinMax'
 
@@ -50,8 +50,16 @@ export default function ProductDefault({ product }: ProductType) {
           <Button
             type="primary"
             shape="circle"
-            icon={<ShoppingCartOutlined />}
-            onClick={handleAdd}
+            icon={
+              product.attributes.variants.length > 0 ? (
+                <ArrowRightOutlined />
+              ) : (
+                <ShoppingCartOutlined />
+              )
+            }
+            onClick={
+              product.attributes.variants.length > 0 ? showModal : handleAdd
+            }
             className={styles['product-default-cover-add']}
           />
 

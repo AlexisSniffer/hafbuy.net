@@ -73,3 +73,67 @@ export const qsMaxPrice = () => {
     }
   )
 }
+
+/**
+ * Query filters
+ */
+
+// filter until
+export const qsFilterUntil = () => {
+  return qs.stringify(
+    {
+      pagination: {
+        page: 1,
+        pageSize: 9,
+      },
+      populate: '*',
+      filters: {
+        $or: [
+          {
+            $and: [
+              {
+                isDiscount: {
+                  $eq: true,
+                },
+              },
+              {
+                until: {
+                  $notNull: true,
+                },
+              },
+              {
+                until: {
+                  $gte: '2023-01-31',
+                },
+              },
+            ],
+          },
+          {
+            variants: {
+              $and: [
+                {
+                  isDiscount: {
+                    $eq: true,
+                  },
+                },
+                {
+                  until: {
+                    $notNull: true,
+                  },
+                },
+                {
+                  until: {
+                    $gte: '2023-01-31',
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      encodeValuesOnly: true,
+    }
+  )
+}
