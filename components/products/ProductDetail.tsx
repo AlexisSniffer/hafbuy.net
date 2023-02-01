@@ -28,9 +28,9 @@ const ProductDetail = ({ product }: ProductType) => {
   const allVariantOptions = product.attributes.variants?.map((variant) => {
     const allOptions: any = {}
 
-    variant.variant.map((item: any) => {
+    /*variant.variant.map((item: any) => {
       allOptions[item.type] = item.value
-    })
+    })*/
 
     return {
       id: variant.id,
