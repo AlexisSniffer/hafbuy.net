@@ -137,3 +137,44 @@ export const qsFilterUntil = () => {
     }
   )
 }
+
+// filter by categories
+export const qsfilterProductsByCategory = (filter: any) => {
+  return qs.stringify(
+    {
+      pagination: {
+        page: 1,
+        pageSize: filter.pagination,
+      },
+      populate: '*',
+      filters: {
+        subcategories: {
+          slug: {
+            $eq: filter.slug,
+          },
+        },
+      },
+    },
+    {
+      encodeValuesOnly: true,
+    }
+  )
+}
+
+/*
+{
+  pagination: 12,
+  filters: {
+    categories: {
+      slug: {
+        $eq: 'fashion-hombre',
+      },
+    },
+  },
+  populate: '*',
+},
+{
+  encodeValuesOnly: true,
+}
+
+*/

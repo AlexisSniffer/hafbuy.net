@@ -1,15 +1,21 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import useSWR from 'swr'
-import { Layout, Carousel, Typography, Col, Row, Skeleton } from 'antd'
+import { Layout, Carousel, Typography, Col, Row, Skeleton, List } from 'antd'
 import { HourglassOutlined } from '@ant-design/icons'
 
 import Header from '../components/header/Header'
 import Container from '../components/Container'
 import ProductDefault from '../components/products/ProductDefault'
-import { qsCategories } from '../store/queries/categories'
-import { qsFilterUntil } from '../store/queries/products'
+import {
+  qsCategories,
+  qsCategoriesWithProducts,
+} from '../store/queries/categories'
+import {
+  qsFilterUntil,
+  qsfilterProductsByCategory,
+} from '../store/queries/products'
 import styles from '../styles/Home.module.scss'
 
 interface Category {
@@ -49,6 +55,8 @@ const CategorySlider = (category: Category) => {
 }
 
 const HomePage = () => {
+  const [sortBy, setSortBy] = useState<string>('')
+
   const { data: CategoriesData, error: CategoriesError } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/api/categories?${qsCategories()}`,
     fetcher
@@ -56,6 +64,33 @@ const HomePage = () => {
 
   const { data: filterUntil, error: filterUntilError } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/api/products?${qsFilterUntil()}`,
+    fetcher
+  )
+
+  const {
+    data: CategoriesWithProductsData,
+    error: CategoriesWithProductsError,
+  } = useSWR(
+    `${
+      process.env.NEXT_PUBLIC_API_URL
+    }/api/subcategories?${qsCategoriesWithProducts()}`,
+    fetcher
+  )
+
+  useEffect(() => {
+    setSortBy(CategoriesWithProductsData?.data[0].attributes.slug)
+  }, [CategoriesWithProductsData])
+
+  const {
+    data: filterProductsByCategory,
+    error: filterProductsByCategoryError,
+  } = useSWR(
+    `${
+      process.env.NEXT_PUBLIC_API_URL
+    }/api/products?${qsfilterProductsByCategory({
+      pagination: 12,
+      slug: sortBy,
+    })}`,
     fetcher
   )
 
@@ -74,7 +109,7 @@ const HomePage = () => {
 
   return (
     <>
-      <section style={{ background: '#eceff1', padding: '2rem 0' }}>
+      <section className={styles['section-sliders']}>
         <Container>
           <Carousel afterChange={onChange}>
             <div>
@@ -153,7 +188,7 @@ const HomePage = () => {
       </section>
 
       {!filterUntilError && filterUntil && filterUntil.data.length > 0 ? (
-        <section style={{ padding: '1rem 0' }}>
+        <section className={styles['section-filter section-filter-until']}>
           <Container>
             <Title level={3}>
               <HourglassOutlined style={{ marginRight: '0.5rem' }} />
@@ -184,6 +219,43 @@ const HomePage = () => {
       ) : (
         <></>
       )}
+
+      <section className={styles['section-filter']}>
+        <Container>
+          <Row>
+            <Col span={6}>
+              <Title level={3}>Ordenar por</Title>
+              <List
+                size="small"
+                dataSource={CategoriesWithProductsData?.data}
+                renderItem={(item: any) => (
+                  <List.Item>
+                    <Typography.Text
+                      onClick={() => {
+                        setSortBy(item.attributes.slug)
+                      }}
+                    >
+                      {item.attributes.name}
+                    </Typography.Text>
+                  </List.Item>
+                )}
+              ></List>
+            </Col>
+            <Col span={6}>Espacio publicitario</Col>
+            <Col span={12}>
+              <Row gutter={[16, 16]}>
+                {filterProductsByCategory?.data.map((product: any) => {
+                  return (
+                    <Col span={8} key={product.attributes.slug}>
+                      <ProductDefault product={product}></ProductDefault>
+                    </Col>
+                  )
+                })}
+              </Row>
+            </Col>
+          </Row>
+        </Container>
+      </section>
     </>
   )
 }

@@ -42,3 +42,28 @@ export const qsSubcategories = () => {
     }
   )
 }
+
+/**
+ * Query categories with products
+ */
+export const qsCategoriesWithProducts = () => {
+  return qs.stringify(
+    {
+      pagination: {
+        page: 1,
+        pageSize: 12,
+      },
+      populate: ['products'],
+      filters: {
+        products: {
+          id: {
+            $notNull: true,
+          },
+        },
+      },
+    },
+    {
+      encodeValuesOnly: true,
+    }
+  )
+}
