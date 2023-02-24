@@ -56,6 +56,7 @@ const CategorySlider = (category: Category) => {
 
 const HomePage = () => {
   const [sortBy, setSortBy] = useState<string>('')
+  const [filter1, setFIlter1] = useState<number>(0)
 
   const { data: CategoriesData, error: CategoriesError } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/api/categories?${qsCategories()}`,
@@ -88,7 +89,7 @@ const HomePage = () => {
     `${
       process.env.NEXT_PUBLIC_API_URL
     }/api/products?${qsfilterProductsByCategory({
-      pagination: 12,
+      pagination: 6,
       slug: sortBy,
     })}`,
     fetcher
@@ -111,18 +112,18 @@ const HomePage = () => {
     <>
       <section className={styles['section-sliders']}>
         <Container>
-          <Carousel afterChange={onChange}>
+          <Carousel afterChange={onChange} autoplay={true}>
             <div>
-              <h3 style={contentStyle}>1</h3>
+              <h3 style={contentStyle}>Espacio Publicitario #1</h3>
             </div>
             <div>
-              <h3 style={contentStyle}>2</h3>
+              <h3 style={contentStyle}>Espacio Publicitario #2</h3>
             </div>
             <div>
-              <h3 style={contentStyle}>3</h3>
+              <h3 style={contentStyle}>Espacio Publicitario #3</h3>
             </div>
             <div>
-              <h3 style={contentStyle}>4</h3>
+              <h3 style={contentStyle}>Espacio Publicitario #4</h3>
             </div>
           </Carousel>
           <Carousel
@@ -132,6 +133,7 @@ const HomePage = () => {
             draggable={true}
             infinite={true}
             dots={false}
+            autoplay={true}
             responsive={[
               {
                 breakpoint: 480,
@@ -188,7 +190,11 @@ const HomePage = () => {
       </section>
 
       {!filterUntilError && filterUntil && filterUntil.data.length > 0 ? (
-        <section className={styles['section-filter section-filter-until']}>
+        <section
+          className={
+            styles['section-filter'] + ' ' + styles['section-filter-until']
+          }
+        >
           <Container>
             <Title level={3}>
               <HourglassOutlined style={{ marginRight: '0.5rem' }} />
@@ -196,16 +202,21 @@ const HomePage = () => {
             </Title>
             <article>
               <Row gutter={[16, 16]}>
-                <Col span={8}>
+                <Col xs={{ span: 24 }} md={{ span: 8 }}>
                   <ProductDefault
                     product={filterUntil.data[0]}
                   ></ProductDefault>
                 </Col>
-                <Col span={16}>
+                <Col xs={{ span: 24 }} md={{ span: 16 }}>
                   <Row gutter={[16, 16]}>
                     {filterUntil.data.slice(1, 9).map((product: any) => {
                       return (
-                        <Col span={6} key={product.attributes.slug}>
+                        <Col
+                          xs={{ span: 12 }}
+                          sm={{ span: 8 }}
+                          xl={{ span: 6 }}
+                          key={product.attributes.slug}
+                        >
                           <ProductDefault product={product}></ProductDefault>
                         </Col>
                       )
@@ -223,7 +234,11 @@ const HomePage = () => {
       <section className={styles['section-filter']}>
         <Container>
           <Row>
-            <Col span={6}>
+            <Col
+              xs={{ span: 24, order: 2 }}
+              sm={{ span: 12, order: 1 }}
+              lg={{ span: 6 }}
+            >
               <Title level={3}>Ordenar por</Title>
               <List
                 size="small"
@@ -241,12 +256,26 @@ const HomePage = () => {
                 )}
               ></List>
             </Col>
-            <Col span={6}>Espacio publicitario</Col>
-            <Col span={12}>
+            <Col
+              xs={{ span: 24, order: 1 }}
+              sm={{ span: 12, order: 2 }}
+              lg={{ span: 6 }}
+            >
+              Espacio publicitario
+            </Col>
+            <Col
+              xs={{ span: 24, order: 3 }}
+              sm={{ span: 24, order: 3 }}
+              lg={{ span: 12 }}
+            >
               <Row gutter={[16, 16]}>
                 {filterProductsByCategory?.data.map((product: any) => {
                   return (
-                    <Col span={8} key={product.attributes.slug}>
+                    <Col
+                      xs={{ span: 12 }}
+                      sm={{ span: 8 }}
+                      key={product.attributes.slug}
+                    >
                       <ProductDefault product={product}></ProductDefault>
                     </Col>
                   )
@@ -254,6 +283,20 @@ const HomePage = () => {
               </Row>
             </Col>
           </Row>
+        </Container>
+      </section>
+
+      <section>
+        <Container>
+          {/* {setInterval(() => {
+            return (
+              <pre>
+                {Math.floor(
+                  Math.random() * CategoriesData?.meta.pagination.total
+                )}
+              </pre>
+            )
+          }, 100)} */}
         </Container>
       </section>
     </>

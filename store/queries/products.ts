@@ -160,21 +160,3 @@ export const qsfilterProductsByCategory = (filter: any) => {
     }
   )
 }
-
-/*
-{
-  pagination: 12,
-  filters: {
-    categories: {
-      slug: {
-        $eq: 'fashion-hombre',
-      },
-    },
-  },
-  populate: '*',
-},
-{
-  encodeValuesOnly: true,
-}
-
-*/

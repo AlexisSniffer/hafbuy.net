@@ -1,6 +1,17 @@
+import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import useSWR from 'swr'
-import { Alert, Col, Row, Space, Pagination, Divider, Skeleton } from 'antd'
+import {
+  Alert,
+  Col,
+  Row,
+  Space,
+  Pagination,
+  Divider,
+  Skeleton,
+  Button,
+  Drawer,
+} from 'antd'
 
 import type { RootState } from '../store'
 import { setPage, setPageSize, setQuery } from '../store/searchProductsSlice'
@@ -10,17 +21,23 @@ import {
   FilterPrices,
   FilterBrand,
 } from '../components/shop/Filters'
+import { FilterOutlined } from '@ant-design/icons'
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 const ShopPage = () => {
   const dispatch = useDispatch()
   const filters = useSelector((state: RootState) => state.filters)
+  const [open, setOpen] = useState(false)
 
   const { data, error } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/api/products?${filters.query}`,
     fetcher
   )
+
+  const showDrawer = () => {
+    setOpen(!open)
+  }
 
   if (error) {
     return (
@@ -34,14 +51,34 @@ const ShopPage = () => {
 
   return (
     <Row gutter={16}>
-      <Col span={6}>
+      <Col xs={{ span: 24 }} lg={{ span: 0 }}>
+        <Button icon={<FilterOutlined />} onClick={showDrawer}>
+          Filtros
+        </Button>
+        <Drawer
+          title="Filtros"
+          placement="left"
+          closable={false}
+          onClose={showDrawer}
+          open={open}
+          key="filters"
+        >
+          <Space direction="vertical" style={{ display: 'flex' }}>
+            <FilterCategories />
+            <FilterPrices />
+          </Space>
+        </Drawer>
+        <br />
+        <br />
+      </Col>
+      <Col xs={{ span: 0 }} lg={{ span: 8 }} xl={{ span: 6 }}>
         <Space direction="vertical" style={{ display: 'flex' }}>
           <FilterCategories />
           <FilterPrices />
           {/* TODO: añadir filtro de marcas<FilterBrand />  */}
         </Space>
       </Col>
-      <Col span={18}>
+      <Col xs={{ span: 24 }} lg={{ span: 16 }} xl={{ span: 18 }}>
         {!data ? (
           <Skeleton />
         ) : (
@@ -51,7 +88,12 @@ const ShopPage = () => {
                 <Row gutter={[16, 16]}>
                   {data.data.map((product: any) => {
                     return (
-                      <Col span={6} key={product.attributes.slug}>
+                      <Col
+                        xs={{ span: 12 }}
+                        sm={{ span: 8 }}
+                        xl={{ span: 6 }}
+                        key={product.attributes.slug}
+                      >
                         <ProductDefault product={product}></ProductDefault>
                       </Col>
                     )
