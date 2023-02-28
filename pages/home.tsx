@@ -283,6 +283,7 @@ const HomePage = () => {
                 style={{
                   display: 'block',
                   width: '100%',
+                  minHeight: '200px',
                   height: '100%',
                   backgroundColor: '#ccc',
                 }}
