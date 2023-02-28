@@ -1,5 +1,17 @@
 import qs from 'qs'
 
+const populateProduct = {
+  subcategories: true,
+  images: true,
+  variants: {
+    populate: {
+      variant: {
+        populate: true,
+      },
+    },
+  },
+}
+
 /**
  * Query products with pagination
  */
@@ -25,15 +37,7 @@ export const qsProducts = (
         'discount',
       ],
       populate: {
-        subcategories: true,
-        images: true,
-        variants: {
-          populate: {
-            variant: {
-              populate: true,
-            },
-          },
-        },
+        ...populateProduct,
       },
       filters: {
         name: {
@@ -86,7 +90,9 @@ export const qsFilterUntil = () => {
         page: 1,
         pageSize: 9,
       },
-      populate: '*',
+      populate: {
+        ...populateProduct,
+      },
       filters: {
         $or: [
           {
@@ -146,7 +152,9 @@ export const qsfilterProductsByCategory = (filter: any) => {
         page: 1,
         pageSize: filter.pagination,
       },
-      populate: '*',
+      populate: {
+        ...populateProduct,
+      },
       filters: {
         subcategories: {
           slug: {

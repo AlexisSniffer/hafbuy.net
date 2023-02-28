@@ -1,6 +1,15 @@
 import { CategoryType } from './CategoryType'
 import { MediaType } from './MediaType'
 
+type Variant = {
+  id: number
+  price: number
+  isDiscount: boolean
+  discount: number
+  until: Date
+  variant: any[]
+}
+
 export type ProductType = {
   product: {
     id: number
@@ -20,7 +29,7 @@ export type ProductType = {
       images: {
         data: MediaType[]
       }
-      variants: any[]
+      variants: Variant[]
     }
   }
 }
