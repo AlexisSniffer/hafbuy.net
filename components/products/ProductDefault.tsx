@@ -121,10 +121,12 @@ export default function ProductDefault({ product }: ProductType) {
         )}
       </span>
 
-      <h3 className={styles['product-default-title']}>
-        <Link href={`/product/${product.attributes.slug}`}>
-          {product.attributes.name}
-        </Link>
+      <h3
+        className={styles['product-default-title']}
+        onClick={showModal}
+        style={{ cursor: 'pointer' }}
+      >
+        {product.attributes.name}
       </h3>
 
       <Rate disabled style={{ fontSize: '1rem' }}></Rate>
