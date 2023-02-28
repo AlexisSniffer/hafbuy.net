@@ -28,9 +28,9 @@ const ProductDetail = ({ product }: ProductType) => {
   const allVariantOptions = product.attributes.variants?.map((variant) => {
     const allOptions: any = {}
 
-    /*variant.variant.map((item: any) => {
-      allOptions[item.type] = item.value
-    })*/
+    // variant.variant.map((item: any) => {
+    //   allOptions[item.type] = item.value
+    // })
 
     return {
       id: variant.id,
@@ -139,11 +139,7 @@ const ProductDetail = ({ product }: ProductType) => {
 
   return (
     <Row gutter={16}>
-      <Col span={12}>
-        {/* TODO:
-          - seleccionar la foto
-          - cambiar a Image next.js
-        */}
+      <Col xs={24} md={12}>
         <Carousel autoplay draggable pauseOnHover ref={(ref) => carouselRef}>
           {product.attributes.images.data.map((image: MediaType) => {
             return (
@@ -175,7 +171,7 @@ const ProductDetail = ({ product }: ProductType) => {
         </Row>
       </Col>
 
-      <Col span={12}>
+      <Col xs={24} md={12}>
         <section className={styles['product-detail']}>
           <Space direction="vertical">
             <h1 className={styles['product-detail-title']}>

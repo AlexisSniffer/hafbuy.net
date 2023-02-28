@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Button, Card, Modal, Rate, Space } from 'antd'
 import Link from 'next/link'
@@ -14,6 +14,39 @@ import { valMinMax } from '../../utils/valMinMax'
 export default function ProductDefault({ product }: ProductType) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const dispatch = useDispatch()
+
+  const resolution: any = () => {
+    if (window.innerWidth >= 480 && window.innerWidth < 576) return '98%'
+    else if (window.innerWidth >= 576 && window.innerWidth < 768) return '90%'
+    else if (window.innerWidth >= 768 && window.innerWidth < 992) return '80%'
+    else if (window.innerWidth >= 992 && window.innerWidth < 1200) return '75%'
+    else if (window.innerWidth >= 1200 && window.innerWidth < 5716006)
+      return '65%'
+    else if (window.innerWidth >= 1600) return '65%'
+    else return '100%'
+  }
+
+  const [widthModal, setWidthModal] = useState(resolution())
+
+  const handleResize = () => {
+    if (window.innerWidth >= 480 && window.innerWidth < 576)
+      setWidthModal('98%')
+    else if (window.innerWidth >= 576 && window.innerWidth < 768)
+      setWidthModal('90%')
+    else if (window.innerWidth >= 768 && window.innerWidth < 992)
+      setWidthModal('80%')
+    else if (window.innerWidth >= 992 && window.innerWidth < 1200)
+      setWidthModal('75%')
+    else if (window.innerWidth >= 1200 && window.innerWidth < 1600)
+      setWidthModal('65%')
+    else if (window.innerWidth >= 1600) setWidthModal('65%')
+    else setWidthModal('100%')
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [handleResize])
 
   const showModal = () => {
     setIsModalOpen(!isModalOpen)
@@ -124,7 +157,7 @@ export default function ProductDefault({ product }: ProductType) {
       </span>
 
       <Modal
-        width={'70%'}
+        width={widthModal}
         centered={true}
         footer={null}
         open={isModalOpen}

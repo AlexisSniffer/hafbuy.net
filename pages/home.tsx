@@ -2,7 +2,16 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import useSWR from 'swr'
-import { Layout, Carousel, Typography, Col, Row, Skeleton, List } from 'antd'
+import {
+  Layout,
+  Carousel,
+  Typography,
+  Col,
+  Row,
+  Skeleton,
+  List,
+  Card,
+} from 'antd'
 import { HourglassOutlined } from '@ant-design/icons'
 
 import Header from '../components/header/Header'
@@ -237,11 +246,20 @@ const HomePage = () => {
             <Col
               xs={{ span: 24, order: 2 }}
               sm={{ span: 12, order: 1 }}
-              lg={{ span: 6 }}
+              lg={{ span: 6, order: 1 }}
             >
               <Title level={3}>Ordenar por</Title>
               <List
                 size="small"
+                grid={{
+                  gutter: 16,
+                  xs: 3,
+                  sm: 2,
+                  md: 1,
+                  lg: 1,
+                  xl: 1,
+                  xxl: 1,
+                }}
                 dataSource={CategoriesWithProductsData?.data}
                 renderItem={(item: any) => (
                   <List.Item>
@@ -259,14 +277,23 @@ const HomePage = () => {
             <Col
               xs={{ span: 24, order: 1 }}
               sm={{ span: 12, order: 2 }}
-              lg={{ span: 6 }}
+              lg={{ span: 6, order: 2 }}
             >
-              Espacio publicitario
+              <div
+                style={{
+                  display: 'block',
+                  width: '100%',
+                  height: '200px',
+                  backgroundColor: '#ccc',
+                }}
+              >
+                Espacio Publicitario
+              </div>
             </Col>
             <Col
               xs={{ span: 24, order: 3 }}
               sm={{ span: 24, order: 3 }}
-              lg={{ span: 12 }}
+              lg={{ span: 12, order: 3 }}
             >
               <Row gutter={[16, 16]}>
                 {filterProductsByCategory?.data.map((product: any) => {
@@ -274,6 +301,8 @@ const HomePage = () => {
                     <Col
                       xs={{ span: 12 }}
                       sm={{ span: 8 }}
+                      lg={{ span: 12 }}
+                      xl={{ span: 8 }}
                       key={product.attributes.slug}
                     >
                       <ProductDefault product={product}></ProductDefault>
