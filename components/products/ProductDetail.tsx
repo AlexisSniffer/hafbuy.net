@@ -93,8 +93,6 @@ const ProductDetail = ({ product }: ProductType) => {
     })
   }
 
-  let carouselRef = useRef<CarouselRef>()
-
   useEffect(() => {}, [])
 
   const onFinish = (values: any) => {
@@ -137,10 +135,15 @@ const ProductDetail = ({ product }: ProductType) => {
     )
   }
 
+  const carouselRef = useRef<CarouselRef>(null)
+  const goTo = (slide: any) => {
+    carouselRef.current?.goTo(slide, false)
+  }
+
   return (
     <Row gutter={16}>
       <Col xs={24} md={12}>
-        <Carousel autoplay draggable pauseOnHover ref={(ref) => carouselRef}>
+        <Carousel ref={carouselRef} autoplay draggable pauseOnHover dots>
           {product.attributes.images.data.map((image: MediaType) => {
             return (
               <img
@@ -159,6 +162,7 @@ const ProductDetail = ({ product }: ProductType) => {
               return (
                 <Col span={6} key={image.attributes.url}>
                   <img
+                    onClick={() => goTo(index)}
                     src={image.attributes.url}
                     alt={image.attributes.alternativeText}
                     width={'100%'}

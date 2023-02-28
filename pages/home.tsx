@@ -247,6 +247,7 @@ const HomePage = () => {
               xs={{ span: 24, order: 2 }}
               sm={{ span: 12, order: 1 }}
               lg={{ span: 6, order: 1 }}
+              style={{ backgroundColor: '#fff', padding: '0 1rem' }}
             >
               <Title level={3}>Ordenar por</Title>
               <List
@@ -281,6 +282,7 @@ const HomePage = () => {
             >
               <div
                 style={{
+                  padding: '2rem',
                   display: 'block',
                   width: '100%',
                   minHeight: '200px',
