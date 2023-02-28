@@ -242,7 +242,7 @@ const HomePage = () => {
 
       <section className={styles['section-filter']}>
         <Container>
-          <Row>
+          <Row gutter={[16, 16]}>
             <Col
               xs={{ span: 24, order: 2 }}
               sm={{ span: 12, order: 1 }}
@@ -283,7 +283,7 @@ const HomePage = () => {
                 style={{
                   display: 'block',
                   width: '100%',
-                  height: '200px',
+                  height: '100%',
                   backgroundColor: '#ccc',
                 }}
               >
