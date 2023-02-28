@@ -20,8 +20,7 @@ export default function ProductDefault({ product }: ProductType) {
     else if (window.innerWidth >= 576 && window.innerWidth < 768) return '90%'
     else if (window.innerWidth >= 768 && window.innerWidth < 992) return '80%'
     else if (window.innerWidth >= 992 && window.innerWidth < 1200) return '75%'
-    else if (window.innerWidth >= 1200 && window.innerWidth < 5716006)
-      return '65%'
+    else if (window.innerWidth >= 1200 && window.innerWidth < 1600) return '65%'
     else if (window.innerWidth >= 1600) return '65%'
     else return '100%'
   }

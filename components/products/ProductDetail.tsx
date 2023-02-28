@@ -101,6 +101,7 @@ const ProductDetail = ({ product }: ProductType) => {
     let price: number
     let name: string
     let slug: string
+    let detail: string = ''
 
     if (product.attributes.variants.length > 0) {
       const nameVariant = Object.entries(selectedVariant.variant)
@@ -112,6 +113,7 @@ const ProductDetail = ({ product }: ProductType) => {
       price = selectedVariant.isDiscount
         ? selectedVariant.discount
         : selectedVariant.price
+      detail = `[${nameVariant}]`
     } else {
       name = product.attributes.name
       slug = product.attributes.slug
@@ -130,6 +132,7 @@ const ProductDetail = ({ product }: ProductType) => {
           price: price,
           subtotal: price * qty,
           image: product.attributes.images.data[0].attributes.url,
+          detail: detail,
         },
       })
     )
@@ -141,7 +144,7 @@ const ProductDetail = ({ product }: ProductType) => {
   }
 
   return (
-    <Row gutter={16}>
+    <Row gutter={[16, 16]}>
       <Col xs={24} md={12}>
         <Carousel ref={carouselRef} autoplay draggable pauseOnHover dots>
           {product.attributes.images.data.map((image: MediaType) => {

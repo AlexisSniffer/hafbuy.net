@@ -85,6 +85,7 @@ const CheckoutContent = () => {
                 price: product.product.price,
                 qty: product.product.qty,
                 product: product.product.id,
+                detail: product.product.detail,
               },
             }),
           }

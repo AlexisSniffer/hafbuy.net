@@ -43,5 +43,6 @@ export type ProductCartType = {
     price: number
     subtotal: number
     image: string
+    detail: string
   }
 }
