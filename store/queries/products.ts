@@ -168,3 +168,33 @@ export const qsfilterProductsByCategory = (filter: any) => {
     }
   )
 }
+
+// filter by categories root
+export const qsfilterProductsByCategoryRoot = (filter: any) => {
+  return qs.stringify(
+    {
+      pagination: {
+        page: 1,
+        pageSize: filter.pagination,
+      },
+      populate: {
+        ...populateProduct,
+        subcategories: {
+          category: true,
+        },
+      },
+      filters: {
+        subcategories: {
+          category: {
+            slug: {
+              $eq: filter.slug,
+            },
+          },
+        },
+      },
+    },
+    {
+      encodeValuesOnly: true,
+    }
+  )
+}

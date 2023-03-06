@@ -1,9 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import useSWR from 'swr'
 import { Alert, Carousel, Empty, Skeleton, Typography } from 'antd'
 
-import { qsCategories } from '../../../store/queries/categories'
 import styles from '../../../styles/Home.module.scss'
 
 interface Category {
@@ -13,7 +11,6 @@ interface Category {
 }
 
 const { Title } = Typography
-const fetcher = (url: string) => fetch(url).then((res) => res.json())
 const responsive = [
   {
     breakpoint: 480,
@@ -73,14 +70,13 @@ const CategorySlider = (category: Category) => {
   )
 }
 
-const CategoriesSlider = () => {
-  const { data, error } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/categories?${qsCategories()}`,
-    fetcher
-  )
-
+const CategoriesSlider = ({ data, error }: any) => {
   if (error) {
     return <Alert message="Error al cargar" type="error" />
+  }
+
+  if (!data) {
+    return <Skeleton />
   }
 
   if ((data?.data?.length ?? 0) === 0) {
@@ -97,24 +93,20 @@ const CategoriesSlider = () => {
       autoplay={true}
       responsive={responsive}
     >
-      {data ? (
-        data.data.map((category: any) => {
-          return (
-            <CategorySlider
-              key={category.attributes.slug}
-              name={category.attributes.name}
-              slug={category.attributes.slug}
-              image={
-                category.attributes.thumbnail.data != null
-                  ? category.attributes.thumbnail.data.attributes.url
-                  : null
-              }
-            />
-          )
-        })
-      ) : (
-        <Skeleton />
-      )}
+      {data.data.map((category: any) => {
+        return (
+          <CategorySlider
+            key={category.attributes.slug}
+            name={category.attributes.name}
+            slug={category.attributes.slug}
+            image={
+              category.attributes.thumbnail.data != null
+                ? category.attributes.thumbnail.data.attributes.url
+                : null
+            }
+          />
+        )
+      })}
     </Carousel>
   )
 }

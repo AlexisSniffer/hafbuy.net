@@ -21,7 +21,23 @@ export const qsCategories = () => {
   return qs.stringify(
     {
       fields: ['name', 'slug'],
-      populate: ['subcategories', 'thumbnail'],
+      populate: {
+        subcategories: {
+          populate: {
+            products: true,
+          },
+        },
+        thumbnail: true,
+      },
+      filters: {
+        subcategories: {
+          products: {
+            id: {
+              $notNull: true,
+            },
+          },
+        },
+      },
     },
     {
       encodeValuesOnly: true,

@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react'
 import useSWR from 'swr'
-import { Layout } from 'antd'
+import { Col, Layout, Row } from 'antd'
 
 import styles from '../styles/Home.module.scss'
 import Header from '../components/header/Header'
@@ -9,34 +8,36 @@ import CoverSlider from '../components/partials/home/CoverSlider'
 import CategoriesSlider from '../components/partials/home/CategoriesSlider'
 import FilterProductsUntil from '../components/partials/home/FilterProductsUntil'
 import FilterProductsSortBy from '../components/partials/home/FilterProductsSortBy'
+import { qsCategories } from '../store/queries/categories'
+import FilterProductsOne from '../components/partials/home/FilterProductsOne'
+import FilterProductsTwo from '../components/partials/home/FilterProductsTwo'
 
 const { Content, Footer } = Layout
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 const HomePage = () => {
+  const { data: categories, error: categoriesError } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/categories?${qsCategories()}`,
+    fetcher
+  )
+
   return (
     <>
       <Container className={styles['section-sliders']}>
         <CoverSlider />
-        <CategoriesSlider />
+        <CategoriesSlider data={categories} error={categoriesError} />
       </Container>
 
       <FilterProductsUntil />
       <FilterProductsSortBy />
-
-      <section>
-        <Container>
-          {/* {setInterval(() => {
-            return (
-              <pre>
-                {Math.floor(
-                  Math.random() * CategoriesData?.meta.pagination.total
-                )}
-              </pre>
-            )
-          }, 100)} */}
-        </Container>
-      </section>
+      <FilterProductsOne
+        categories={categories}
+        categoriesError={categoriesError}
+      />
+      <FilterProductsTwo
+        categories={categories}
+        categoriesError={categoriesError}
+      />
     </>
   )
 }
@@ -46,7 +47,7 @@ HomePage.getLayout = function getLayout(page: any) {
     <Layout>
       <Header />
       <Content>{page}</Content>
-      <Footer>footer</Footer>
+      <Footer>Hafbuy. © 2023. All Rights Reserved</Footer>
     </Layout>
   )
 }

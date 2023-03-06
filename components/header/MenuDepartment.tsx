@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import { Button, Dropdown, MenuProps } from 'antd'
+import { Alert, Button, Dropdown, MenuProps } from 'antd'
 import { MenuOutlined } from '@ant-design/icons'
 
 import { qsCategories } from '../../store/queries/categories'
@@ -25,6 +25,14 @@ const MenuDepartment = () => {
     `${process.env.NEXT_PUBLIC_API_URL}/api/categories?${qsCategories()}`,
     fetcher
   )
+
+  if (error) {
+    return <Alert message="Error al cargar" type="error" />
+  }
+
+  if ((data?.data?.length ?? 0) === 0) {
+    return <></>
+  }
 
   const items: MenuProps['items'] =
     data != null
