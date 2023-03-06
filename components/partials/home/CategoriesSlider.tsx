@@ -86,7 +86,7 @@ const CategoriesSlider = ({ data, error }: any) => {
   return (
     <Carousel
       style={{ marginTop: '1rem' }}
-      slidesToShow={8}
+      slidesToShow={data?.data?.length < 8 ? data?.data?.length : 8}
       draggable={true}
       infinite={true}
       dots={false}
