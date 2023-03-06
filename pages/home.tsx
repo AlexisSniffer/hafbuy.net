@@ -46,7 +46,7 @@ HomePage.getLayout = function getLayout(page: any) {
   return (
     <Layout>
       <Header />
-      <Content>{page}</Content>
+      <Content style={{ paddingBottom: 0 }}>{page}</Content>
       <Footer>Hafbuy. © 2023. All Rights Reserved</Footer>
     </Layout>
   )

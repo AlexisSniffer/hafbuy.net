@@ -16,7 +16,7 @@ const MainLayout = ({ children }: any) => {
             <Container>{children}</Container>
           </Content>
         </Layout>
-        <Footer>footer</Footer>
+        <Footer>Hafbuy. © 2023. All Rights Reserved</Footer>
       </Layout>
     </>
   )
