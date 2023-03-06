@@ -3,6 +3,7 @@ import { Col, Layout, Row } from 'antd'
 
 import styles from '../styles/Home.module.scss'
 import Header from '../components/header/Header'
+import Footer from '../components/footer/Footer'
 import Container from '../components/Container'
 import CoverSlider from '../components/partials/home/CoverSlider'
 import CategoriesSlider from '../components/partials/home/CategoriesSlider'
@@ -12,7 +13,7 @@ import { qsCategories } from '../store/queries/categories'
 import FilterProductsOne from '../components/partials/home/FilterProductsOne'
 import FilterProductsTwo from '../components/partials/home/FilterProductsTwo'
 
-const { Content, Footer } = Layout
+const { Content } = Layout
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 const HomePage = () => {
@@ -47,7 +48,7 @@ HomePage.getLayout = function getLayout(page: any) {
     <Layout>
       <Header />
       <Content style={{ paddingBottom: 0 }}>{page}</Content>
-      <Footer>Hafbuy. © 2023. All Rights Reserved</Footer>
+      <Footer />
     </Layout>
   )
 }

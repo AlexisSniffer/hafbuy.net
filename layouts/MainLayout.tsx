@@ -3,8 +3,9 @@ import { Layout } from 'antd'
 
 import Header from '../components/header/Header'
 import Container from '../components/Container'
+import Footer from '../components/footer/Footer'
 
-const { Content, Footer } = Layout
+const { Content } = Layout
 
 const MainLayout = ({ children }: any) => {
   return (
@@ -16,7 +17,7 @@ const MainLayout = ({ children }: any) => {
             <Container>{children}</Container>
           </Content>
         </Layout>
-        <Footer>Hafbuy. © 2023. All Rights Reserved</Footer>
+        <Footer />
       </Layout>
     </>
   )
