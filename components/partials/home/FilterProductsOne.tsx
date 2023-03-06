@@ -77,7 +77,7 @@ const FilterProductsOne = ({ categories, categoriesError }: any) => {
         </Row>
         <br />
         <Row>
-          <Col>
+          <Col span={12}>
             <List
               size="small"
               grid={{
