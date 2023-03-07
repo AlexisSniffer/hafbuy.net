@@ -3,6 +3,7 @@ import Link from 'next/link'
 
 import styles from '../../styles/Footer.module.scss'
 import Container from '../Container'
+import Social from '../Social'
 
 const { Footer } = Layout
 const { Title } = Typography
@@ -18,8 +19,8 @@ const FooterHome = () => {
   return (
     <Footer>
       <Container>
-        <Row>
-          <Col>
+        <Row justify={'space-between'}>
+          <Col xs={24} sm={12} md={8} lg={6}>
             <Title level={5}>Nosotros</Title>
             <List
               size="small"
@@ -30,6 +31,10 @@ const FooterHome = () => {
                 </List.Item>
               )}
             ></List>
+          </Col>
+          <Col xs={24} sm={12} md={8} lg={6}>
+            <Title level={5}>Redes Sociales</Title>
+            <Social size="large" />
           </Col>
         </Row>
         <Divider />
