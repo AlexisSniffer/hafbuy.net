@@ -45,14 +45,14 @@ const Terms = () => {
           tipos de información acerca de tu uso de SERVICIO HAFBUY que incluye
           la información sobre tu interacción con el contenido y los servicios
           disponibles a través de SERVICIO HAFBUY. Al igual que muchos sitios
-          web, utilizamos "cookies" y otros identi cadores únicos, y obtenemos
-          ciertos tipos de información cuando su navegador web o dispositivo
-          accede a SERVICIO HAFBUY y a otro contenido servido por HAFBUY o en su
-          nombre en otros sitios web Información de otras fuentes: Es posible
-          que recibamos información sobre usted de otras fuentes, como
-          información actualizada de entrega y dirección de nuestros
-          transportistas, que usamos para corregir nuestros registros y entregar
-          su próxima compra más fácilment
+          web, utilizamos &quot;cookies&quot; y otros identi cadores únicos, y
+          obtenemos ciertos tipos de información cuando su navegador web o
+          dispositivo accede a SERVICIO HAFBUY y a otro contenido servido por
+          HAFBUY o en su nombre en otros sitios web Información de otras
+          fuentes: Es posible que recibamos información sobre usted de otras
+          fuentes, como información actualizada de entrega y dirección de
+          nuestros transportistas, que usamos para corregir nuestros registros y
+          entregar su próxima compra más fácilment
         </Paragraph>
         <Title level={2}>
           ¿Porque , y Con qué nes utiliza HAFBUY su información personal?
