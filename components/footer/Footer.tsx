@@ -11,7 +11,15 @@ const { Title } = Typography
 const about = [
   {
     name: 'Términos y Condiciones',
-    link: '/terms',
+    link: '/docs/terms',
+  },
+  {
+    name: 'Política y Privacidad',
+    link: '/docs/policy',
+  },
+  {
+    name: 'Tarifas',
+    link: '/docs/rates',
   },
 ]
 
