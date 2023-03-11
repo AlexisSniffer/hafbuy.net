@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import useSWR from 'swr'
 import { Form, Input, Select, Spin } from 'antd'
 
-import { qsCategoriesRoot } from '../../store/queries/categories'
+import { qsCategories } from '../../store/queries/categories'
 import { qsMaxPrice } from '../../store/queries/products'
 import {
   setPage,
@@ -38,7 +38,7 @@ const categorySelect = (data: any) => {
 
 const SearchForm = () => {
   const { data, error } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/categories?${qsCategoriesRoot}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/categories?${qsCategories()}`,
     fetcher
   )
 
