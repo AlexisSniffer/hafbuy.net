@@ -8,6 +8,7 @@ export interface SearchProductsState {
   pageSize: number
   filter: string
   categories: string[]
+  subcategories: string[]
   prices: [number, number]
   query: string
 }
@@ -17,8 +18,9 @@ const initialState: SearchProductsState = {
   pageSize: 10,
   filter: '',
   categories: [],
+  subcategories: [],
   prices: [0, 20000],
-  query: qsProducts(1, 10, '', [], [0, 20000]),
+  query: qsProducts(1, 10, '', [], [], [0, 20000]),
 }
 
 export const searchProductsSlice = createSlice({
@@ -37,6 +39,7 @@ export const searchProductsSlice = createSlice({
       state.filter = action.payload
     },
 
+    // categories
     addCategory(state, action: PayloadAction<string>) {
       state.categories.push(action.payload)
     },
@@ -51,6 +54,21 @@ export const searchProductsSlice = createSlice({
       state.categories = []
     },
 
+    // subcategories
+    addSubCategory(state, action: PayloadAction<string>) {
+      state.subcategories.push(action.payload)
+    },
+
+    removeSubCategory(state, action: PayloadAction<string>) {
+      state.subcategories = state.subcategories.filter((subcategory) => {
+        return subcategory != action.payload
+      })
+    },
+
+    clearSubCategories(state) {
+      state.subcategories = []
+    },
+
     setPrice(state, action: PayloadAction<[number, number]>) {
       state.prices = action.payload
     },
@@ -61,6 +79,7 @@ export const searchProductsSlice = createSlice({
         state.pageSize,
         state.filter,
         state.categories,
+        state.subcategories,
         state.prices
       )
     },
@@ -75,6 +94,9 @@ export const {
   addCategory,
   removeCategory,
   clearCategories,
+  addSubCategory,
+  removeSubCategory,
+  clearSubCategories,
   setPrice,
   setQuery,
 } = searchProductsSlice.actions

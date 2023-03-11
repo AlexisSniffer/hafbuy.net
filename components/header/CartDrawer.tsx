@@ -44,7 +44,7 @@ const CartToggle = () => {
         title="Carrito de Compra"
         placement="right"
         size="default"
-        closable={false}
+        closable={true}
         onClose={showDrawer}
         open={open}
         className="drawer-car"

@@ -1,8 +1,18 @@
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import useSWR from 'swr'
+import { useDispatch } from 'react-redux'
 import { Alert, Button, Dropdown, MenuProps } from 'antd'
 import { MenuOutlined } from '@ant-design/icons'
 
 import { qsCategories } from '../../store/queries/categories'
+import {
+  addSubCategory,
+  clearSubCategories,
+  setPage,
+  setPageSize,
+  setQuery,
+} from '../../store/searchProductsSlice'
 
 type DepartmentProps = {
   name: string
@@ -17,7 +27,26 @@ const Department = (props: DepartmentProps) => {
 }
 
 const SubDepartment = (props: DepartmentProps) => {
-  return <span>{props.name}</span>
+  const dispatch = useDispatch()
+  const router = useRouter()
+
+  return (
+    <span>
+      <Link
+        href="/shop"
+        style={{ color: 'rgba(0, 0, 0, 0.88)' }}
+        onClick={() => {
+          dispatch(clearSubCategories())
+          dispatch(addSubCategory(props.slug!))
+          dispatch(setPage(1))
+          dispatch(setPageSize(10))
+          dispatch(setQuery())
+        }}
+      >
+        {props.slug}
+      </Link>
+    </span>
+  )
 }
 
 const MenuDepartment = () => {
@@ -52,7 +81,10 @@ const MenuDepartment = () => {
                       return {
                         key: subcategory.attributes.slug,
                         label: (
-                          <SubDepartment name={subcategory.attributes.name} />
+                          <SubDepartment
+                            name={subcategory.attributes.name}
+                            slug={subcategory.attributes.slug}
+                          />
                         ),
                       }
                     }

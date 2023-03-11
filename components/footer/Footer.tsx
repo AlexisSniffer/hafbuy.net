@@ -35,7 +35,9 @@ const FooterHome = () => {
               dataSource={about}
               renderItem={(item: any) => (
                 <List.Item>
-                  <Link href={item.link}>{item.name}</Link>
+                  <Link style={{ color: '#222529' }} href={item.link}>
+                    {item.name}
+                  </Link>
                 </List.Item>
               )}
             ></List>

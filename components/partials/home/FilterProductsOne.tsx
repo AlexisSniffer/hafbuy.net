@@ -1,11 +1,19 @@
 import Link from 'next/link'
 import useSWR from 'swr'
+import { useDispatch } from 'react-redux'
 import { Alert, Col, List, Row, Typography } from 'antd'
 
 import styles from '../../../styles/Home.module.scss'
 import Container from '../../Container'
 import ProductDefault from '../../products/ProductDefault'
 import { qsfilterProductsByCategoryRoot } from '../../../store/queries/products'
+import {
+  addSubCategory,
+  clearSubCategories,
+  setPage,
+  setPageSize,
+  setQuery,
+} from '../../../store/searchProductsSlice'
 
 const { Title } = Typography
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
@@ -16,6 +24,7 @@ const selectCategory = (categories: any) => {
 }
 
 const FilterProductsOne = ({ categories, categoriesError }: any) => {
+  const dispatch = useDispatch()
   const category = selectCategory(categories)
 
   const { data, error } = useSWR(
@@ -92,7 +101,19 @@ const FilterProductsOne = ({ categories, categoriesError }: any) => {
               dataSource={category!.attributes.subcategories.data}
               renderItem={(item: any) => (
                 <List.Item>
-                  <Link href="/shop">{item.attributes.name}</Link>
+                  <Link
+                    style={{ color: '#777' }}
+                    href="/shop"
+                    onClick={() => {
+                      dispatch(clearSubCategories())
+                      dispatch(addSubCategory(item.attributes.slug))
+                      dispatch(setPage(1))
+                      dispatch(setPageSize(10))
+                      dispatch(setQuery())
+                    }}
+                  >
+                    {item.attributes.name}
+                  </Link>
                 </List.Item>
               )}
             ></List>

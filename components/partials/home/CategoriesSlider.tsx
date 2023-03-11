@@ -1,8 +1,16 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { useDispatch } from 'react-redux'
 import { Alert, Carousel, Empty, Skeleton, Typography } from 'antd'
 
 import styles from '../../../styles/Home.module.scss'
+import {
+  addCategory,
+  clearCategories,
+  setPage,
+  setPageSize,
+  setQuery,
+} from '../../../store/searchProductsSlice'
 
 interface Category {
   name: string
@@ -45,10 +53,21 @@ const responsive = [
 ]
 
 const CategorySlider = (category: Category) => {
+  const dispatch = useDispatch()
+
   return (
-    <div>
-      <Link href={'/'} className={styles['category-slider']}>
-        {category.image ? (
+    <div className={styles['category-slider']}>
+      {category.image ? (
+        <Link
+          href="/shop"
+          onClick={() => {
+            dispatch(clearCategories())
+            dispatch(addCategory(category.slug))
+            dispatch(setPage(1))
+            dispatch(setPageSize(10))
+            dispatch(setQuery())
+          }}
+        >
           <figure>
             <Image
               alt="category"
@@ -57,15 +76,15 @@ const CategorySlider = (category: Category) => {
               height={128}
             />
           </figure>
-        ) : (
-          <div className={styles['category-slider']}>
-            <figure>
-              <div className={styles['category-slider-no-image']}></div>
-            </figure>
-          </div>
-        )}
-        <Title level={5}>{category.name}</Title>
-      </Link>
+        </Link>
+      ) : (
+        <div className={styles['category-slider']}>
+          <figure>
+            <div className={styles['category-slider-no-image']}></div>
+          </figure>
+        </div>
+      )}
+      <Title level={5}>{category.name}</Title>
     </div>
   )
 }

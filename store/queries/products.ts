@@ -20,6 +20,7 @@ export const qsProducts = (
   pageSize: number,
   filter: string,
   categories: string[],
+  subcategories: string[],
   prices: [number, number]
 ) => {
   return qs.stringify(
@@ -47,7 +48,7 @@ export const qsProducts = (
           {
             subcategories: {
               slug: {
-                $in: categories,
+                $in: subcategories,
               },
             },
           },

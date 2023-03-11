@@ -17,10 +17,11 @@ import { qsMaxPrice } from '../../store/queries/products'
 import {
   setPage,
   setPageSize,
-  addCategory,
-  removeCategory,
+  addSubCategory,
+  removeSubCategory,
   setPrice,
   setQuery,
+  removeCategory,
 } from '../../store/searchProductsSlice'
 
 const { Panel } = Collapse
@@ -35,10 +36,11 @@ export const FilterCategories = () => {
   )
 
   const onFilter = (e: CheckboxChangeEvent) => {
+    dispatch(removeCategory)
     dispatch(
       e.target.checked
-        ? addCategory(e.target.value)
-        : removeCategory(e.target.value)
+        ? addSubCategory(e.target.value)
+        : removeSubCategory(e.target.value)
     )
     dispatch(setPage(1))
     dispatch(setPageSize(10))
@@ -72,7 +74,7 @@ export const FilterCategories = () => {
                   <Checkbox
                     value={category.attributes.slug}
                     key={category.attributes.slug}
-                    checked={filters.categories.includes(
+                    checked={filters.subcategories.includes(
                       category.attributes.slug
                     )}
                     onChange={onFilter}

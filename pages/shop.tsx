@@ -58,7 +58,7 @@ const ShopPage = () => {
         <Drawer
           title="Filtros"
           placement="left"
-          closable={false}
+          closable={true}
           onClose={showDrawer}
           open={open}
           key="filters"
@@ -84,7 +84,7 @@ const ShopPage = () => {
         ) : (
           <>
             {data.data.length > 0 ? (
-              <Space direction="vertical">
+              <div>
                 <Row gutter={[16, 16]}>
                   {data.data.map((product: any) => {
                     return (
@@ -120,7 +120,7 @@ const ShopPage = () => {
                     />
                   </Col>
                 </Row>
-              </Space>
+              </div>
             ) : (
               <Alert
                 showIcon
