@@ -43,7 +43,7 @@ const SubDepartment = (props: DepartmentProps) => {
           dispatch(setQuery())
         }}
       >
-        {props.slug}
+        {props.name}
       </Link>
     </span>
   )
