@@ -43,11 +43,24 @@ export const qsProducts = (
         name: {
           $containsi: filter,
         },
-        subcategories: {
-          slug: {
-            $in: categories,
+        $or: [
+          {
+            subcategories: {
+              slug: {
+                $in: categories,
+              },
+            },
           },
-        },
+          {
+            subcategories: {
+              category: {
+                slug: {
+                  $in: categories,
+                },
+              },
+            },
+          },
+        ],
         price: {
           $between: prices,
         },
