@@ -8,7 +8,7 @@ const Terms = () => {
         <Col span={24}>
           <iframe
             style={{ width: '100%', height: '600px' }}
-            src="http://hafbuy.net/terminosycondiciones.pdf"
+            src="https://hafbuy.net/terminosycondiciones.pdf"
           />
         </Col>
       </Row>

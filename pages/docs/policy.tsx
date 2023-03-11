@@ -8,7 +8,7 @@ const Policy = () => {
         <Col span={24}>
           <iframe
             style={{ width: '100%', height: '600px' }}
-            src="http://hafbuy.net/politicayprivacidad.pdf"
+            src="https://hafbuy.net/politicayprivacidad.pdf"
           />
         </Col>
       </Row>
