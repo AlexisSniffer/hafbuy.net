@@ -55,7 +55,7 @@ const FilterProductsTwo = ({ categories, categoriesError }: any) => {
       >
         <Title level={3}>{category!.attributes.name}</Title>
         <Row>
-          <Col span={12}>
+          <Col xs={{ span: 24 }} lg={{ span: 12 }}>
             <List
               size="small"
               grid={{
