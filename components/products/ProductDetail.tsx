@@ -238,8 +238,10 @@ const ProductDetail = ({ product }: ProductType) => {
           </p>
 
           <p>
-            VENDEDOR: <Link href="vendor/jhondoe">Jhon Doe</Link>
+            {`VENDEDOR: ${product.attributes.createdBy.firstname} ${product.attributes.createdBy.lastname}`}
           </p>
+
+          <p>{`TIEMPO DE ENTREGA: ${product.attributes.deliveryTime ?? ''}`}</p>
 
           {product.attributes.variants.length > 0 ? (
             <Space direction="vertical">

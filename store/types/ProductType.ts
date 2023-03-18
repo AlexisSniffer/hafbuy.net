@@ -23,6 +23,8 @@ export type ProductType = {
       stock: number
       until: Date
       ratings: number
+      deliveryTime: string
+      createdBy: any
       subcategories: {
         data: CategoryType[]
       }
