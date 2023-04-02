@@ -1,28 +1,28 @@
 import { Carousel } from 'antd'
+import Image from 'next/image'
 
 const sliderStyle: React.CSSProperties = {
+  width: '100%',
+  height: 'auto',
   margin: 0,
-  height: '350px',
   color: '#fff',
-  lineHeight: '160px',
-  textAlign: 'center',
-  background: '#364d79',
+  display: 'flex',
+  justifyContent: 'center',
+  background: '#1677ff',
 }
 
 const CoverSlider = () => {
   return (
     <Carousel autoplay={true}>
       <div>
-        <h3 style={sliderStyle}>Espacio Publicitario #1</h3>
+        <div style={sliderStyle}>
+          <img src="/images/image0.jpeg" alt="publicidad-1" />
+        </div>
       </div>
       <div>
-        <h3 style={sliderStyle}>Espacio Publicitario #2</h3>
-      </div>
-      <div>
-        <h3 style={sliderStyle}>Espacio Publicitario #3</h3>
-      </div>
-      <div>
-        <h3 style={sliderStyle}>Espacio Publicitario #4</h3>
+        <div style={sliderStyle}>
+          <img src="/images/image1.jpeg" alt="publicidad-2" />
+        </div>
       </div>
     </Carousel>
   )
