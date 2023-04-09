@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { Button, Card, Modal, Rate, Space } from 'antd'
 import Link from 'next/link'
+import { useDispatch } from 'react-redux'
+import { Button, Card, Modal, Rate, Space, Typography } from 'antd'
 
 import ProductDetail from './ProductDetail'
 import { addProduct } from '../../store/shoppingCartSlice'
@@ -10,6 +10,8 @@ import styles from '../../styles/ProductDefault.module.scss'
 import { ArrowRightOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import { money } from '../../utils/formatters'
 import { valMinMax } from '../../utils/valMinMax'
+
+const { Title } = Typography
 
 export default function ProductDefault({ product }: ProductType) {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -120,13 +122,11 @@ export default function ProductDefault({ product }: ProductType) {
         )}
       </span>
 
-      <h3
-        className={styles['product-default-title']}
-        onClick={showModal}
-        style={{ cursor: 'pointer' }}
-      >
-        {product.attributes.name}
-      </h3>
+      <Link href={`/products/${product.attributes.slug}`}>
+        <Title level={5} className={styles['product-default-title']}>
+          {product.attributes.name}
+        </Title>
+      </Link>
 
       <Rate disabled style={{ fontSize: '1rem' }}></Rate>
 

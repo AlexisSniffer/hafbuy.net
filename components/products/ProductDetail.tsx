@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
 import Link from 'next/link'
+import { useDispatch } from 'react-redux'
 import {
   Button,
   Carousel,
@@ -12,6 +12,7 @@ import {
   Rate,
   Row,
   Space,
+  Typography,
 } from 'antd'
 import { CarouselRef } from 'antd/es/carousel'
 
@@ -23,6 +24,8 @@ import styles from '../../styles/ProductDetail.module.scss'
 import Social from '../Social'
 import ProductVariants from './ProductVariants'
 import { valMinMax } from '../../utils/valMinMax'
+
+const { Title } = Typography
 
 const ProductDetail = ({ product }: ProductType) => {
   const allVariantOptions = product.attributes.variants?.map((variant) => {
@@ -181,9 +184,12 @@ const ProductDetail = ({ product }: ProductType) => {
       <Col xs={24} md={12}>
         <section className={styles['product-detail']}>
           <Space direction="vertical">
-            <h1 className={styles['product-detail-title']}>
-              {product.attributes.name}
-            </h1>
+            <Link href={`/products/${product.attributes.slug}`}>
+              <Title level={1} className={styles['product-detail-title']}>
+                {product.attributes.name}
+              </Title>
+            </Link>
+
             <Space>
               <Rate disabled style={{ fontSize: '1rem' }}></Rate> (0 Reseñas)
             </Space>

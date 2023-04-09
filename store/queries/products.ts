@@ -212,3 +212,25 @@ export const qsfilterProductsByCategoryRoot = (filter: any) => {
     }
   )
 }
+
+// filter product by slug
+export const qsfilterProductsBySlug = (filter: any) => {
+  return qs.stringify(
+    {
+      populate: {
+        ...populateProduct,
+        subcategories: {
+          category: true,
+        },
+      },
+      filters: {
+        slug: {
+          $eq: filter.slug,
+        },
+      },
+    },
+    {
+      encodeValuesOnly: true,
+    }
+  )
+}
