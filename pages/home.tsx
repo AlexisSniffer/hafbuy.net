@@ -39,6 +39,14 @@ const HomePage = () => {
         categories={categories}
         categoriesError={categoriesError}
       />
+      <FilterProductsOne
+        categories={categories}
+        categoriesError={categoriesError}
+      />
+      <FilterProductsTwo
+        categories={categories}
+        categoriesError={categoriesError}
+      />
     </>
   )
 }
