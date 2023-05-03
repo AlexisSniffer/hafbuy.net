@@ -29,7 +29,7 @@ const Social = (props: SocialProps) => {
   return (
     <article className={className}>
       <Link
-        href="https://www.facebook.com/HafBuy-101057821401440/"
+        href="https://www.facebook.com/profile.php?id=100066751616477&mibextid=LQQJ4d"
         className={`${styles['social-icon']} ${styles['social-icon-facebook']}`}
       >
         <FacebookFilled />
