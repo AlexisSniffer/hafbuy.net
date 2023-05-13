@@ -234,3 +234,15 @@ export const qsfilterProductsBySlug = (filter: any) => {
     }
   )
 }
+
+// filter brands
+export const qsFilterBrands = () => {
+  return qs.stringify(
+    {
+      filters: {},
+    },
+    {
+      encodeValuesOnly: true,
+    }
+  )
+}

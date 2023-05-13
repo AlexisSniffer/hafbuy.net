@@ -12,6 +12,7 @@ import FilterProductsSortBy from '../components/partials/home/FilterProductsSort
 import { qsCategories } from '../store/queries/categories'
 import FilterProductsOne from '../components/partials/home/FilterProductsOne'
 import FilterProductsTwo from '../components/partials/home/FilterProductsTwo'
+import FilterBrand from '../components/partials/home/FilterBrand'
 
 const { Content } = Layout
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
@@ -47,6 +48,7 @@ const HomePage = () => {
         categories={categories}
         categoriesError={categoriesError}
       />
+      <FilterBrand />
     </>
   )
 }
