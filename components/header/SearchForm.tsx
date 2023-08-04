@@ -22,12 +22,14 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json())
 const categorySelect = (data: any) => {
   let categoryOptions: any = [{ value: '', label: 'Todos' }]
 
-  data.data.forEach((category: any) => {
-    categoryOptions.push({
-      value: category.attributes.slug,
-      label: category.attributes.name,
+  if (data.data != null) {
+    data.data.forEach((category: any) => {
+      categoryOptions.push({
+        value: category.attributes.slug,
+        label: category.attributes.name,
+      })
     })
-  })
+  }
 
   return (
     <Form.Item name="category" noStyle initialValue="">
