@@ -31,7 +31,7 @@ const FilterProductsUntil = () => {
       }
     >
       <Title level={3}>
-        <HourglassOutlined style={{ marginRight: '0.5rem' }} />
+        <HourglassOutlined style={{ marginRight: '0.5rem' }} rev={undefined} />
         Ofertas Especiales
       </Title>
       {data ? (

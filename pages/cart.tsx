@@ -16,17 +16,17 @@ import styles from '../styles/Cart.module.scss'
 const items = [
   {
     title: 'Carrito',
-    icon: <ShoppingCartOutlined />,
+    icon: <ShoppingCartOutlined rev={undefined} />,
     content: <CartContent />,
   },
   {
     title: 'Verificar',
-    icon: <EyeOutlined />,
+    icon: <EyeOutlined rev={undefined} />,
     content: <CheckoutContent />,
   },
   {
     title: 'Finalizar',
-    icon: <CheckCircleOutlined />,
+    icon: <CheckCircleOutlined rev={undefined} />,
     content: <CompleteContent />,
     disabled: true,
   },

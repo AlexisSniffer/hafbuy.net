@@ -38,7 +38,10 @@ const CartToggle = () => {
   return (
     <>
       <Badge count={qty}>
-        <Button icon={<ShoppingOutlined />} onClick={showDrawer} />
+        <Button
+          icon={<ShoppingOutlined rev={undefined} />}
+          onClick={showDrawer}
+        />
       </Badge>
       <Drawer
         title="Carrito de Compra"

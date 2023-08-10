@@ -33,6 +33,7 @@ const ProductVariants = ({
                 {type === 'color' ? (
                   <FormatPainterFilled
                     style={{ color: value, fontSize: '1rem' }}
+                    rev={undefined}
                   />
                 ) : (
                   value
