@@ -86,9 +86,9 @@ export default function ProductDefault({ product }: ProductType) {
             shape="circle"
             icon={
               product.attributes.variants.length > 0 ? (
-                <ArrowRightOutlined />
+                <ArrowRightOutlined rev={undefined} />
               ) : (
-                <ShoppingCartOutlined />
+                <ShoppingCartOutlined rev={undefined} />
               )
             }
             onClick={

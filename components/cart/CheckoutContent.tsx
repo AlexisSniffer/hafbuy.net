@@ -282,9 +282,10 @@ const CheckoutContent = () => {
               <Divider />
               <h3 className={styles['order-title']}>Métodos de pago</h3>
               <p>
-                <InfoCircleOutlined /> Lo sentimos, parece que no hay métodos de
-                pago disponibles para su estado. Comuníquese con nosotros si
-                necesita ayuda o desea hacer arreglos alternativos.
+                <InfoCircleOutlined rev={undefined} /> Lo sentimos, parece que
+                no hay métodos de pago disponibles para su estado. Comuníquese
+                con nosotros si necesita ayuda o desea hacer arreglos
+                alternativos.
               </p>
               <Button
                 type="primary"

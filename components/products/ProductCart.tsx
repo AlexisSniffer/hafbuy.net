@@ -50,7 +50,7 @@ export default function ProductCart({ product }: ProductCartType) {
               </Link>
               <Button
                 className={styles['product-cart-picture-remove']}
-                icon={<CloseOutlined />}
+                icon={<CloseOutlined rev={undefined} />}
                 shape="circle"
                 size="small"
                 onClick={(event) => dispatch(removeProduct(product.slug))}

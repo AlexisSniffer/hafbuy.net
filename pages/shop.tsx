@@ -52,7 +52,7 @@ const ShopPage = () => {
   return (
     <Row gutter={16}>
       <Col xs={{ span: 24 }} lg={{ span: 0 }}>
-        <Button icon={<FilterOutlined />} onClick={showDrawer}>
+        <Button icon={<FilterOutlined rev={undefined} />} onClick={showDrawer}>
           Filtros
         </Button>
         <Drawer

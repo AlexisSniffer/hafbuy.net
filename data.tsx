@@ -6,12 +6,12 @@ export const menuPages: MenuProps['items'] = [
   {
     label: <Link href="/">Inicio</Link>,
     key: 'home',
-    icon: <HomeOutlined />,
+    icon: <HomeOutlined rev={undefined} />,
   },
   {
     label: <Link href="/shop">Tienda</Link>,
     key: 'shop',
-    icon: <ShoppingOutlined />,
+    icon: <ShoppingOutlined rev={undefined} />,
   },
 ]
 

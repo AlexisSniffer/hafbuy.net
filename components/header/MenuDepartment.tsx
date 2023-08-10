@@ -103,7 +103,11 @@ const MenuDepartment = () => {
       overlayClassName="menu-departament"
     >
       <a onClick={(e) => e.preventDefault()}>
-        <Button type="primary" icon={<MenuOutlined />} size={'large'}>
+        <Button
+          type="primary"
+          icon={<MenuOutlined rev={undefined} />}
+          size={'large'}
+        >
           DEPARTAMENTOS
         </Button>
       </a>

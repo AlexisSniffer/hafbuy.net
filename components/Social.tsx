@@ -32,21 +32,21 @@ const Social = (props: SocialProps) => {
         href="https://www.facebook.com/profile.php?id=100066751616477&mibextid=LQQJ4d"
         className={`${styles['social-icon']} ${styles['social-icon-facebook']}`}
       >
-        <FacebookFilled />
+        <FacebookFilled rev={undefined} />
       </Link>
       <Link
         href="https://www.instagram.com/hafbuy/"
         className={`${styles['social-icon']} ${styles['social-icon-instagram']}`}
         target={'_blank'}
       >
-        <InstagramFilled />
+        <InstagramFilled rev={undefined} />
       </Link>
       <Link
         href="email:info@hafbuy.com"
         className={`${styles['social-icon']} ${styles['social-icon-email']}`}
         target={'_blank'}
       >
-        <MailFilled />
+        <MailFilled rev={undefined} />
       </Link>
     </article>
   )
