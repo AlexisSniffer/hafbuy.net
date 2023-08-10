@@ -1,4 +1,5 @@
 import { Button, Col, Form, Input, Row, Typography, notification } from 'antd'
+import Cookies from 'js-cookie'
 
 import Container from '../components/Container'
 import PageLayout from '../layouts/PageLayout'
@@ -13,7 +14,7 @@ const LoginPage = () => {
   const [api, contextHolder] = notification.useNotification()
 
   const onFinishLogin = async (values: any) => {
-    const login = await fetch(
+    const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local`,
       {
         method: 'POST',
@@ -27,24 +28,23 @@ const LoginPage = () => {
       }
     )
 
-    const { jwt, user } = await login.json()
+    const data = await response.json()
 
-    if (jwt) {
-      localStorage.setItem('token', JSON.stringify(jwt))
-      localStorage.setItem('user', JSON.stringify(user))
-
-      router.push(`user/${user.username}`)
+    if (data.jwt) {
+      Cookies.set('jwt', data.jwt)
+      Cookies.set('user', data.user)
+      router.push(`profile/${data.user.username}`)
     } else {
       api.error({
         message: `Error`,
-        description: 'email o contrasñea inválidos.',
+        description: 'email o contraseña inválidos.',
         placement: 'bottomRight',
       })
     }
   }
 
   const onFinishSignUp = async (values: any) => {
-    const register = await fetch(
+    const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local/register`,
       {
         method: 'POST',
@@ -60,9 +60,9 @@ const LoginPage = () => {
       }
     )
 
-    const user = await register.json()
+    const user = await response.json()
 
-    register.status == 200
+    response.status == 200
       ? api.success({
           message: `Usuario creado correctamente`,
           description: `usuario: ${user.user.username}`,
