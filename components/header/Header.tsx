@@ -63,7 +63,10 @@ const HeaderHome = () => {
                 href={`tel:6523-9438}`}
                 className={styles['header-contact-info']}
               >
-                <PhoneOutlined className={styles['header-contact-info-icon']} />
+                <PhoneOutlined
+                  className={styles['header-contact-info-icon']}
+                  rev={undefined}
+                />
                 <span>6523-9438</span>
               </Link>
 
@@ -73,6 +76,7 @@ const HeaderHome = () => {
               >
                 <WhatsAppOutlined
                   className={styles['header-contact-info-icon']}
+                  rev={undefined}
                 />
                 <span>6250-5218</span>
               </Link>
