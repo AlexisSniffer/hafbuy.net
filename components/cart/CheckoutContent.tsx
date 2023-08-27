@@ -1,4 +1,4 @@
-import { InfoCircleOutlined } from '@ant-design/icons'
+import { InfoCircleOutlined, UploadOutlined } from '@ant-design/icons'
 import {
   Alert,
   Button,
@@ -8,8 +8,11 @@ import {
   Form,
   Input,
   Radio,
+  RadioChangeEvent,
   Row,
   Space,
+  Upload,
+  message,
 } from 'antd'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -40,6 +43,8 @@ const CheckoutContent = () => {
   const dispatch = useDispatch()
   const [form] = Form.useForm()
   const [loading, setLoading] = useState<boolean>(false)
+  const [selectPaymentMethods, setSelectPaymentMethods] = useState<number>(0)
+  const [voucher, setVoucher] = useState<boolean>(false)
 
   const { data, error } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/api/payment-methods`,
@@ -103,7 +108,40 @@ const CheckoutContent = () => {
     )
   }
 
-  const saveOrder = async (billing: any, products: any) => {
+  const saveOrderPayment = async (values: any) => {
+    const formData = new FormData()
+    formData.append('files', values.voucher.file.originFileObj)
+
+    const fetchUpload = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/upload`,
+      {
+        method: 'POST',
+        body: formData,
+      }
+    )
+
+    const responseUpload = await fetchUpload.json()
+
+    const fetchPostOrderPayment = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/orders-payments`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: {
+            voucher: responseUpload[0].id,
+            payment_method: values.paymentMethod,
+          },
+        }),
+      }
+    )
+
+    return fetchPostOrderPayment.json()
+  }
+
+  const saveOrder = async (billing: any, products: any, payment: any) => {
     const fetchPostOrder = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/orders`,
       {
@@ -118,6 +156,7 @@ const CheckoutContent = () => {
             date: new Date(Date.now()).toISOString(),
             orders_billing: billing.data.id,
             orders_products: products.map((product: any) => product.data.id),
+            orders_payment: payment.data.id,
           },
         }),
       }
@@ -130,21 +169,29 @@ const CheckoutContent = () => {
     setLoading(true)
     const responseOrderBilling = await saveOrderBilling(values)
     const responseOrderProducts = await saveOrderProducts()
+    const responseOrderPayment = await saveOrderPayment(values)
 
     const responseOrder = await saveOrder(
       responseOrderBilling,
-      responseOrderProducts
+      responseOrderProducts,
+      responseOrderPayment
     )
 
     if (responseOrder.error) {
       // TODO: eliminar billing y products añadidos
       // TODO: mostrar notificacion de error
+      return
     }
 
     dispatch(cleanProducts())
     dispatch(setStep(2))
     dispatch(setOrder(responseOrder.data.attributes.order))
     setLoading(false)
+  }
+
+  const onChangePaymentMethods = ({ target: { value } }: RadioChangeEvent) => {
+    setSelectPaymentMethods(value.id)
+    setVoucher(value.attributes.voucher)
   }
 
   return (
@@ -162,6 +209,7 @@ const CheckoutContent = () => {
             ['phone']: '',
             ['email']: '',
             ['paymentMethod']: null,
+            ['voucher']: null,
           }}
         >
           <Row gutter={32}>
@@ -289,30 +337,69 @@ const CheckoutContent = () => {
                 <Divider />
                 <h3 className={styles['order-title']}>Métodos de pago</h3>
                 {data?.data.length > 0 ? (
-                  <Form.Item
-                    name="paymentMethod"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Seleccione el método de pago',
-                      },
-                    ]}
-                  >
-                    <Radio.Group>
-                      <Space direction="vertical">
-                        {data?.data.map((paymentMethod: any) => {
-                          return (
-                            <Radio
-                              key={paymentMethod.id}
-                              value={paymentMethod.id}
-                            >
-                              {paymentMethod.attributes.name}
-                            </Radio>
-                          )
-                        })}
-                      </Space>
-                    </Radio.Group>
-                  </Form.Item>
+                  <>
+                    <Form.Item
+                      name="paymentMethod"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Seleccione el método de pago',
+                        },
+                      ]}
+                    >
+                      <Radio.Group onChange={onChangePaymentMethods}>
+                        <Space direction="vertical">
+                          {data?.data.map((paymentMethod: any) => {
+                            return (
+                              <Radio
+                                key={paymentMethod.id}
+                                value={paymentMethod}
+                              >
+                                {paymentMethod.attributes.name}
+                                <br />
+                                {selectPaymentMethods == paymentMethod.id ? (
+                                  <i style={{ color: 'GrayText' }}>
+                                    {paymentMethod.attributes.description}
+                                  </i>
+                                ) : null}
+                              </Radio>
+                            )
+                          })}
+                        </Space>
+                      </Radio.Group>
+                    </Form.Item>
+                    {voucher ? (
+                      <Form.Item
+                        name="voucher"
+                        rules={[
+                          {
+                            required: voucher,
+                            message: 'Adjunte el comprobante',
+                          },
+                        ]}
+                      >
+                        <Upload
+                          maxCount={1}
+                          accept="image/png, image/jpeg"
+                          beforeUpload={(file: any) => {
+                            const isImage =
+                              file.type === 'image/png' ||
+                              file.type === 'image/jpeg'
+
+                            if (!isImage) {
+                              message.error(`${file.name} no es una imagen`)
+                            }
+
+                            return isImage || Upload.LIST_IGNORE
+                          }}
+                        >
+                          <Button icon={<UploadOutlined rev={undefined} />}>
+                            Subir comprobante
+                          </Button>
+                        </Upload>
+                      </Form.Item>
+                    ) : null}
+                  </>
                 ) : (
                   <p>
                     <InfoCircleOutlined rev={undefined} /> Lo sentimos, parece
