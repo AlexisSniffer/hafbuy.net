@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { InfoCircleOutlined, UploadOutlined } from '@ant-design/icons'
 import {
   Alert,
   Button,
@@ -8,18 +7,24 @@ import {
   Divider,
   Form,
   Input,
+  Radio,
+  RadioChangeEvent,
   Row,
   Space,
+  Upload,
+  message,
 } from 'antd'
-import { InfoCircleOutlined } from '@ant-design/icons'
-
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import useSWR from 'swr'
 import type { RootState } from '../../store'
-import { setStep, setOrder, cleanProducts } from '../../store/shoppingCartSlice'
+import { cleanProducts, setOrder, setStep } from '../../store/shoppingCartSlice'
 import { ProductCartType } from '../../store/types/ProductType'
 import styles from '../../styles/Cart.module.scss'
 import { money } from '../../utils/formatters'
 
 const { TextArea } = Input
+const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 type ResponseProducts = {
   data: {
@@ -38,6 +43,13 @@ const CheckoutContent = () => {
   const dispatch = useDispatch()
   const [form] = Form.useForm()
   const [loading, setLoading] = useState<boolean>(false)
+  const [selectPaymentMethods, setSelectPaymentMethods] = useState<number>(0)
+  const [voucher, setVoucher] = useState<boolean>(false)
+
+  const { data, error } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/payment-methods`,
+    fetcher
+  )
 
   const subtotal = cart.products.reduce(
     (accumulator, current) =>
@@ -96,7 +108,40 @@ const CheckoutContent = () => {
     )
   }
 
-  const saveOrder = async (billing: any, products: any) => {
+  const saveOrderPayment = async (values: any) => {
+    const formData = new FormData()
+    formData.append('files', values.voucher.file.originFileObj)
+
+    const fetchUpload = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/upload`,
+      {
+        method: 'POST',
+        body: formData,
+      }
+    )
+
+    const responseUpload = await fetchUpload.json()
+
+    const fetchPostOrderPayment = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/orders-payments`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: {
+            voucher: responseUpload[0].id,
+            payment_method: values.paymentMethod,
+          },
+        }),
+      }
+    )
+
+    return fetchPostOrderPayment.json()
+  }
+
+  const saveOrder = async (billing: any, products: any, payment: any) => {
     const fetchPostOrder = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/orders`,
       {
@@ -111,6 +156,7 @@ const CheckoutContent = () => {
             date: new Date(Date.now()).toISOString(),
             orders_billing: billing.data.id,
             orders_products: products.map((product: any) => product.data.id),
+            orders_payment: payment.data.id,
           },
         }),
       }
@@ -123,15 +169,18 @@ const CheckoutContent = () => {
     setLoading(true)
     const responseOrderBilling = await saveOrderBilling(values)
     const responseOrderProducts = await saveOrderProducts()
+    const responseOrderPayment = await saveOrderPayment(values)
 
     const responseOrder = await saveOrder(
       responseOrderBilling,
-      responseOrderProducts
+      responseOrderProducts,
+      responseOrderPayment
     )
 
     if (responseOrder.error) {
       // TODO: eliminar billing y products añadidos
       // TODO: mostrar notificacion de error
+      return
     }
 
     dispatch(cleanProducts())
@@ -140,25 +189,32 @@ const CheckoutContent = () => {
     setLoading(false)
   }
 
+  const onChangePaymentMethods = ({ target: { value } }: RadioChangeEvent) => {
+    setSelectPaymentMethods(value.id)
+    setVoucher(value.attributes.voucher)
+  }
+
   return (
     <>
       {cart.products.length > 0 ? (
-        <Row gutter={32}>
-          <Col span={16}>
-            <h2>Detalles de facturación</h2>
-            <Form
-              form={form}
-              name="cheackoutForm"
-              layout="vertical"
-              onFinish={onFinish}
-              initialValues={{
-                ['name']: '',
-                ['lastname']: '',
-                ['adress']: '',
-                ['phone']: '',
-                ['email']: '',
-              }}
-            >
+        <Form
+          form={form}
+          name="cheackoutForm"
+          layout="vertical"
+          onFinish={onFinish}
+          initialValues={{
+            ['name']: '',
+            ['lastname']: '',
+            ['adress']: '',
+            ['phone']: '',
+            ['email']: '',
+            ['paymentMethod']: null,
+            ['voucher']: null,
+          }}
+        >
+          <Row gutter={32}>
+            <Col span={16}>
+              <h2>Detalles de facturación</h2>
               <Form.Item label="Nombre" style={{ marginBottom: 0 }} required>
                 <Form.Item
                   name="name"
@@ -216,89 +272,155 @@ const CheckoutContent = () => {
               <Form.Item name="notes" label="Notas del pedido (opcional)">
                 <TextArea size="middle" placeholder="Notas sobre tu pedido" />
               </Form.Item>
-            </Form>
-          </Col>
-          <Col span={8}>
-            <Card title="Su pedido">
-              <Space direction="vertical">
-                {cart.products.map((product: ProductCartType) => {
-                  return (
-                    <Row
-                      key={product.product.slug}
-                      justify={'space-between'}
-                      align={'middle'}
+            </Col>
+            <Col span={8}>
+              <Card title="Su pedido">
+                <Space direction="vertical">
+                  {cart.products.map((product: ProductCartType) => {
+                    return (
+                      <Row
+                        key={product.product.slug}
+                        justify={'space-between'}
+                        align={'middle'}
+                      >
+                        <Col>
+                          <h3 className={styles['product-title']}>
+                            {`${product.product.name} x ${product.product.qty}`}
+                          </h3>
+                        </Col>
+                        <Col>
+                          <span className={styles['subtotal-money']}>
+                            {money.format(product.product.price)}
+                          </span>
+                        </Col>
+                      </Row>
+                    )
+                  })}
+                  <Row
+                    justify={'space-between'}
+                    align={'middle'}
+                    style={{ marginTop: '2rem' }}
+                  >
+                    <Col>
+                      <h3 className={styles['subtotal-title']}>Subtotal</h3>
+                    </Col>
+                    <Col>
+                      <span className={styles['subtotal-money']}>
+                        {money.format(subtotal)}
+                      </span>
+                    </Col>
+                  </Row>
+                  <Row justify={'space-between'} align={'middle'}>
+                    <Col>
+                      <h3 className={styles['itbms-title']}>ITBMS</h3>
+                    </Col>
+                    <Col>
+                      <span className={styles['itbms-money']}>
+                        {money.format(itbms)}
+                      </span>
+                    </Col>
+                  </Row>
+                </Space>
+                <Divider />
+                <Space direction="vertical">
+                  <Row justify={'space-between'} align={'middle'}>
+                    <Col>
+                      <h3 className={styles['total-title']}>Total</h3>
+                    </Col>
+                    <Col>
+                      <span className={styles['total-money']}>
+                        {money.format(total)}
+                      </span>
+                    </Col>
+                  </Row>
+                </Space>
+                <Divider />
+                <h3 className={styles['order-title']}>Métodos de pago</h3>
+                {data?.data.length > 0 ? (
+                  <>
+                    <Form.Item
+                      name="paymentMethod"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Seleccione el método de pago',
+                        },
+                      ]}
                     >
-                      <Col>
-                        <h3 className={styles['product-title']}>
-                          {`${product.product.name} x ${product.product.qty}`}
-                        </h3>
-                      </Col>
-                      <Col>
-                        <span className={styles['subtotal-money']}>
-                          {money.format(product.product.price)}
-                        </span>
-                      </Col>
-                    </Row>
-                  )
-                })}
-                <Row
-                  justify={'space-between'}
-                  align={'middle'}
-                  style={{ marginTop: '2rem' }}
+                      <Radio.Group onChange={onChangePaymentMethods}>
+                        <Space direction="vertical">
+                          {data?.data.map((paymentMethod: any) => {
+                            return (
+                              <Radio
+                                key={paymentMethod.id}
+                                value={paymentMethod}
+                              >
+                                {paymentMethod.attributes.name}
+                                <br />
+                                {selectPaymentMethods == paymentMethod.id ? (
+                                  <i style={{ color: 'GrayText' }}>
+                                    {paymentMethod.attributes.description}
+                                  </i>
+                                ) : null}
+                              </Radio>
+                            )
+                          })}
+                        </Space>
+                      </Radio.Group>
+                    </Form.Item>
+                    {voucher ? (
+                      <Form.Item
+                        name="voucher"
+                        rules={[
+                          {
+                            required: voucher,
+                            message: 'Adjunte el comprobante',
+                          },
+                        ]}
+                      >
+                        <Upload
+                          maxCount={1}
+                          accept="image/png, image/jpeg"
+                          beforeUpload={(file: any) => {
+                            const isImage =
+                              file.type === 'image/png' ||
+                              file.type === 'image/jpeg'
+
+                            if (!isImage) {
+                              message.error(`${file.name} no es una imagen`)
+                            }
+
+                            return isImage || Upload.LIST_IGNORE
+                          }}
+                        >
+                          <Button icon={<UploadOutlined rev={undefined} />}>
+                            Subir comprobante
+                          </Button>
+                        </Upload>
+                      </Form.Item>
+                    ) : null}
+                  </>
+                ) : (
+                  <p>
+                    <InfoCircleOutlined rev={undefined} /> Lo sentimos, parece
+                    que no hay métodos de pago disponibles para su estado.
+                    Comuníquese con nosotros si necesita ayuda o desea hacer
+                    arreglos alternativos.
+                  </p>
+                )}
+                <Button
+                  type="primary"
+                  size="large"
+                  block
+                  loading={loading}
+                  onClick={form.submit}
                 >
-                  <Col>
-                    <h3 className={styles['subtotal-title']}>Subtotal</h3>
-                  </Col>
-                  <Col>
-                    <span className={styles['subtotal-money']}>
-                      {money.format(subtotal)}
-                    </span>
-                  </Col>
-                </Row>
-                <Row justify={'space-between'} align={'middle'}>
-                  <Col>
-                    <h3 className={styles['itbms-title']}>ITBMS</h3>
-                  </Col>
-                  <Col>
-                    <span className={styles['itbms-money']}>
-                      {money.format(itbms)}
-                    </span>
-                  </Col>
-                </Row>
-              </Space>
-              <Divider />
-              <Space direction="vertical">
-                <Row justify={'space-between'} align={'middle'}>
-                  <Col>
-                    <h3 className={styles['total-title']}>Total</h3>
-                  </Col>
-                  <Col>
-                    <span className={styles['total-money']}>
-                      {money.format(total)}
-                    </span>
-                  </Col>
-                </Row>
-              </Space>
-              <Divider />
-              <h3 className={styles['order-title']}>Métodos de pago</h3>
-              <p>
-                <InfoCircleOutlined rev={undefined} /> Lo sentimos, parece que
-                no hay métodos de pago disponibles para su estado. Comuníquese
-                con nosotros si necesita ayuda o desea hacer arreglos
-                alternativos.
-              </p>
-              <Button
-                type="primary"
-                size="large"
-                block
-                loading={loading}
-                onClick={form.submit}
-              >
-                Realizar pedido
-              </Button>
-            </Card>
-          </Col>
-        </Row>
+                  Realizar pedido
+                </Button>
+              </Card>
+            </Col>
+          </Row>
+        </Form>
       ) : (
         <Alert
           showIcon
