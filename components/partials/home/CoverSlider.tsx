@@ -33,38 +33,36 @@ const CoverSlider = () => {
           )
 
           return (
-            <>
-              <div>
-                <picture>
-                  {xs != undefined ? (
-                    <source
-                      media="(max-width: 576px)"
-                      srcSet={xs.slider.data.attributes.url}
-                    />
-                  ) : null}
-                  {sm != undefined ? (
-                    <source
-                      media="(max-width: 768px)"
-                      srcSet={sm.slider.data.attributes.url}
-                    />
-                  ) : null}
-                  {md != undefined ? (
-                    <source
-                      media="(max-width: 992px)"
-                      srcSet={md.slider.data.attributes.url}
-                    />
-                  ) : null}
-                  {lg != undefined ? (
-                    <source
-                      media="(max-width: 999999999px)"
-                      srcSet={lg.slider.data.attributes.url}
-                    />
-                  ) : null}
+            <div key={slider.id}>
+              <picture>
+                {xs != undefined ? (
+                  <source
+                    media="(max-width: 576px)"
+                    srcSet={xs.slider.data.attributes.url}
+                  />
+                ) : null}
+                {sm != undefined ? (
+                  <source
+                    media="(max-width: 768px)"
+                    srcSet={sm.slider.data.attributes.url}
+                  />
+                ) : null}
+                {md != undefined ? (
+                  <source
+                    media="(max-width: 992px)"
+                    srcSet={md.slider.data.attributes.url}
+                  />
+                ) : null}
+                {lg != undefined ? (
+                  <source
+                    media="(max-width: 999999999px)"
+                    srcSet={lg.slider.data.attributes.url}
+                  />
+                ) : null}
 
-                  <img src="" alt={slider.alt} style={sliderStyle} />
-                </picture>
-              </div>
-            </>
+                <img src="" alt={slider.alt} style={sliderStyle} />
+              </picture>
+            </div>
           )
         })}
       </Carousel>

@@ -50,7 +50,11 @@ const FilterProductsSortBy = () => {
           xs={{ span: 24, order: 2 }}
           sm={{ span: 12, order: 1 }}
           lg={{ span: 6, order: 1 }}
-          style={{ backgroundColor: '#fff', padding: '0 1rem' }}
+          style={{
+            backgroundColor: '#fff',
+            paddingLeft: '1rem',
+            paddingRight: '0.5rem',
+          }}
         >
           <Title level={3}>Ordenar por</Title>
           {categories ? (
