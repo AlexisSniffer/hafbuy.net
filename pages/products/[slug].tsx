@@ -22,6 +22,11 @@ import {
 } from '../../store/queries/products'
 import ProductDetail from '../../components/products/ProductDetail'
 import { useState } from 'react'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import dayjsES from 'dayjs/locale/es'
+dayjs.extend(relativeTime)
+dayjs.locale(dayjsES)
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
@@ -219,21 +224,22 @@ const ProductPage = () => {
 const Reviews = ({ reviews }: any) => {
   return (
     <>
-      <Space direction="vertical" size={'large'}>
+      <Space direction="vertical" size={'middle'}>
         {reviews?.data.map((review: any) => {
           return (
             <>
-              <Space direction="vertical">
-                <Space>
-                  <b>{review.attributes.name}</b>
+              <div>
+                <div>
+                  <b>{review.attributes.name}</b>{' '}
                   <Rate
                     value={review.attributes.rating}
                     disabled
                     style={{ fontSize: 14 }}
                   ></Rate>
-                </Space>
+                </div>
+                <div>{dayjs(review.attributes.createdAt).from(dayjs())}</div>
                 <i>{review.attributes.comment}</i>
-              </Space>
+              </div>
             </>
           )
         })}
