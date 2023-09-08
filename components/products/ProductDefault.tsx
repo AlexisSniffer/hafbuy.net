@@ -128,7 +128,11 @@ export default function ProductDefault({ product }: ProductType) {
         </Title>
       </Link>
 
-      <Rate disabled style={{ fontSize: '1rem' }}></Rate>
+      <Rate
+        value={product.attributes.ratings}
+        disabled
+        style={{ fontSize: '1rem' }}
+      ></Rate>
 
       <span className={styles['product-default-price']}>
         {product.attributes.variants.length > 0 ? (

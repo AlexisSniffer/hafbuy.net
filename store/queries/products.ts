@@ -36,6 +36,7 @@ export const qsProducts = (
         'price',
         'isDiscount',
         'discount',
+        'ratings',
       ],
       populate: {
         ...populateProduct,

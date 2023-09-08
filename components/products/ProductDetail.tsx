@@ -191,7 +191,12 @@ const ProductDetail = ({ product }: ProductType) => {
             </Link>
 
             <Space>
-              <Rate disabled style={{ fontSize: '1rem' }}></Rate> (0 Reseñas)
+              <Rate
+                value={product.attributes.ratings}
+                disabled
+                style={{ fontSize: '1rem' }}
+              ></Rate>{' '}
+              (0 Reseñas)
             </Space>
             <p className={styles['product-detail-price']}>
               {product.attributes.variants.length > 0 ? (
