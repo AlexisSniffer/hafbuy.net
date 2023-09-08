@@ -259,6 +259,7 @@ export const qsfilterProductReviews = (filter: any, pagination: any) => {
           },
         },
       },
+      sort: 'createdAt:desc',
     },
     {
       encodeValuesOnly: true,
