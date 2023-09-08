@@ -275,7 +275,7 @@ const ProductDetail = ({ product }: ProductType) => {
           <Space direction="vertical">
             {product.attributes.variants.length > 0 &&
             selectedVariant != null ? (
-              <p className={styles['product-detail-price']}>
+              <div className={styles['product-detail-price']}>
                 {selectedVariant.isDiscount ? (
                   <Space>
                     <span>{money.format(selectedVariant.discount)}</span>
@@ -288,7 +288,7 @@ const ProductDetail = ({ product }: ProductType) => {
                 ) : (
                   <span>{money.format(selectedVariant.price)}</span>
                 )}
-              </p>
+              </div>
             ) : null}
 
             <Form
@@ -300,7 +300,7 @@ const ProductDetail = ({ product }: ProductType) => {
               }}
               onFinish={onFinish}
             >
-              <Input.Group compact>
+              <Space.Compact>
                 <Form.Item
                   name="qty"
                   rules={[{ required: true }]}
@@ -329,7 +329,7 @@ const ProductDetail = ({ product }: ProductType) => {
                 >
                   Añadir a carrito
                 </Button>
-              </Input.Group>
+              </Space.Compact>
             </Form>
           </Space>
 

@@ -227,20 +227,18 @@ const Reviews = ({ reviews }: any) => {
       <Space direction="vertical" size={'middle'}>
         {reviews?.data.map((review: any) => {
           return (
-            <>
+            <div key={review.id}>
               <div>
-                <div>
-                  <b>{review.attributes.name}</b>{' '}
-                  <Rate
-                    value={review.attributes.rating}
-                    disabled
-                    style={{ fontSize: 14 }}
-                  ></Rate>
-                </div>
-                <div>{dayjs(review.attributes.createdAt).from(dayjs())}</div>
-                <i>{review.attributes.comment}</i>
+                <b>{review.attributes.name}</b>{' '}
+                <Rate
+                  value={review.attributes.rating}
+                  disabled
+                  style={{ fontSize: 14 }}
+                ></Rate>
               </div>
-            </>
+              <div>{dayjs(review.attributes.createdAt).from(dayjs())}</div>
+              <i>{review.attributes.comment}</i>
+            </div>
           )
         })}
       </Space>
