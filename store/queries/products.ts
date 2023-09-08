@@ -246,3 +246,22 @@ export const qsFilterBrands = () => {
     }
   )
 }
+
+// filter reviews
+export const qsfilterProductReviews = (filter: any, pagination: any) => {
+  return qs.stringify(
+    {
+      pagination: pagination,
+      filters: {
+        product: {
+          id: {
+            $eq: filter.product,
+          },
+        },
+      },
+    },
+    {
+      encodeValuesOnly: true,
+    }
+  )
+}
