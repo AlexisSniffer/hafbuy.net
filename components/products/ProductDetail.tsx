@@ -32,7 +32,7 @@ const ProductDetail = ({ product }: ProductType) => {
     const allOptions: any = {}
 
     variant.variant.map((item: any) => {
-      allOptions[item.type] = item.value
+      allOptions[item.type] = item.value.toLowerCase().trim()
     })
 
     return {
