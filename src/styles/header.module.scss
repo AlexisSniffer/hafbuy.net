@@ -1,0 +1,65 @@
+.header {
+  color: #222529;
+}
+
+.top,
+.middle,
+.bottom {
+  background-color: #fff;
+}
+
+.top {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.middle {
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+}
+
+.bottom {
+  padding-top: 0.2rem;
+  padding-bottom: 1rem;
+}
+
+.account {
+  cursor: pointer;
+
+  &-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    font-size: 2rem;
+    border-radius: 50%;
+    border: 2px solid #222529;
+  }
+
+  &-info {
+    gap: 2px !important;
+
+    &-title {
+      color: #282d3b;
+    }
+
+    &-subtitle {
+      font-weight: 400;
+      font-size: 0.8rem;
+      line-height: 0.8rem;
+      letter-spacing: -0.025em;
+      color: #515151;
+    }
+  }
+
+  &:hover &-info {
+    &-subtitle {
+      text-decoration: underline;
+    }
+  }
+}
+
+.affix {
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.06) !important;
+}

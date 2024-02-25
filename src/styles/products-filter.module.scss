@@ -1,0 +1,154 @@
+@import 'variables';
+
+/*
+  GLOBAL
+*/
+
+%section-padding {
+  padding: 2rem 0;
+}
+
+.section-white {
+  @extend %section-padding;
+  background-color: #ffffff;
+}
+
+.section-gray {
+  @extend %section-padding;
+  background-color: #f4f4f4;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.article {
+  margin-bottom: 2rem;
+
+  .title {
+    margin: 0;
+    text-transform: capitalize;
+  }
+}
+
+.view-all {
+  color: #3050ff !important;
+  text-transform: capitalize;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &::after {
+    content: '→';
+  }
+}
+
+.categories {
+  .name,
+  .name-sub {
+    cursor: pointer;
+  }
+
+  .name {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: capitalize;
+  }
+
+  .name-sub {
+    color: $body-text !important;
+    text-transform: capitalize;
+  }
+}
+
+/*
+  HOME: CAROUSEL CATEGORIAS
+*/
+.carousel-categories {
+  .container {
+    cursor: pointer;
+    //transition: transform 0.5s ease;
+
+    &:hover {
+      .thumbnail {
+        transition: transform 0.5s ease;
+        transform: rotate(30deg);
+      }
+    }
+  }
+
+  .thumbnail {
+    border-radius: 50%;
+    margin-bottom: 0.5rem;
+  }
+
+  .name {
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: capitalize;
+  }
+
+  .count {
+    color: $secondary-color-dark !important;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+  }
+}
+
+/*
+  HOME: SERVICES
+*/
+.services {
+  .name,
+  .description {
+    text-transform: uppercase;
+  }
+
+  .name {
+    color: $primary-color-dark;
+    margin: 0;
+  }
+
+  .description {
+    color: $body-text;
+  }
+
+  .icon {
+    margin-right: 0.5rem;
+  }
+}
+
+/*
+  HOME: ORDENAR POR
+*/
+.category-links {
+  color: #777 !important;
+  text-transform: capitalize;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/*
+  HOME: MARCAS
+*/
+
+.brand {
+  position: relative;
+  height: 165px;
+  text-transform: uppercase;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+//////////////////////////

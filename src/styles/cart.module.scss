@@ -1,0 +1,40 @@
+@import 'variables';
+
+.steps {
+  margin: 3rem 0 2rem !important;
+}
+
+.title-column {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.totals,
+.order {
+  .title {
+    font-weight: bold;
+  }
+
+  .price {
+    &.total {
+      color: $primary-color-dark;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+  }
+
+  .divider {
+    margin: 0.5rem 0 1rem;
+  }
+
+  .btn {
+    margin-top: 2rem;
+    text-transform: uppercase;
+  }
+}
+
+.totals {
+  .price {
+    color: $body-text;
+  }
+}

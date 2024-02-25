@@ -1,17 +1,12 @@
 /** @type {import('next').NextConfig} */
+const path = require('path')
+
 const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
-  async rewrites() {
-    return [
-      {
-        source: '/',
-        destination: '/home',
-      },
-    ]
+  sassOptions: {
+    includePaths: [path.join(__dirname, 'src', 'styles')],
   },
   images: {
-    domains: ['hafbuy-strapi-space.nyc3.digitaloceanspaces.com'],
+    domains: ['localhost'],
   },
 }
 
