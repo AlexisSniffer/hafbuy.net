@@ -66,13 +66,18 @@ export default function HeaderSearch({
 }: Payload<Category[] | undefined>) {
   const router = useRouter()
   const [form] = Form.useForm()
-  const { setFilter, setCategories } = useFilterStore()
+  const paginationStore = useFilterStore((state) => state.pagination)
+  const { setFilter, setCategories, setPagination } = useFilterStore()
 
   const onFinish = (values: SearchProps) => {
     const { filter, category } = values
 
     setFilter(filter!)
     category == 'all' ? setCategories([]) : setCategories([category])
+    setPagination({
+      page: 1,
+      pageSize: paginationStore.pageSize,
+    })
     router.push('/shop')
   }
 

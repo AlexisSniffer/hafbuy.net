@@ -20,9 +20,7 @@ export default function ProductExtra({ id, attributes }: Product) {
     <ConfigProvider theme={theme}>
       <Flex gap={10} align="center">
         <Image
-          src={
-            'http://localhost:1337' + attributes.images.data[0].attributes.url
-          }
+          src={attributes.images.data[0].attributes.url}
           alt={
             attributes.images.data[0].attributes.alternativeText ??
             attributes.slug

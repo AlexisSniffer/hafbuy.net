@@ -27,9 +27,7 @@ export default function ProductAddMessage({ id, attributes }: Product) {
       >
         <Flex align="center" gap={10}>
           <Image
-            src={
-              'http://localhost:1337' + attributes.images.data[0].attributes.url
-            }
+            src={attributes.images.data[0].attributes.url}
             alt={
               attributes.images.data[0].attributes.alternativeText ??
               attributes.slug

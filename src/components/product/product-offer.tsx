@@ -47,16 +47,20 @@ function cover({ id, attributes }: Product) {
           <Countdown targetDate={attributes.until} />
         </Tag>
       ) : null}
-      <Image
-        src={'http://localhost:1337' + attributes.images.data[0].attributes.url}
-        alt={
-          attributes.images.data[0].attributes.alternativeText ??
-          attributes.slug
-        }
-        width={0}
-        height={0}
-        sizes="100vw"
-      />
+      {attributes.images.data ? (
+        <Image
+          src={attributes.images.data[0].attributes.url}
+          alt={
+            attributes.images.data[0].attributes.alternativeText ??
+            attributes.slug
+          }
+          width={0}
+          height={0}
+          sizes="100vw"
+        />
+      ) : (
+        <></>
+      )}
     </div>
   )
 }

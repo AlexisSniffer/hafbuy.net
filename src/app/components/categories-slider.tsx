@@ -124,10 +124,7 @@ export default function CategoriesSlider({
                     category.attributes.thumbnail?.data.attributes
                       .alternativeText ?? category.attributes.slug
                   }
-                  src={
-                    'http://localhost:1337' +
-                    category.attributes.thumbnail?.data.attributes.url
-                  }
+                  src={category.attributes.thumbnail?.data.attributes.url ?? ''}
                   className={styles['thumbnail']}
                 />
                 <Text className={styles['name']}>

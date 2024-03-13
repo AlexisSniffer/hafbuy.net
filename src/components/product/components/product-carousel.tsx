@@ -25,39 +25,41 @@ export default function ProductCarousel({ id, attributes }: Product) {
       >
         <Col span={24}>
           <Carousel ref={carouselRef} autoplay draggable pauseOnHover dots>
-            {attributes.images.data.map((image: Media) => {
-              return (
-                <div key={image.id}>
-                  <Image
-                    src={'http://localhost:1337' + image.attributes.url}
-                    alt={image.attributes.alternativeText ?? attributes.slug}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    style={{ width: '100%', height: 'auto' }}
-                  />
-                </div>
-              )
-            })}
+            {attributes.images.data &&
+              attributes.images.data.map((image: Media) => {
+                return (
+                  <div key={image.id}>
+                    <Image
+                      src={image.attributes.url}
+                      alt={image.attributes.alternativeText ?? attributes.slug}
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      style={{ width: '100%', height: 'auto' }}
+                    />
+                  </div>
+                )
+              })}
           </Carousel>
         </Col>
         <Col span={24}>
           <Row gutter={[8, 8]}>
-            {attributes.images.data.map((image: Media, index: number) => {
-              return (
-                <Col span={6} key={image.attributes.url}>
-                  <Image
-                    src={'http://localhost:1337' + image.attributes.url}
-                    alt={image.attributes.alternativeText ?? attributes.slug}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    style={{ width: '100%', height: 'auto' }}
-                    onClick={() => goTo(index)}
-                  />
-                </Col>
-              )
-            })}
+            {attributes.images.data &&
+              attributes.images.data.map((image: Media, index: number) => {
+                return (
+                  <Col span={6} key={image.attributes.url}>
+                    <Image
+                      src={image.attributes.url}
+                      alt={image.attributes.alternativeText ?? attributes.slug}
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      style={{ width: '100%', height: 'auto' }}
+                      onClick={() => goTo(index)}
+                    />
+                  </Col>
+                )
+              })}
           </Row>
         </Col>
       </Row>

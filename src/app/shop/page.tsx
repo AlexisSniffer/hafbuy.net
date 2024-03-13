@@ -168,10 +168,11 @@ export default function Shop() {
                       <Col>
                         <Pagination
                           defaultCurrent={1}
+                          current={paginationStore.page}
                           pageSize={paginationStore.pageSize}
                           total={products?.meta?.pagination?.total}
                           showSizeChanger
-                          pageSizeOptions={[12, 24, 36]}
+                          pageSizeOptions={[12, 24, 36, 100]}
                           onChange={onChange}
                           onShowSizeChange={onShowSizeChange}
                         />

@@ -3,7 +3,15 @@ import useFilterStore from '@/store/filterStore'
 import { Brand } from '@/types/brand'
 import { Payload } from '@/types/payload'
 import { fetcher } from '@/utils/fetcher'
-import { ConfigProvider, Skeleton, ThemeConfig, Tree, Typography } from 'antd'
+import {
+  ConfigProvider,
+  Pagination,
+  PaginationProps,
+  Skeleton,
+  ThemeConfig,
+  Tree,
+  Typography,
+} from 'antd'
 import type { DataNode } from 'antd/es/tree'
 import { Key, useEffect, useState } from 'react'
 import useSWR from 'swr'
@@ -17,12 +25,19 @@ const theme: ThemeConfig = {
 export default function FilterBrand() {
   const brandsStore = useFilterStore((state) => state.brands)
   const [checkedKeys, setCheckedKeys] = useState<Key[]>(brandsStore)
+  const [pagination, setPagination] = useState(1)
   const { setBrands } = useFilterStore()
 
   const { data: brands, error: errorBrands } = useSWR<Payload<Brand[]>>(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/brands?${qsBrands}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/brands?${qsBrands({
+      pagination: { page: pagination, pageSize: 25 },
+    })}`,
     fetcher,
   )
+
+  const onChange: PaginationProps['onChange'] = (page: number) => {
+    setPagination(page)
+  }
 
   useEffect(() => {
     setCheckedKeys(brandsStore)
@@ -63,6 +78,15 @@ export default function FilterBrand() {
         treeData={treeData(brands?.data)}
         checkedKeys={checkedKeys}
         onCheck={onCheck}
+      />
+      <Pagination
+        simple
+        defaultCurrent={1}
+        current={pagination}
+        pageSize={25}
+        total={brands?.meta?.pagination?.total}
+        showSizeChanger={false}
+        onChange={onChange}
       />
     </ConfigProvider>
   )

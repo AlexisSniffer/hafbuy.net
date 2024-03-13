@@ -64,10 +64,7 @@ export default function ProductCart({ product }: { product: ProductCart }) {
         </Flex>
         <div className={styles['remove']}>
           <Image
-            src={
-              'http://localhost:1337' +
-              product.attributes.images.data[0].attributes.url
-            }
+            src={product.attributes.images.data[0].attributes.url}
             alt={
               product.attributes.images.data[0].attributes.alternativeText ??
               product.attributes.slug

@@ -80,18 +80,20 @@ export default function ProductDefault({ id, attributes }: Product) {
   const cover = ({ id, attributes }: Product) => {
     return (
       <div className={styles['cover']}>
-        <Image
-          src={
-            'http://localhost:1337' + attributes.images.data[0].attributes.url
-          }
-          alt={
-            attributes.images.data[0].attributes.alternativeText ??
-            attributes.slug
-          }
-          width={0}
-          height={0}
-          sizes="100vw"
-        ></Image>
+        {attributes.images.data ? (
+          <Image
+            src={attributes.images.data[0].attributes.url}
+            alt={
+              attributes.images.data[0].attributes.alternativeText ??
+              attributes.slug
+            }
+            width={0}
+            height={0}
+            sizes="100vw"
+          />
+        ) : (
+          <></>
+        )}
         <Button
           type="primary"
           //onClick={showModal}

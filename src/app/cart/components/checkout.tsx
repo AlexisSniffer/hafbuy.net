@@ -146,7 +146,7 @@ export default function Checkout() {
 
     if (response.ok) {
       const responseData = await response.json()
-      //setStep(2)
+      setStep(2)
     } else {
       api.error({
         message: 'Error',
@@ -208,7 +208,6 @@ export default function Checkout() {
         }}
       >
         <Row gutter={16}>
-          <pre>{JSON.stringify(cartStore, null, 2)}</pre>
           <Col span={14}>
             <Flex gap={16} justify="space-between">
               <Form.Item
@@ -286,39 +285,41 @@ export default function Checkout() {
                   {money.format(subtotalStore + subtotalStore * 0.07)}
                 </Text>
               </Flex>
-              <Divider className={styles2['divider']} />
-              <Text className={styles2['title']}>Médotos de pago</Text>
-              <Form.Item
-                label="Tipo de pago"
-                name="paymentMethod"
-                rules={[
-                  {
-                    required: true,
-                    message: requiredMessage,
-                  },
-                ]}
-              >
-                {paymentMethods?.data.length ? (
-                  <Radio.Group onChange={onChangePaymentMethods}>
-                    <Flex vertical>
-                      {paymentMethods.data.map(
-                        (paymentMethod: PaymentMethod) => {
-                          return (
-                            <Radio
-                              key={paymentMethod.id}
-                              value={paymentMethod.id}
-                            >
-                              {paymentMethod.attributes.name}
-                            </Radio>
-                          )
-                        },
-                      )}
-                    </Flex>
-                  </Radio.Group>
-                ) : (
-                  <></>
-                )}
-              </Form.Item>
+              {paymentMethods?.data && paymentMethods?.data.length ? (
+                <>
+                  <Divider className={styles2['divider']} />
+                  <Text className={styles2['title']}>Médotos de pago</Text>
+                  <Form.Item
+                    label="Tipo de pago"
+                    name="paymentMethod"
+                    rules={[
+                      {
+                        required: true,
+                        message: requiredMessage,
+                      },
+                    ]}
+                  >
+                    <Radio.Group onChange={onChangePaymentMethods}>
+                      <Flex vertical>
+                        {paymentMethods.data.map(
+                          (paymentMethod: PaymentMethod) => {
+                            return (
+                              <Radio
+                                key={paymentMethod.id}
+                                value={paymentMethod.id}
+                              >
+                                {paymentMethod.attributes.name}
+                              </Radio>
+                            )
+                          },
+                        )}
+                      </Flex>
+                    </Radio.Group>
+                  </Form.Item>
+                </>
+              ) : (
+                <></>
+              )}
               {isUploadVoucher ? (
                 <>
                   <Form.Item

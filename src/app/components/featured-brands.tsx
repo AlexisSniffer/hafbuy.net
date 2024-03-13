@@ -111,10 +111,7 @@ export default function FeaturedBrands() {
                             brand.attributes.thumbnail?.data.attributes
                               .alternativeText ?? brand.attributes.slug
                           }
-                          src={
-                            'http://localhost:1337' +
-                            brand.attributes.thumbnail?.data.attributes.url
-                          }
+                          src={brand.attributes.thumbnail?.data.attributes.url}
                           width={0}
                           height={0}
                           sizes="100vw"
