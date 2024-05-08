@@ -82,7 +82,11 @@ export default function ProductDefault({ id, attributes }: Product) {
       <div className={styles['cover']}>
         {attributes.images.data ? (
           <Image
-            src={attributes.images.data[0].attributes.url}
+            src={
+              attributes.images
+                ? attributes.images.data[0].attributes.url
+                : '/no-image.jpg'
+            }
             alt={
               attributes.images.data[0].attributes.alternativeText ??
               attributes.slug

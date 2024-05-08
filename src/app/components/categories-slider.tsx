@@ -121,10 +121,13 @@ export default function CategoriesSlider({
                   width={128}
                   height={128}
                   alt={
-                    category.attributes.thumbnail?.data.attributes
-                      .alternativeText ?? category.attributes.slug
+                    category.attributes.thumbnail?.data?.attributes
+                      .alternativeText ?? ''
                   }
-                  src={category.attributes.thumbnail?.data.attributes.url ?? ''}
+                  src={
+                    category.attributes.thumbnail?.data?.attributes.url ??
+                    '/no-image.jpg'
+                  }
                   className={styles['thumbnail']}
                 />
                 <Text className={styles['name']}>

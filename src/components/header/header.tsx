@@ -52,11 +52,9 @@ export default function RootHeader() {
                 align={'middle'}
                 gutter={{ xs: 8, sm: 16, md: 24 }}
               >
-                <Col>
-                  <Languages />
-                </Col>
+                <Col>{/* <Languages /> */}</Col>
                 <Col flex={'0 0 auto'} xs={{ span: 0 }} lg={24}>
-                  <TopMenu />
+                  {/* <TopMenu /> */}
                 </Col>
                 <Col>
                   <SocialIcons size="xs" />

@@ -14,7 +14,7 @@ export default function Logo({ size = 'md' }: SizeProps) {
   return (
     <Link href="/">
       <Image
-        src="https://strapi.io/assets/strapi-logo-movember-dark.svg"
+        src="logo.svg"
         alt="logo"
         width={width}
         height={height}

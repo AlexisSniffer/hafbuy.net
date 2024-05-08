@@ -14,7 +14,7 @@ export default function HeaderInfo() {
           color: '#666',
         }}
       >
-        FREE Express Shipping On Orders $99+
+        No hay ofertas por el momento.
       </div>
     </Space>
   )

@@ -33,13 +33,13 @@ export default function CartIcons({
             <SearchOutlined style={{ fontSize: '1.7rem' }} rev={undefined} />
           </Popover>
         </Col>
-        <Col>
+        {/* <Col>
           <Link href={'/wishlist'}>
             <Badge count={4}>
               <HeartOutlined style={{ fontSize: '1.7rem' }} rev={undefined} />
             </Badge>
           </Link>
-        </Col>
+        </Col> */}
         <Col>
           <Badge count={countStore}>
             <ShoppingOutlined
