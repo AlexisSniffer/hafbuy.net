@@ -35,9 +35,9 @@ const items: MenuProps['items'] = [
       </Link>
     ),
   },
-  { key: 'about', label: <b>Nosotros</b> },
-  { key: 'blog', label: <b>Blog</b> },
-  { key: 'contact', label: <b>Contáctenos</b> },
+  // { key: 'about', label: <b>Nosotros</b> },
+  // { key: 'blog', label: <b>Blog</b> },
+  // { key: 'contact', label: <b>Contáctenos</b> },
 ]
 
 export default function MainMenu() {
