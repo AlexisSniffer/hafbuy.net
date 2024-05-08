@@ -28,9 +28,9 @@ interface DrawerMenuProps {
 const items: MenuProps['items'] = [
   { key: 'home', label: <Link href="/">Inicio</Link> },
   { key: 'shop', label: <Link href="/shop">Tienda</Link> },
-  { key: 'about', label: 'Nosotros' },
-  { key: 'blog', label: 'Blog' },
-  { key: 'contact', label: 'Contáctenos' },
+  // { key: 'about', label: 'Nosotros' },
+  // { key: 'blog', label: 'Blog' },
+  // { key: 'contact', label: 'Contáctenos' },
 ]
 
 export default function DrawerMenu(props: DrawerMenuProps) {
