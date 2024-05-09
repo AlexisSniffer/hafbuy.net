@@ -198,11 +198,11 @@ export default function Checkout() {
         layout={'vertical'}
         onFinish={onFinish}
         initialValues={{
-          ['name']: 'Alexis',
-          ['lastname']: 'Sniffer',
-          ['address']: 'Panama',
-          ['phone']: '2551925',
-          ['email']: 'alexis.sniffer@gmail.com',
+          ['name']: '',
+          ['lastname']: '',
+          ['address']: '',
+          ['phone']: '',
+          ['email']: '',
           ['paymentMethod']: null,
           ['voucher']: null,
         }}
