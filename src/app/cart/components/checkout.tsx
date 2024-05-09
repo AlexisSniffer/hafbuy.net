@@ -380,7 +380,7 @@ export default function Checkout() {
               )}
               <Divider className={styles2['divider']} />
               <ReCAPTCHA
-                sitekey="6LfGvVYpAAAAABaeNWYMHTHLbBLUax3kNP1VaVLH"
+                sitekey={'6LdTvVYpAAAAAAekOFi5Am0rpzGT7Vv9-iqhMM9w'}
                 onChange={onRecaptcha}
               />
               <Button
