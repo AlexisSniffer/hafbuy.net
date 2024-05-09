@@ -14,7 +14,7 @@ export default function Logo({ size = 'md' }: SizeProps) {
   return (
     <Link href="/">
       <Image
-        src="logo.svg"
+        src="/logo.svg"
         alt="logo"
         width={width}
         height={height}
