@@ -177,6 +177,8 @@ export default function Checkout() {
       }),
     })
 
+    console.log(response)
+
     setRecaptcha(!response.ok)
   }
 
