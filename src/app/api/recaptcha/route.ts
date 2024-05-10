@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     return Response.json({ success: true }, { status: 200 })
   } else {
     return Response.json(
-      { success: true, error: 'Error en el reCAPTCHA.' },
+      { success: false, error: 'Error en el reCAPTCHA.' },
       { status: 400 },
     )
   }
