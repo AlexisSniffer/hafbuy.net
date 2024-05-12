@@ -84,6 +84,7 @@ export default function ShoppingCart() {
 
   const columns: ColumnsType<ProductCart> = [
     {
+      responsive: ['md'],
       render: (product: ProductCart) => (
         <div className={styles['remove']}>
           <Image
@@ -107,6 +108,7 @@ export default function ShoppingCart() {
     {
       title: <Text className={styles2['title-column']}>producto</Text>,
       key: 'name',
+      responsive: ['md'],
       render: (product: ProductCart) => (
         <Link href={`/products/${product.attributes.slug}`}>
           <Text className={styles['name']}>
@@ -136,6 +138,7 @@ export default function ShoppingCart() {
     {
       title: <Text className={styles2['title-column']}>precio</Text>,
       key: 'price',
+      responsive: ['md'],
       render: (product: ProductCart) => (
         <Text className={styles['price']}>{money.format(product.price)}</Text>
       ),
@@ -143,6 +146,7 @@ export default function ShoppingCart() {
     {
       title: <Text className={styles2['title-column']}>cantidad</Text>,
       key: 'qty',
+      responsive: ['md'],
       render: (product: ProductCart) => (
         <Space.Compact>
           <Button
@@ -169,7 +173,8 @@ export default function ShoppingCart() {
     },
     {
       title: <Text className={styles2['title-column']}>subtotal</Text>,
-      key: 'qty',
+      key: 'subtotal',
+      responsive: ['md'],
       render: (product: ProductCart) => (
         <Text className={styles['subtotal']}>
           {money.format(product.price * product.qty)}
@@ -178,10 +183,96 @@ export default function ShoppingCart() {
     },
   ]
 
+  const columns2: ColumnsType<ProductCart> = [
+    {
+      render: (product: ProductCart) => (
+        <Row gutter={[5, 5]}>
+          <Col span={24}>
+            <div className={styles['remove']}>
+              <Image
+                src={product.attributes.images.data[0].attributes.url}
+                alt={
+                  product.attributes.images.data[0].attributes
+                    .alternativeText ?? product.attributes.slug
+                }
+                width={80}
+                height={80}
+              />
+              <Button
+                shape="circle"
+                size="small"
+                icon={<CloseOutlined />}
+                onClick={() => remove(product)}
+              ></Button>
+            </div>
+          </Col>
+          <Col span={24}>
+            <Link href={`/products/${product.attributes.slug}`}>
+              <Text className={styles['name']}>
+                {product.attributes.name}
+                {product.variant ? (
+                  <Text className={styles['variant']}>
+                    {Object.entries(product.variant.variant).map(
+                      ([key, value], index, array) => (
+                        <React.Fragment key={key}>
+                          <span>{key}</span> :{' '}
+                          <Variation
+                            value={value}
+                            className={key === 'color' ? 'color' : ''}
+                          />
+                          {index < array.length - 1 && ', '}
+                        </React.Fragment>
+                      ),
+                    )}
+                  </Text>
+                ) : (
+                  <></>
+                )}
+              </Text>
+            </Link>
+          </Col>
+          <Col span={24}>
+            <Text className={styles['price']}>
+              {money.format(product.price)}
+            </Text>
+          </Col>
+          <Col span={24}>
+            <Space.Compact>
+              <Button
+                size="large"
+                htmlType="submit"
+                icon={<MinusOutlined />}
+                onClick={() => handleDecrement(product)}
+              />
+              <Input
+                size="large"
+                min={1}
+                max={100}
+                value={product.qty}
+                className={styles['qty']}
+              />
+              <Button
+                size="large"
+                htmlType="submit"
+                icon={<PlusOutlined />}
+                onClick={() => handleIncrement(product)}
+              />
+            </Space.Compact>
+          </Col>
+          <Col span={24}>
+            <Text className={styles['subtotal']}>
+              {money.format(product.price * product.qty)}
+            </Text>
+          </Col>
+        </Row>
+      ),
+    },
+  ]
+
   return (
     <ConfigProvider theme={theme}>
       <Row gutter={16}>
-        <Col span={16}>
+        <Col xs={0} md={24} lg={16}>
           <Table
             dataSource={cartStore}
             columns={columns}
@@ -189,7 +280,15 @@ export default function ShoppingCart() {
             pagination={false}
           />
         </Col>
-        <Col span={8}>
+        <Col xs={24} md={0}>
+          <Table
+            dataSource={cartStore}
+            columns={columns2}
+            className={`${styles['product']} ${styles['product-cart-shopping']}`}
+            pagination={false}
+          />
+        </Col>
+        <Col xs={24} md={24} lg={8}>
           <Card title="TOTALES DEL CARRITO" className={styles2['totals']}>
             <Flex justify="space-between" align="center">
               <Text className={styles2['title']}>Subtotal</Text>

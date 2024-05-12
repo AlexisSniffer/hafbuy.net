@@ -210,7 +210,7 @@ export default function Checkout() {
         }}
       >
         <Row gutter={16}>
-          <Col span={14}>
+          <Col xs={24} sm={12} md={14}>
             <Flex gap={16} justify="space-between">
               <Form.Item
                 label="Nombre"
@@ -254,7 +254,7 @@ export default function Checkout() {
               <TextArea size="middle" placeholder="Notas sobre tu pedido" />
             </Form.Item>
           </Col>
-          <Col span={10}>
+          <Col xs={24} sm={12} md={10}>
             <Card title="SU PEDIDO" className={styles2['order']}>
               <Text className={styles2['title']}>Producto</Text>
               <Divider className={styles2['divider']} />
