@@ -6,7 +6,9 @@ interface CartState {
   count: number
   subtotal: number
   step: number
+  order: string
   setStep: (step: number) => void
+  setOrder: (order: string) => void
   add: (product: ProductCart) => void
   edit: (product: ProductCart) => void
   remove: (product: ProductCart) => void
@@ -17,6 +19,7 @@ const useCartStore = create<CartState>()((set) => ({
   count: 0,
   subtotal: 0,
   step: 0,
+  order: '',
   setStep: (step: number) =>
     set((state) => {
       const cleanBuy = {
@@ -28,6 +31,12 @@ const useCartStore = create<CartState>()((set) => ({
       return {
         step: step,
         ...(step === 2 ? cleanBuy : null),
+      }
+    }),
+  setOrder: (order: string) =>
+    set((state) => {
+      return {
+        order: order,
       }
     }),
   add: (product: ProductCart) => {

@@ -28,7 +28,6 @@ const theme: ThemeConfig = {
 }
 
 export default function Cart() {
-  const cartStore = useCartStore((state) => state.cart)
   const stepStore = useCartStore((state) => state.step)
   const { setStep } = useCartStore()
 

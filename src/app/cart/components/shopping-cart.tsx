@@ -58,7 +58,7 @@ export default function ShoppingCart() {
           subTitle="No se agregaron productos al carrito "
           extra={
             <Button type="primary" size="large">
-              IR A COMPRAR
+              <Link href={'/shop'}>IR A COMPRAR</Link>
             </Button>
           }
         />

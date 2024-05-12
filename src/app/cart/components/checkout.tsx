@@ -33,6 +33,7 @@ import {
   notification,
 } from 'antd'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 import useSWR from 'swr'
@@ -63,7 +64,7 @@ export default function Checkout() {
   const [previewImage, setPreviewImage] = useState('')
   const cartStore = useCartStore((state) => state.cart)
   const subtotalStore = useCartStore((state) => state.subtotal)
-  const { setStep } = useCartStore()
+  const { setStep, setOrder } = useCartStore()
 
   const requiredMessage = 'Campo requerido'
 
@@ -85,7 +86,7 @@ export default function Checkout() {
           subTitle="No se agregaron productos al carrito "
           extra={
             <Button type="primary" size="large">
-              IR A COMPRAR
+              <Link href={'/shop'}>IR A COMPRAR</Link>
             </Button>
           }
         />
@@ -147,6 +148,7 @@ export default function Checkout() {
     if (response.ok) {
       const responseData = await response.json()
       setStep(2)
+      setOrder(responseData.data.attributes.order)
     } else {
       api.error({
         message: 'Error',

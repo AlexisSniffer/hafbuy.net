@@ -54,7 +54,7 @@ export default function RootHeader() {
               >
                 <Col>{/* <Languages /> */}</Col>
                 <Col flex={'0 0 auto'} xs={{ span: 0 }} lg={24}>
-                  {/* <TopMenu /> */}
+                  <TopMenu />
                 </Col>
                 <Col>
                   <SocialIcons size="xs" />
