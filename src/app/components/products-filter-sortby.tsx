@@ -53,7 +53,7 @@ export default function ProductsFilterSortBy() {
           lg={{ span: 6, order: 1 }}
           style={{
             backgroundColor: '#fff',
-            padding: '2rem',
+            padding: '1.5rem',
           }}
         >
           <Title level={3}>Ordenar por</Title>
@@ -62,9 +62,9 @@ export default function ProductsFilterSortBy() {
               <List
                 size="small"
                 grid={{
-                  gutter: 16,
+                  gutter: 1,
                   xs: 3,
-                  sm: 2,
+                  sm: 1,
                   md: 1,
                   lg: 1,
                   xl: 1,
