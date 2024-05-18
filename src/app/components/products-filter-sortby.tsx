@@ -1,6 +1,6 @@
 import ProductDefault from '@/components/product/product-default'
 import { qsCategory } from '@/queries/category'
-import { qsProducts } from '@/queries/product'
+import { qsProductsByCategory } from '@/queries/product'
 import useFilterStore from '@/store/filterStore'
 import styles from '@/styles/products-filter.module.scss'
 import { Category } from '@/types/category'
@@ -34,10 +34,10 @@ export default function ProductsFilterSortBy() {
   const [filterCategories, setFilterCategories] = useState<string[]>([])
 
   const { data: products, error: errorProducts } = useSWR<Payload<Product[]>>(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/products?${qsProducts({
-      categories: filterCategories,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/products?${qsProductsByCategory({
+      category: filterCategories
     })}`,
-    fetcher,
+    fetcher, 
   )
 
   const { data: categories, error: errorCategories } = useSWR<

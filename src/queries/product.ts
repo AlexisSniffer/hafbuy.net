@@ -134,19 +134,56 @@ export const qsProductsBySlug = (slug: string) => {
 export const qsProductUntil = qs.stringify(
   {
     populate: {
-      categories: {
-        fields: ['name', 'slug'],
-      },
-      images: '*',
-      variants: {
-        populate: {
-          variant: {
-            populate: {
-              type: '*',
+      ...productPopulate,
+    },
+    pagination: {
+      page: 1,
+      pageSize: 9,
+    },
+    sort: [{ publishedAt: 'desc' }],
+    filters: {
+      $or: [
+        {
+          $and: [
+            {
+              isDiscount: {
+                $eq: true,
+              },
             },
+            {
+              until: {
+                $notNull: true,
+              },
+            },
+            {
+              until: {
+                $gte:  new Date(),
+              },
+            },
+          ],
+        },
+        {
+          variants: {
+            $and: [
+              {
+                isDiscount: {
+                  $eq: true,
+                },
+              },
+              {
+                until: {
+                  $notNull: true,
+                },
+              },
+              {
+                until: {
+                  $gte: new Date(),
+                },
+              },
+            ],
           },
         },
-      },
+      ],
     },
     //locale: localStorage.getItem('locale'),
   },
@@ -154,3 +191,50 @@ export const qsProductUntil = qs.stringify(
     encodeValuesOnly: true,
   },
 )
+
+export const qsProductsByCategory = (filter: any) => {
+  return qs.stringify(
+    {
+      pagination: {
+        page: 1,
+        pageSize: 6,
+      },
+      sort: [{ publishedAt: 'desc' }],
+      populate: {
+        ...productPopulate,
+      },
+      filters: {
+        categories: {
+          $or: [
+            {
+              slug: {
+                $in: filter.category,
+              },
+            },
+            {
+              category: {
+                $or: [
+                  {
+                    slug: {
+                      $in: filter.category,
+                    },
+                  },
+                  {
+                    category: {
+                      slug: {
+                        $in: filter.category,
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
+    },
+    {
+      encodeValuesOnly: true,
+    }
+  )
+}

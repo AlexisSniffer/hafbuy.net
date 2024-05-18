@@ -44,7 +44,7 @@ export default function ProductsFilterOffers() {
         </Col>
         <Col span={16}>
           <Row>
-            {products.data!.map((product: Product) => {
+            {products.data!.slice(1, 9).map((product: Product) => {
               return (
                 <Col
                   xs={{ span: 12 }}
