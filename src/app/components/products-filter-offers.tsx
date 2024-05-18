@@ -36,19 +36,20 @@ export default function ProductsFilterOffers() {
         <Title level={3}>Ofertas Especiales</Title>
       </Row>
       <Row>
-        <Col span={8}>
+        <Col xs={24} md={8}>
           <ProductOffer
             id={products.data[0].id}
             attributes={products.data[0].attributes}
           />
         </Col>
-        <Col span={16}>
+        <Col xs={24} md={16}>
           <Row>
             {products.data!.slice(1, 9).map((product: Product) => {
               return (
                 <Col
                   xs={{ span: 12 }}
-                  sm={{ span: 8 }}
+                  sm={{ span: 8 }}                
+                  md={{ span: 8 }}
                   lg={{ span: 6 }}
                   key={product.attributes.slug}
                 >
