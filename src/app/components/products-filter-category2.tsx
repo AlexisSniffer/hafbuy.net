@@ -189,6 +189,7 @@ export default function ProductsFilterCategory2({ id, attributes }: Category) {
                 {products!.data.slice(0, 6).map((product: Product) => {
                   return (
                     <ProductDefault
+                      key={product.id}
                       id={product.id}
                       attributes={product.attributes}
                     />
