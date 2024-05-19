@@ -7,6 +7,7 @@ import { Payload } from '@/types/payload'
 import { Product } from '@/types/product'
 import { fetcher } from '@/utils/fetcher'
 import {
+  Carousel,
   Col,
   ConfigProvider,
   Row,
@@ -28,6 +29,45 @@ const theme: ThemeConfig = {
     },
   },
 }
+
+const responsive = [
+  {
+    breakpoint: 480,
+    settings: {
+      slidesToShow: 2,
+    },
+  },
+  {
+    breakpoint: 576,
+    settings: {
+      slidesToShow: 2,
+    },
+  },
+  {
+    breakpoint: 768,
+    settings: {
+      slidesToShow: 3,
+    },
+  },
+  {
+    breakpoint: 992,
+    settings: {
+      slidesToShow: 3,
+    },
+  },
+  {
+    breakpoint: 1200,
+    settings: {
+      slidesToShow: 4,
+    },
+  },
+  {
+    breakpoint: 9999,
+    settings: {
+      slidesToShow: 6,
+    },
+  },
+]
 
 export default function ProductsFilterCategory2({ id, attributes }: Category) {
   const router = useRouter()
@@ -55,12 +95,13 @@ export default function ProductsFilterCategory2({ id, attributes }: Category) {
               </Title>
             </Col>
           </Row>
-          <Row className={styles['article']} gutter={16}>
-            <Col span={12}>
+          <Row className={styles['article']} gutter={[10, 10]}>
+            <Col xs={24} md={12}>
               <div
                 style={{
                   color: '#000',
-                  height: '200px',
+                  height: '150px',
+                  maxHeight: '150px',
                   width: '100%',
                   padding: '2rem',
                   backgroundColor: '#B0BEC5',
@@ -69,11 +110,12 @@ export default function ProductsFilterCategory2({ id, attributes }: Category) {
                 Espacio publicitario
               </div>
             </Col>
-            <Col span={12}>
+            <Col xs={24} md={12}>
               <div
                 style={{
                   color: '#000',
-                  height: '200px',
+                  height: '150px',
+                  maxHeight: '150px',
                   width: '100%',
                   padding: '2rem',
                   backgroundColor: '#B0BEC5',
@@ -83,10 +125,10 @@ export default function ProductsFilterCategory2({ id, attributes }: Category) {
               </div>
             </Col>
           </Row>
-          <Row className={`${styles['article']} ${styles['categories']}`}>
+          <Row className={`${styles['categories']}`}>
             {attributes.categories.data.map((category: Category) => {
               return (
-                <Col key={category.attributes.slug} span={6}>
+                <Col key={category.attributes.slug} xs={24} sm={12} lg={6}>
                   <Row>
                     <Text
                       className={styles['name']}
@@ -98,11 +140,12 @@ export default function ProductsFilterCategory2({ id, attributes }: Category) {
                       {category.attributes.name}
                     </Text>
                   </Row>
-                  <Row gutter={[0, 8]}>
-                    {category.attributes.categories.data.map(
-                      (category2: Category) => {
+                  <Row gutter={[0, 5]}>
+                    {category.attributes.categories.data
+                      .slice(0, 10)
+                      .map((category2: Category) => {
                         return (
-                          <Col key={category2.attributes.slug} span={12}>
+                          <Col key={category2.attributes.slug} xs={12}>
                             <Text
                               className={styles['name-sub']}
                               onClick={() => {
@@ -114,10 +157,9 @@ export default function ProductsFilterCategory2({ id, attributes }: Category) {
                             </Text>
                           </Col>
                         )
-                      },
-                    )}
+                      })}
                   </Row>
-                  <Row style={{ marginTop: '1rem' }}>
+                  <Row>
                     <Text
                       className={styles['view-all']}
                       onClick={() => {
@@ -132,30 +174,32 @@ export default function ProductsFilterCategory2({ id, attributes }: Category) {
               )
             })}
           </Row>
-          <Row>
+        </Col>
+        <Row>
+          <Col span={24}>
             {products ? (
-              <>
+              <Carousel
+                slidesToShow={6}
+                draggable={true}
+                infinite={false}
+                dots={false}
+                autoplay={true}
+                responsive={responsive}
+              >
                 {products!.data.slice(0, 6).map((product: Product) => {
                   return (
-                    <Col
-                      xs={{ span: 8 }}
-                      sm={{ span: 6 }}
-                      lg={{ span: 4 }}
-                      key={product.attributes.slug}
-                    >
-                      <ProductDefault
-                        id={product.id}
-                        attributes={product.attributes}
-                      />
-                    </Col>
+                    <ProductDefault
+                      id={product.id}
+                      attributes={product.attributes}
+                    />
                   )
                 })}
-              </>
+              </Carousel>
             ) : (
               <Skeleton />
             )}
-          </Row>
-        </Col>
+          </Col>
+        </Row>
       </Row>
     </ConfigProvider>
   )

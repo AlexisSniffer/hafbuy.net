@@ -14,11 +14,9 @@ export default function Container({
 }: ContainerProps) {
   return (
     <Row className={className} style={style}>
-      <Col xs={1} lg={3}></Col>
-      <Col xs={22} lg={18}>
-        {children}
-      </Col>
-      <Col xs={1} lg={3}></Col>
+      <Col xs={1}></Col>
+      <Col xs={22}>{children}</Col>
+      <Col xs={1}></Col>
     </Row>
   )
 }
