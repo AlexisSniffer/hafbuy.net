@@ -1,5 +1,5 @@
 import ProductDefault from '@/components/product/product-default'
-import { qsProductUntil } from '@/queries/product'
+import { qsProductsByCategory } from '@/queries/product'
 import useFilterStore from '@/store/filterStore'
 import styles from '@/styles/products-filter.module.scss'
 import { Category } from '@/types/category'
@@ -11,9 +11,8 @@ import {
   Col,
   ConfigProvider,
   Row,
-  Skeleton,
   ThemeConfig,
-  Typography,
+  Typography
 } from 'antd'
 import { useRouter } from 'next/navigation'
 import useSWR from 'swr'
@@ -74,7 +73,9 @@ export default function ProductsFilterCategory1({ id, attributes }: Category) {
   const { setCategories } = useFilterStore()
 
   const { data: products, error: errorProducts } = useSWR<Payload<Product[]>>(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/products?${qsProductUntil}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/products?${qsProductsByCategory({
+      category: attributes.slug,
+    })}`,
     fetcher,
   )
 
@@ -175,31 +176,35 @@ export default function ProductsFilterCategory1({ id, attributes }: Category) {
             })}
           </Row>
         </Col>
-        <Row>
-          <Col span={24}>
-            {products ? (
-              <Carousel
-                draggable={true}
-                infinite={false}
-                dots={false}
-                autoplay={true}
-                responsive={responsive}
-              >
-                {products!.data.slice(0, 6).map((product: Product) => {
-                  return (
-                    <ProductDefault
-                      key={product.id}
-                      id={product.id}
-                      attributes={product.attributes}
-                    />
-                  )
-                })}
-              </Carousel>
-            ) : (
-              <Skeleton />
-            )}
+        {products && products.data.length ? (
+          <Col
+            xs={24}
+            style={{
+              backgroundColor: '#e7e7e7',
+            }}
+          >
+            <Carousel
+              slidesToShow={6}
+              draggable={true}
+              infinite={false}
+              dots={false}
+              autoplay={true}
+              responsive={responsive}
+            >
+              {products!.data.slice(0, 6).map((product: Product) => {
+                return (
+                  <ProductDefault
+                    key={product.id}
+                    id={product.id}
+                    attributes={product.attributes}
+                  />
+                )
+              })}
+            </Carousel>
           </Col>
-        </Row>
+        ) : (
+          <></>
+        )}
       </Row>
     </ConfigProvider>
   )
