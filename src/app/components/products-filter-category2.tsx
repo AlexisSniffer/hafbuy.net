@@ -1,4 +1,5 @@
 import ProductDefault from '@/components/product/product-default'
+import ProductExtra from '@/components/product/product-extra'
 import { qsProductUntil } from '@/queries/product'
 import useFilterStore from '@/store/filterStore'
 import styles from '@/styles/products-filter.module.scss'
@@ -7,11 +8,12 @@ import { Payload } from '@/types/payload'
 import { Product } from '@/types/product'
 import { fetcher } from '@/utils/fetcher'
 import {
-  Carousel,
   Col,
   ConfigProvider,
   Row,
   Skeleton,
+  Space,
+  Tabs,
   ThemeConfig,
   Typography,
 } from 'antd'
@@ -30,46 +32,30 @@ const theme: ThemeConfig = {
   },
 }
 
-const responsive = [
-  {
-    breakpoint: 480,
-    settings: {
-      slidesToShow: 2,
-    },
-  },
-  {
-    breakpoint: 576,
-    settings: {
-      slidesToShow: 2,
-    },
-  },
-  {
-    breakpoint: 768,
-    settings: {
-      slidesToShow: 3,
-    },
-  },
-  {
-    breakpoint: 992,
-    settings: {
-      slidesToShow: 3,
-    },
-  },
-  {
-    breakpoint: 1200,
-    settings: {
-      slidesToShow: 4,
-    },
-  },
-  {
-    breakpoint: 9999,
-    settings: {
-      slidesToShow: 6,
-    },
-  },
-]
+function ProductFilter({ data }: Payload<Product[]>) {
+  if (!data) {
+    return <Skeleton />
+  }
 
-export default function ProductsFilterCategory2({ id, attributes }: Category) {
+  return (
+    <Row>
+      {data!.slice(0, 4).map((product: Product) => {
+        return (
+          <Col
+            xs={{ span: 12 }}
+            sm={{ span: 8 }}
+            lg={{ span: 6 }}
+            key={product.attributes.slug}
+          >
+            <ProductDefault id={product.id} attributes={product.attributes} />
+          </Col>
+        )
+      })}
+    </Row>
+  )
+}
+
+export default function ProductsFilterCategory1({ id, attributes }: Category) {
   const router = useRouter()
   const { setCategories } = useFilterStore()
 
@@ -82,7 +68,9 @@ export default function ProductsFilterCategory2({ id, attributes }: Category) {
     <ConfigProvider theme={theme}>
       <Row className={styles['article']}>
         <Col
-          span={24}
+          xs={{ span: 24 }}
+          sm={{ span: 24 }}
+          lg={{ span: 18 }}
           style={{
             backgroundColor: '#fff',
             padding: '2rem',
@@ -93,6 +81,33 @@ export default function ProductsFilterCategory2({ id, attributes }: Category) {
               <Title level={4} className={styles['title']}>
                 {attributes.name}
               </Title>
+            </Col>
+            <Col>
+              <Space size={'large'}>
+                {attributes.categories.data.map((category: Category) => {
+                  return (
+                    <Text
+                      key={category.attributes.slug}
+                      className={styles['category-links']}
+                      onClick={() => {
+                        setCategories([category.attributes.slug])
+                        router.push('/shop')
+                      }}
+                    >
+                      {category.attributes.name}
+                    </Text>
+                  )
+                })}
+                <Text
+                  className={styles['view-all']}
+                  onClick={() => {
+                    setCategories([attributes.slug])
+                    router.push('/shop')
+                  }}
+                >
+                  ver más
+                </Text>
+              </Space>
             </Col>
           </Row>
           <Row className={styles['article']} gutter={[10, 10]}>
@@ -125,82 +140,82 @@ export default function ProductsFilterCategory2({ id, attributes }: Category) {
               </div>
             </Col>
           </Row>
-          <Row className={`${styles['categories']}`}>
-            {attributes.categories.data.map((category: Category) => {
+          <Row>
+            <Tabs
+              defaultActiveKey="1"
+              items={[
+                {
+                  key: '1',
+                  label: 'Lo más vendido',
+                  children: products?.data ? (
+                    <ProductFilter data={products?.data} />
+                  ) : (
+                    <></>
+                  ),
+                },
+                {
+                  key: '2',
+                  label: 'Nuevos',
+                  children: products?.data ? (
+                    <ProductFilter data={products?.data} />
+                  ) : (
+                    <></>
+                  ),
+                },
+                {
+                  key: '3',
+                  label: 'Mejores calificaciones',
+                  children: products?.data ? (
+                    <ProductFilter data={products?.data} />
+                  ) : (
+                    <></>
+                  ),
+                },
+              ]}
+              onChange={() => {}}
+            />
+          </Row>
+        </Col>
+        <Col
+          xs={{ span: 24 }}
+          sm={{ span: 24 }}
+          lg={{ span: 6 }}
+          style={{
+            backgroundColor: '#fff',
+            padding: '2rem 1rem',
+            borderLeft: '1px solid rgba(0,0,0,0.1)',
+          }}
+        >
+          <Title level={5}>Ofertas Especiales</Title>
+          <Row gutter={[16, 20]}>
+            {products?.data!.slice(0, 4).map((product: Product) => {
               return (
-                <Col key={category.attributes.slug} xs={24} sm={12} lg={6}>
-                  <Row>
-                    <Text
-                      className={styles['name']}
-                      onClick={() => {
-                        setCategories([category.attributes.slug])
-                        router.push('/shop')
-                      }}
-                    >
-                      {category.attributes.name}
-                    </Text>
-                  </Row>
-                  <Row gutter={[0, 5]}>
-                    {category.attributes.categories.data
-                      .slice(0, 10)
-                      .map((category2: Category) => {
-                        return (
-                          <Col key={category2.attributes.slug} xs={12}>
-                            <Text
-                              className={styles['name-sub']}
-                              onClick={() => {
-                                setCategories([category2.attributes.slug])
-                                router.push('/shop')
-                              }}
-                            >
-                              {category2.attributes.name}
-                            </Text>
-                          </Col>
-                        )
-                      })}
-                  </Row>
-                  <Row>
-                    <Text
-                      className={styles['view-all']}
-                      onClick={() => {
-                        setCategories([category.attributes.slug])
-                        router.push('/shop')
-                      }}
-                    >
-                      ver más
-                    </Text>
-                  </Row>
+                <Col
+                  xs={{ span: 12 }}
+                  sm={{ span: 8 }}
+                  lg={{ span: 24 }}
+                  key={product.attributes.slug}
+                >
+                  <ProductExtra
+                    id={product.id}
+                    attributes={product.attributes}
+                  />
                 </Col>
               )
             })}
+            <Col span={24}>
+              <Text
+                className={styles['view-all']}
+                onClick={() => {
+                  setCategories([attributes.slug])
+                  router.push('/shop')
+                }}
+              >
+                ver más
+              </Text>
+            </Col>
           </Row>
         </Col>
-        <Row>
-          <Col span={24}>
-            {products ? (
-              <Carousel
-                slidesToShow={6}
-                draggable={true}
-                infinite={false}
-                dots={false}
-                autoplay={true}
-                responsive={responsive}
-              >
-                {products!.data.slice(0, 6).map((product: Product) => {
-                  return (
-                    <ProductDefault
-                      key={product.id}
-                      id={product.id}
-                      attributes={product.attributes}
-                    />
-                  )
-                })}
-              </Carousel>
-            ) : (
-              <Skeleton />
-            )}
-          </Col>
-        </Row>
       </Row>
     </ConfigProvider>
   )
