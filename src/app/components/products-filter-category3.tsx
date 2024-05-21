@@ -1,18 +1,20 @@
 import ProductDefault from '@/components/product/product-default'
-import { qsProductsByCategory } from '@/queries/product'
+import ProductExtra from '@/components/product/product-extra'
+import { qsProductUntil, qsProductsByCategory } from '@/queries/product'
 import useFilterStore from '@/store/filterStore'
 import styles from '@/styles/products-filter.module.scss'
 import { Category } from '@/types/category'
 import { Payload } from '@/types/payload'
 import { Product } from '@/types/product'
 import { fetcher } from '@/utils/fetcher'
-import { ShopOutlined } from '@ant-design/icons'
 import {
   Carousel,
   Col,
   ConfigProvider,
-  Flex,
   Row,
+  Skeleton,
+  Space,
+  Tabs,
   ThemeConfig,
   Typography,
 } from 'antd'
@@ -31,44 +33,75 @@ const theme: ThemeConfig = {
   },
 }
 
-const responsive = [
-  {
-    breakpoint: 480,
-    settings: {
-      slidesToShow: 2,
+function ProductFilter({ data }: Payload<Product[]>) {
+  const responsive = [
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 2,
+      },
     },
-  },
-  {
-    breakpoint: 576,
-    settings: {
-      slidesToShow: 2,
+    {
+      breakpoint: 576,
+      settings: {
+        slidesToShow: 3,
+      },
     },
-  },
-  {
-    breakpoint: 768,
-    settings: {
-      slidesToShow: 3,
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 3,
+      },
     },
-  },
-  {
-    breakpoint: 992,
-    settings: {
-      slidesToShow: 3,
+    {
+      breakpoint: 992,
+      settings: {
+        slidesToShow: 4,
+      },
     },
-  },
-  {
-    breakpoint: 1200,
-    settings: {
-      slidesToShow: 4,
+    {
+      breakpoint: 1200,
+      settings: {
+        slidesToShow: 4,
+      },
     },
-  },
-  {
-    breakpoint: 9999,
-    settings: {
-      slidesToShow: 6,
+    {
+      breakpoint: 9999,
+      settings: {
+        slidesToShow: 4,
+      },
     },
-  },
-]
+  ]
+
+  if (!data) {
+    return <Skeleton />
+  }
+
+  return (
+    <Row>
+      <Col span={24}>
+        <Carousel
+          slidesToShow={6}
+          draggable={true}
+          infinite={false}
+          dots={false}
+          autoplay={true}
+          responsive={responsive}
+        >
+          {data.map((product: Product) => {
+            return (
+              <ProductDefault
+                key={product.id}
+                id={product.id}
+                attributes={product.attributes}
+              />
+            )
+          })}
+        </Carousel>
+      </Col>
+    </Row>
+  )
+}
 
 export default function ProductsFilterCategory3({ id, attributes }: Category) {
   const router = useRouter()
@@ -81,111 +114,164 @@ export default function ProductsFilterCategory3({ id, attributes }: Category) {
     fetcher,
   )
 
+  const { data: productsUntil, error: errorProductsUntil } = useSWR<
+    Payload<Product[]>
+  >(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/products?${qsProductUntil}`,
+    fetcher,
+  )
+
   return (
     <ConfigProvider theme={theme}>
       <Row className={styles['article']}>
-        <Col
-          span={24}
-          style={{
-            backgroundColor: '#fff',
-            padding: '2rem',
-          }}
-        >
-          <Row align={'middle'} gutter={40} style={{ marginBottom: '1rem' }}>
-            <Col>
-              <Title level={4} className={styles['title']}>
-                {attributes.name}
-              </Title>
+        <Col xs={{ span: 24 }} sm={{ span: 24 }} xl={{ span: 18 }}>
+          <Row>
+            <Col
+              xs={24}
+              style={{
+                backgroundColor: '#fff',
+                padding: '2rem',
+              }}
+            >
+              <Row
+                align={'middle'}
+                gutter={40}
+                style={{ marginBottom: '1rem' }}
+              >
+                <Col>
+                  <Title level={4} className={styles['title']}>
+                    {attributes.name}
+                  </Title>
+                </Col>
+                <Col>
+                  <Space size={'large'}>
+                    {attributes.categories.data.map((category: Category) => {
+                      return (
+                        <Text
+                          key={category.attributes.slug}
+                          className={styles['category-links']}
+                          onClick={() => {
+                            setCategories([category.attributes.slug])
+                            router.push('/shop')
+                          }}
+                        >
+                          {category.attributes.name}
+                        </Text>
+                      )
+                    })}
+                    <Text
+                      className={styles['view-all']}
+                      onClick={() => {
+                        setCategories([attributes.slug])
+                        router.push('/shop')
+                      }}
+                    >
+                      ver más
+                    </Text>
+                  </Space>
+                </Col>
+              </Row>
+              <Row>
+                <Col xs={24}>
+                  <div
+                    style={{
+                      color: '#000',
+                      height: '300px',
+                      maxHeight: '300px',
+                      width: '100%',
+                      padding: '2rem',
+                      backgroundColor: '#B0BEC5',
+                    }}
+                  >
+                    Espacio publicitario
+                  </div>
+                </Col>
+              </Row>
             </Col>
           </Row>
-          <Row className={`${styles['categories']}`}>
-            {attributes.categories.data.map((category: Category) => {
-              return (
-                <Col key={category.attributes.slug} xs={24} sm={12} lg={6}>
-                  <Flex align="center" justify="center" gap={50}>
-                    <ShopOutlined
-                      style={{ fontSize: '3rem' }}
-                      rev={undefined}
-                    />
-                    <Flex vertical gap={10}>
-                      <Text
-                        className={styles['name']}
-                        onClick={() => {
-                          setCategories([category.attributes.slug])
-                          router.push('/shop')
-                        }}
-                      >
-                        {category.attributes.name}
-                      </Text>
-                      <Flex vertical gap={10}>
-                        {category.attributes.categories.data
-                          .slice(0, 3)
-                          .map((category2: Category) => {
-                            return (
-                              <Text
-                                key={category2.attributes.slug}
-                                className={styles['name-sub']}
-                                onClick={() => {
-                                  setCategories([category2.attributes.slug])
-                                  router.push('/shop')
-                                }}
-                              >
-                                {category2.attributes.name}
-                              </Text>
-                            )
-                          })}
-                      </Flex>
-                    </Flex>
-                  </Flex>
-                </Col>
-              )
-            })}
+          <Row>
+            <Col
+              xs={24}
+              style={{
+                backgroundColor: '#fff',
+              }}
+            >
+              <Tabs
+                defaultActiveKey="1"
+                className={styles['filters-tabs']}
+                items={[
+                  {
+                    key: '1',
+                    label: 'Lo más vendido',
+                    children: products?.data ? (
+                      <ProductFilter data={products?.data} />
+                    ) : (
+                      <></>
+                    ),
+                  },
+                  {
+                    key: '2',
+                    label: 'Nuevos',
+                    children: products?.data ? (
+                      <ProductFilter data={products?.data} />
+                    ) : (
+                      <></>
+                    ),
+                  },
+                  {
+                    key: '3',
+                    label: 'Mejores calificaciones',
+                    children: products?.data ? (
+                      <ProductFilter data={products?.data} />
+                    ) : (
+                      <></>
+                    ),
+                  },
+                ]}
+                onChange={() => {}}
+              />
+            </Col>
           </Row>
         </Col>
-        {products && products.data.length ? (
-          <Col
-            xs={24}
-            style={{
-              backgroundColor: '#e7e7e7',
-            }}
-          >
-            <Carousel
-              slidesToShow={6}
-              draggable={true}
-              infinite={false}
-              dots={false}
-              autoplay={true}
-              responsive={responsive}
-            >
-              {products!.data.slice(0, 6).map((product: Product) => {
-                return (
-                  <ProductDefault
-                    key={product.id}
+        <Col
+          xs={{ span: 24 }}
+          sm={{ span: 24 }}
+          xl={{ span: 6 }}
+          style={{
+            backgroundColor: '#fff',
+            padding: '2rem 1rem',
+            borderLeft: '1px solid rgba(0,0,0,0.1)',
+          }}
+        >
+          <Title level={5}>Ofertas Especiales</Title>
+          <Row gutter={[16, 20]}>
+            {productsUntil?.data!.slice(0, 6).map((product: Product) => {
+              return (
+                <Col
+                  xs={{ span: 24 }}
+                  sm={{ span: 12 }}
+                  md={{ span: 8 }}
+                  lg={{ span: 8 }}
+                  xl={{ span: 24 }}
+                  key={product.attributes.slug}
+                >
+                  <ProductExtra
                     id={product.id}
                     attributes={product.attributes}
                   />
-                )
-              })}
-            </Carousel>
-          </Col>
-        ) : (
-          <></>
-        )}
-        <Col xs={24}>
-          <Row className={styles['article']} gutter={[10, 10]}>
-            <Col xs={24}>
-              <div
-                style={{
-                  color: '#000',
-                  height: '160px',
-                  maxHeight: '160px',
-                  width: '100%',
-                  padding: '2rem',
-                  backgroundColor: '#B0BEC5',
+                </Col>
+              )
+            })}
+            <Col span={24}>
+              <Text
+                className={styles['view-all']}
+                onClick={() => {
+                  setCategories([attributes.slug])
+                  router.push('/shop')
                 }}
               >
-                Espacio publicitario
-              </div>
+                ver más
+              </Text>
             </Col>
           </Row>
         </Col>
