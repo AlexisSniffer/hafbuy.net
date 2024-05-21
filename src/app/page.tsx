@@ -13,6 +13,7 @@ import CategoriesSlider from './components/categories-slider'
 import FeaturedBrands from './components/featured-brands'
 import ProductsFilterCategory1 from './components/products-filter-category1'
 import ProductsFilterCategory2 from './components/products-filter-category2'
+import ProductsFilterCategory3 from './components/products-filter-category3'
 import ProductsFilterOffers from './components/products-filter-offers'
 import ProductsFilterSortBy from './components/products-filter-sortby'
 import ProductsView from './components/products-view'
@@ -57,6 +58,10 @@ export default function Home() {
             <ProductsFilterCategory2
               id={categories?.data[random2].id}
               attributes={categories?.data[random2].attributes}
+            />
+            <ProductsFilterCategory3
+              id={categories?.data[random3].id}
+              attributes={categories?.data[random3].attributes}
             />
           </>
         ) : (
