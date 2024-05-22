@@ -14,7 +14,7 @@ const useViewStore = create<ViewState>()((set) => ({
 
       return !productExists
         ? {
-            view: [...state.view, product],
+            view: [product, ...state.view],
           }
         : state
     })
