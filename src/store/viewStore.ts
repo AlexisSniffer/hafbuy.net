@@ -10,11 +10,13 @@ const useViewStore = create<ViewState>()((set) => ({
   view: [],
   add: (product: Product) => {
     set((state) => {
-      state.view.push(product)
+      const productExists = state.view.some((p) => p.id === product.id)
 
-      return {
-        view: [...state.view],
-      }
+      return !productExists
+        ? {
+            view: [...state.view, product],
+          }
+        : state
     })
   },
 }))

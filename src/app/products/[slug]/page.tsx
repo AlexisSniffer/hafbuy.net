@@ -4,19 +4,27 @@ import ProductCarousel from '@/components/product/components/product-carousel'
 import ProductDetail from '@/components/product/components/product-detail'
 import Container from '@/components/utils/container'
 import { qsProductsBySlug } from '@/queries/product'
+import useViewStore from '@/store/viewStore'
 import { Payload } from '@/types/payload'
 import { Product } from '@/types/product'
 import { fetcher } from '@/utils/fetcher'
 import { Alert, Col, Row, Skeleton } from 'antd'
+import { useEffect } from 'react'
 import useSWR from 'swr'
 
-export default function Product({ params }: { params: { slug: string } }) {
+export default function ProductPage({ params }: { params: { slug: string } }) {
+  const { add } = useViewStore()
+
   const { data: product, error: errorProduct } = useSWR<Payload<Product[]>>(
     `${process.env.NEXT_PUBLIC_API_URL}/api/products?${qsProductsBySlug(
       params.slug,
     )}`,
     fetcher,
   )
+
+  useEffect(() => {
+    if (product) add(product.data[0])
+  }, [product])
 
   if (errorProduct) {
     return (

@@ -84,7 +84,7 @@ export default function ProductsFilterViewed() {
               </Flex>
             </Col>
           </Row>
-          <Row>
+          <Row className={styles['article']}>
             <Col
               xs={24}
               style={{

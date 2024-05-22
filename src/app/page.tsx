@@ -17,6 +17,7 @@ import ProductsFilterCategory3 from './components/products-filter-category3'
 import ProductsFilterOffers from './components/products-filter-offers'
 import ProductsFilterSortBy from './components/products-filter-sortby'
 
+import { Col, Row } from 'antd'
 import ProductsFilterSelected from './components/products-filter-selected'
 import ProductsFilterViewed from './components/products-filter-viewed'
 import Services from './components/services'
@@ -71,6 +72,24 @@ export default function Home() {
         )}
         <FeaturedBrands />
         <ProductsFilterSelected />
+
+        <Row className={styles['article']}>
+          <Col xs={24}>
+            <div
+              style={{
+                color: '#000',
+                height: '180px',
+                maxHeight: '180px',
+                width: '100%',
+                padding: '2rem',
+                backgroundColor: '#B0BEC5',
+              }}
+            >
+              Espacio publicitario
+            </div>
+          </Col>
+        </Row>
+
         <ProductsFilterViewed />
       </Container>
     </>
