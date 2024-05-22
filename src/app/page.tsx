@@ -16,7 +16,9 @@ import ProductsFilterCategory2 from './components/products-filter-category2'
 import ProductsFilterCategory3 from './components/products-filter-category3'
 import ProductsFilterOffers from './components/products-filter-offers'
 import ProductsFilterSortBy from './components/products-filter-sortby'
-import ProductsView from './components/products-view'
+
+import ProductsFilterSelected from './components/products-filter-selected'
+import ProductsFilterViewed from './components/products-filter-viewed'
 import Services from './components/services'
 
 export default function Home() {
@@ -68,7 +70,8 @@ export default function Home() {
           <></>
         )}
         <FeaturedBrands />
-        <ProductsView />
+        <ProductsFilterSelected />
+        <ProductsFilterViewed />
       </Container>
     </>
   )
