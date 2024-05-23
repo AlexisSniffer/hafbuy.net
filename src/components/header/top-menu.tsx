@@ -17,10 +17,10 @@ const theme: ThemeConfig = {
 }
 
 const items: MenuProps['items'] = [
-  /*{
-    label: <Link href="/profile/username">Mi Cuenta</Link>,
+  {
+    label: <Link href="/auth/login">Mi Cuenta</Link>,
     key: 'myAccount',
-  },*/
+  },
   {
     label: <Link href="/cart"> Carrito</Link>,
     key: 'cart',
