@@ -8,7 +8,9 @@ import useViewStore from '@/store/viewStore'
 import { Payload } from '@/types/payload'
 import { Product } from '@/types/product'
 import { fetcher } from '@/utils/fetcher'
-import { Alert, Col, Row, Skeleton } from 'antd'
+import { HomeOutlined } from '@ant-design/icons'
+import { Alert, Breadcrumb, Col, Divider, Row, Skeleton } from 'antd'
+import Link from 'next/link'
 import { useEffect } from 'react'
 import useSWR from 'swr'
 
@@ -44,6 +46,28 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
 
   return (
     <Container>
+      <Row>
+        <Col xs={24}>
+          <Breadcrumb
+            items={[
+              {
+                title: (
+                  <Link href={'/'}>
+                    <HomeOutlined />
+                  </Link>
+                ),
+              },
+              {
+                title: <Link href={'/shop'}>Tienda</Link>,
+              },
+              {
+                title: product.data[0].attributes.name,
+              },
+            ]}
+          />
+          <Divider />
+        </Col>
+      </Row>
       <Row gutter={[16, 16]}>
         <Col xs={24} md={10}>
           <ProductCarousel
