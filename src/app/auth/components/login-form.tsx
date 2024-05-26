@@ -1,12 +1,17 @@
+'use client'
+
 import {
+  Alert,
   Button,
   ConfigProvider,
   Form,
   Input,
   ThemeConfig,
   Typography,
-  notification,
 } from 'antd'
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 const { Title } = Typography
 
@@ -24,44 +29,36 @@ const theme: ThemeConfig = {
 }
 
 export default function LoginForm() {
+  const router = useRouter()
   const [loginForm] = Form.useForm()
-  const [api, contextHolder] = notification.useNotification()
+  const [errorLogin, setErrorLogin] = useState<string | null>(null)
+  const [loading, setLoading] = useState<boolean>(false)
 
-  const onFinishLogin = async (values: any) => {
-    /* const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          identifier: values.email,
-          password: values.password,
-        }),
-      },
-    )
+  const onFinishLogin = async (values: { email: string; password: string }) => {
+    setLoading(true)
 
-    const data = await response.json()
+    const response = await signIn('credentials', {
+      email: values.email,
+      password: values.password,
+      redirect: false,
+    })
 
-    if (data.jwt) {
-      Cookies.set('jwt', data.jwt)
-      Cookies.set('user', data.user)
-      router.push(`profile/${data.user.username}`)
+    if (response?.error) {
+      setErrorLogin(response.error)
     } else {
-      api.error({
-        message: `Error`,
-        description: 'email o contraseña inválidos.',
-        placement: 'bottomRight',
-      })
-    }*/
+      setLoading(false)
+      router.push('/profile')
+    }
   }
 
   return (
     <ConfigProvider theme={theme}>
-      {contextHolder}
-
       <Title level={3}>Iniciar Sesión</Title>
+      {errorLogin && (
+        <>
+          <Alert message={errorLogin} type="error" showIcon closable /> <br />
+        </>
+      )}
       <Form
         form={loginForm}
         name="login"
@@ -93,8 +90,19 @@ export default function LoginForm() {
           <Input.Password size="large" />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" block size="large" onClick={loginForm.submit}>
+          <Button
+            type="primary"
+            block
+            size="large"
+            loading={loading}
+            onClick={loginForm.submit}
+          >
             Iniciar Sesión
+          </Button>
+        </Form.Item>
+        <Form.Item>
+          <Button type="default" block size="large" onClick={loginForm.submit}>
+            Crear una cuenta
           </Button>
         </Form.Item>
       </Form>

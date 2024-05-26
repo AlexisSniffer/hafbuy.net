@@ -1,4 +1,5 @@
 import RootHeader from '@/components/header/header'
+import SessionProvider from '@/components/common/session-provider'
 import StyledComponentsRegistry from '@/lib/antd-registry'
 import '@/styles/global.scss'
 
@@ -16,8 +17,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <StyledComponentsRegistry>
-          <RootHeader />
-          {children}
+          <SessionProvider>
+            <RootHeader />
+            {children}
+          </SessionProvider>
         </StyledComponentsRegistry>
       </body>
     </html>

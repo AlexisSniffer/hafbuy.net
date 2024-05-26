@@ -22,9 +22,7 @@ export default function Login() {
         }}
       >
         <Row>
-          <Col xs={{ span: 24 }} md={{ span: 12, offset: 6 }}>
-            <LoginForm />
-          </Col>
+          <Col xs={{ span: 24 }} md={{ span: 12, offset: 6 }}></Col>
         </Row>
       </Container>
     </ConfigProvider>

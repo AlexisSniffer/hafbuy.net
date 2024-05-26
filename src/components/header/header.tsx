@@ -9,7 +9,7 @@ import { Category } from '@/types/category'
 import { Payload } from '@/types/payload'
 import { fetcher } from '@/utils/fetcher'
 import { MenuOutlined } from '@ant-design/icons'
-import { Affix, Col, Row } from 'antd'
+import { Col, Row } from 'antd'
 import { useState } from 'react'
 import useSWR from 'swr'
 import Account from './account'
@@ -19,9 +19,9 @@ import Contact from './contact'
 import DrawerMenu from './drawer-menu'
 import HeaderInfo from './header-info'
 import HeaderSearch from './header-search'
-import Languages from './languages'
 import MainMenu from './main-menu'
 import TopMenu from './top-menu'
+import Languages from './languages'
 
 export default function RootHeader() {
   const [affix, setAffix] = useState<boolean>(false)
@@ -52,7 +52,9 @@ export default function RootHeader() {
                 align={'middle'}
                 gutter={{ xs: 8, sm: 16, md: 24 }}
               >
-                <Col>{/* <Languages /> */}</Col>
+                <Col>
+                  <Languages />
+                </Col>
                 <Col flex={'0 0 auto'} xs={{ span: 0 }} lg={24}>
                   <TopMenu />
                 </Col>
@@ -67,41 +69,41 @@ export default function RootHeader() {
         {/* TODO: bug - Warning: findDOMNode is deprecated in StrictMode. findDOMNode was
           passed an instance of DomWrapper which is inside StrictMode.
         */}
-        <Affix
+        {/* <Affix
           onChange={(affixed?: boolean) => {
             setAffix(affixed!)
           }}
+        > */}
+        <Container
+          className={`${styles['middle']} ${affix ? styles.affix : null}`}
         >
-          <Container
-            className={`${styles['middle']} ${affix ? styles.affix : null}`}
+          <Row
+            align={'middle'}
+            justify={'space-between'}
+            gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 }, 0]}
           >
-            <Row
-              align={'middle'}
-              justify={'space-between'}
-              gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 }, 0]}
-            >
-              <Col>
-                <Row align={'middle'} gutter={20}>
-                  <Col lg={0}>
-                    <MenuOutlined onClick={() => setOpen(!open)} />
-                  </Col>
-                  <Col>
-                    <Logo />
-                  </Col>
-                </Row>
-              </Col>
-              <Col flex={'auto'} xs={0} lg={24}>
-                <HeaderSearch data={categories?.data} meta={categories?.meta} />
-              </Col>
-              <Col flex={'0 0 auto'} xs={0} lg={24}>
-                <Account />
-              </Col>
-              <Col>
-                <CartIcons data={categories?.data} meta={categories?.meta} />
-              </Col>
-            </Row>
-          </Container>
-        </Affix>
+            <Col>
+              <Row align={'middle'} gutter={20}>
+                <Col lg={0}>
+                  <MenuOutlined onClick={() => setOpen(!open)} />
+                </Col>
+                <Col>
+                  <Logo />
+                </Col>
+              </Row>
+            </Col>
+            <Col flex={'auto'} xs={0} lg={24}>
+              <HeaderSearch data={categories?.data} meta={categories?.meta} />
+            </Col>
+            <Col flex={'0 0 auto'} xs={0} lg={24}>
+              <Account />
+            </Col>
+            <Col>
+              <CartIcons data={categories?.data} meta={categories?.meta} />
+            </Col>
+          </Row>
+        </Container>
+        {/*  </Affix> */}
 
         <Container className={styles['bottom']}>
           <Col xs={0} lg={24}>

@@ -1,4 +1,5 @@
 import { ConfigProvider, Menu, MenuProps, ThemeConfig } from 'antd'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 
 const theme: ThemeConfig = {
@@ -16,26 +17,29 @@ const theme: ThemeConfig = {
   },
 }
 
-const items: MenuProps['items'] = [
-  {
-    label: <Link href="/auth/login">Mi Cuenta</Link>,
-    key: 'myAccount',
-  },
-  {
-    label: <Link href="/cart"> Carrito</Link>,
-    key: 'cart',
-  },
-
-  /*{
-    label: <Link href="/login">Iniciar Sesión</Link>,
-    key: 'login',
-  },*/
-]
-
 export default function TopMenu() {
+  const { data: session, status } = useSession()
   return (
     <ConfigProvider theme={theme}>
-      <Menu mode="horizontal" items={items} disabledOverflow={true} />
+      <Menu
+        mode="horizontal"
+        items={[
+          {
+            label:
+              status === 'authenticated' ? (
+                <Link href={`/profile`}>Mi Cuenta</Link>
+              ) : (
+                <Link href={'/auth/login'}>Iniciar Sesión</Link>
+              ),
+            key: status === 'authenticated' ? 'myAccount' : 'login',
+          },
+          {
+            label: <Link href="/cart"> Carrito</Link>,
+            key: 'cart',
+          },
+        ]}
+        disabledOverflow={true}
+      />
     </ConfigProvider>
   )
 }

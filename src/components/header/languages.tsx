@@ -12,12 +12,11 @@ const theme: ThemeConfig = {
 }
 
 const languageOptions = [
-  { value: 'es', label: '🇵🇦 Español' },
-  { value: 'en', label: '🇺🇸 English' },
+  { value: 'es', label: '🇵🇦 ESP' },
+  // { value: 'en', label: '🇺🇸 English' },
 ]
 
 export default function Languages() {
-  const paginationStore = useFilterStore((state) => state.pagination)
   const { setFilter, setCategories } = useFilterStore()
 
   const handleChange = (value: string) => {
@@ -29,8 +28,8 @@ export default function Languages() {
   return (
     <ConfigProvider theme={theme}>
       <Select
-        //defaultValue={localStorage.getItem('locale')}
-        bordered={false}
+        defaultValue={'es'}
+        variant={'borderless'}
         size={'small'}
         onChange={handleChange}
         options={languageOptions}
