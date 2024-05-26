@@ -79,10 +79,10 @@ export default function Profile() {
         </Row>
         <br />
         <br />
-        <Row gutter={[40, 40]}>
+        <Row gutter={[10, 10]}>
           {items.map((item) => {
             return (
-              <Col xs={8}>
+              <Col xs={12} md={8} key={item.title}>
                 <Link
                   href={item.link}
                   onClick={item.onclick ? item.onclick : () => {}}
@@ -90,7 +90,9 @@ export default function Profile() {
                   <Card style={{ width: '100%' }}>
                     <Flex vertical justify="center" align="center" gap={20}>
                       {item.icon}
-                      <Title level={4}>{item.title}</Title>
+                      <Title level={5} style={{ textAlign: 'center' }}>
+                        {item.title}
+                      </Title>
                     </Flex>
                   </Card>
                 </Link>

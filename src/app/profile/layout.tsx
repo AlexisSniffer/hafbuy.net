@@ -65,10 +65,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <br />
       <Container>
         <Row gutter={[20, 20]}>
-          <Col xs={6}>
+          <Col xs={24} lg={6}>
             <Menu style={{ width: '100%' }} mode="vertical" items={items} />
           </Col>
-          <Col xs={18}>{children}</Col>
+          <Col xs={24} lg={18}>
+            {children}
+          </Col>
         </Row>
       </Container>
     </ConfigProvider>
