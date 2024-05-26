@@ -29,26 +29,14 @@ const theme: ThemeConfig = {
   },
 }
 
-export default function LoginForm() {
+export default function SignupForm() {
   const router = useRouter()
-  const [loginForm] = Form.useForm()
-  const [errorLogin, setErrorLogin] = useState<string | null>(null)
+  const [signupForm] = Form.useForm()
+  const [errorSignup, setErrorSignup] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
 
   const onFinishLogin = async (values: { email: string; password: string }) => {
     setLoading(true)
-
-    const response = await signIn('credentials', {
-      email: values.email,
-      password: values.password,
-      redirect: false,
-    })
-
-    if (response?.error) {
-      setErrorLogin(response.error)
-    } else {
-      router.push('/profile')
-    }
 
     setLoading(false)
   }
@@ -56,13 +44,13 @@ export default function LoginForm() {
   return (
     <ConfigProvider theme={theme}>
       <Title level={3}>Iniciar Sesión</Title>
-      {errorLogin && (
+      {errorSignup && (
         <>
-          <Alert message={errorLogin} type="error" showIcon closable /> <br />
+          <Alert message={errorSignup} type="error" showIcon closable /> <br />
         </>
       )}
       <Form
-        form={loginForm}
+        form={signupForm}
         name="login"
         layout="vertical"
         onFinish={onFinishLogin}
@@ -97,14 +85,9 @@ export default function LoginForm() {
             block
             size="large"
             loading={loading}
-            onClick={loginForm.submit}
+            onClick={signupForm.submit}
           >
-            Iniciar Sesión
-          </Button>
-        </Form.Item>
-        <Form.Item>
-          <Button type="default" block size="large">
-            <Link href="/auth/signup">Crear una cuenta</Link>
+            Registrarse
           </Button>
         </Form.Item>
       </Form>
