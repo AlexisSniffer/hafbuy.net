@@ -28,6 +28,9 @@ const theme: ThemeConfig = {
     Space: {
       borderRadius: 0,
     },
+    Modal: {
+      borderRadius: 0,
+    },
   },
 }
 
@@ -138,7 +141,7 @@ export default function ProductAdd({ id, attributes }: Product) {
           ))}
         </Col>
       </Row>
-      <Divider style={{ marginTop: '1em', marginBottom: '1em' }} />
+      <Divider style={{ marginTop: '0.5em', marginBottom: '0em' }} />
       <Row>
         <Col>
           {attributes.variants.length && selectedVariant ? (

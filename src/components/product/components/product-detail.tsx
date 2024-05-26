@@ -15,6 +15,7 @@ import {
   ThemeConfig,
   Typography,
 } from 'antd'
+import Link from 'next/link'
 import { useEffect } from 'react'
 import Countdown from '../../common/countdown'
 
@@ -41,13 +42,16 @@ export default function ProductDetail({ id, attributes }: Product) {
 
   return (
     <ConfigProvider theme={theme}>
-      <Space
-        direction="vertical"
+      <Flex
+        vertical
+        gap={5}
         className={`${styles['product']} ${styles['product-detail']}`}
       >
-        <Title level={1} className={styles['name']}>
-          {attributes.name}
-        </Title>
+        <Link href={`/products/${attributes.slug}`}>
+          <Title level={1} className={styles['name']}>
+            {attributes.name}
+          </Title>
+        </Link>
         <Rate
           disabled
           value={attributes.ratings}
@@ -66,10 +70,12 @@ export default function ProductDetail({ id, attributes }: Product) {
         {attributes.discount &&
         attributes.until &&
         new Date(attributes.until) > new Date() ? (
-          <Tag className={styles['offer']}>
-            <span>oferta termina en:</span>{' '}
-            <Countdown targetDate={attributes.until} />
-          </Tag>
+          <div>
+            <Tag className={styles['offer']}>
+              <span>oferta termina en:</span>{' '}
+              <Countdown targetDate={attributes.until} />
+            </Tag>
+          </div>
         ) : (
           <></>
         )}
@@ -113,7 +119,7 @@ export default function ProductDetail({ id, attributes }: Product) {
         <ProductAdd id={id} attributes={attributes}></ProductAdd>
         <Divider style={{ marginTop: '0.5em', marginBottom: '0.5em' }} />
         <SocialIcons />
-      </Space>
+      </Flex>
     </ConfigProvider>
   )
 }

@@ -10,9 +10,12 @@ import {
 import {
   Button,
   Card,
+  Col,
   ConfigProvider,
   Flex,
+  Modal,
   Rate,
+  Row,
   Tag,
   ThemeConfig,
   Typography,
@@ -21,10 +24,13 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import Countdown from '../common/countdown'
-import ProductCategories from './components/product-categories'
-import ProductPrices from './components/product-price'
 import ProductAddMessage from './components/product-add-message'
+import ProductCarousel from './components/product-carousel'
+import ProductCategories from './components/product-categories'
+import ProductDetail from './components/product-detail'
+import ProductPrices from './components/product-price'
 
 const { Text } = Typography
 
@@ -49,12 +55,43 @@ const theme: ThemeConfig = {
   },
 }
 
+const resolution: any = () => {
+  if (window.innerWidth >= 480 && window.innerWidth < 576) return '98%'
+  else if (window.innerWidth >= 576 && window.innerWidth < 768) return '90%'
+  else if (window.innerWidth >= 768 && window.innerWidth < 992) return '80%'
+  else if (window.innerWidth >= 992 && window.innerWidth < 1200) return '75%'
+  else if (window.innerWidth >= 1200 && window.innerWidth < 1600) return '65%'
+  else if (window.innerWidth >= 1600) return '65%'
+  else return '100%'
+}
+
 export default function ProductDefault({ id, attributes }: Product) {
   const router = useRouter()
+  const [widthModal, setWidthModal] = useState(resolution())
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const [api, contextHolder] = notification.useNotification({
     stack: { threshold: 4 },
   })
   const { add } = useCartStore()
+
+  const handleResize = () => {
+    if (window.innerWidth >= 480 && window.innerWidth < 576)
+      setWidthModal('98%')
+    else if (window.innerWidth >= 576 && window.innerWidth < 768)
+      setWidthModal('90%')
+    else if (window.innerWidth >= 768 && window.innerWidth < 992)
+      setWidthModal('80%')
+    else if (window.innerWidth >= 992 && window.innerWidth < 1200)
+      setWidthModal('75%')
+    else if (window.innerWidth >= 1200 && window.innerWidth < 1600)
+      setWidthModal('65%')
+    else if (window.innerWidth >= 1600) setWidthModal('65%')
+    else setWidthModal('100%')
+  }
+
+  const showModal = () => {
+    setIsModalOpen(!isModalOpen)
+  }
 
   const addProduct = () => {
     let product: ProductCart = {
@@ -76,6 +113,11 @@ export default function ProductDefault({ id, attributes }: Product) {
   const linkProduct = () => {
     router.push(`/products/${attributes.slug}`)
   }
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [handleResize])
 
   const cover = ({ id, attributes }: Product) => {
     return (
@@ -100,7 +142,7 @@ export default function ProductDefault({ id, attributes }: Product) {
         )}
         <Button
           type="primary"
-          //onClick={showModal}
+          onClick={showModal}
           className={styles['quick-view']}
         >
           vista rápida
@@ -172,6 +214,24 @@ export default function ProductDefault({ id, attributes }: Product) {
           variants={attributes.variants}
         />
       </Card>
+
+      <Modal
+        width={widthModal}
+        centered={true}
+        footer={null}
+        open={isModalOpen}
+        onOk={showModal}
+        onCancel={showModal}
+      >
+        <Row gutter={[16, 16]}>
+          <Col xs={24} md={10}>
+            <ProductCarousel id={id} attributes={attributes} />
+          </Col>
+          <Col xs={24} md={14}>
+            <ProductDetail id={id} attributes={attributes} />
+          </Col>
+        </Row>
+      </Modal>
     </ConfigProvider>
   )
 }
