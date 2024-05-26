@@ -1,33 +1,108 @@
 'use client'
 
-import SectionPage from '@/components/common/section-page'
-import Container from '@/components/utils/container'
+import {
+  DropboxOutlined,
+  EnvironmentOutlined,
+  HeartOutlined,
+  LogoutOutlined,
+  UserOutlined,
+} from '@ant-design/icons'
 import type { ThemeConfig } from 'antd'
-import { Button, Col, ConfigProvider, Row } from 'antd'
-import { signOut } from 'next-auth/react'
-import { useSession } from 'next-auth/react'
+import { Card, Col, Flex, Row, Typography } from 'antd'
+import { signOut, useSession } from 'next-auth/react'
+import Link from 'next/link'
 
 const theme: ThemeConfig = {
-  components: {},
+  components: {
+    Card: {
+      borderRadiusLG: 0,
+    },
+  },
 }
-const breadcrumbs = [{ title: 'Inicio', href: '/' }, { title: 'Mi Cuenta' }]
+
+const { Paragraph, Title } = Typography
+
+const items = [
+  {
+    title: 'Ordenes',
+    link: '/profile/orders',
+    icon: <DropboxOutlined style={{ fontSize: '4rem', color: '#d3d3d4' }} />,
+  },
+  {
+    title: 'Direcciones',
+    link: '/profile/orders',
+    icon: (
+      <EnvironmentOutlined style={{ fontSize: '4rem', color: '#d3d3d4' }} />
+    ),
+  },
+  {
+    title: 'Detalle de la Cuenta',
+    link: '/profile/orders',
+    icon: <UserOutlined style={{ fontSize: '4rem', color: '#d3d3d4' }} />,
+  },
+  {
+    title: 'Lista de Deseos',
+    link: '/profile/orders',
+    icon: <HeartOutlined style={{ fontSize: '4rem', color: '#d3d3d4' }} />,
+  },
+  {
+    title: 'Cerrar Sesion',
+    link: '/profile',
+    onclick: () => {
+      signOut()
+    },
+    icon: <LogoutOutlined style={{ fontSize: '4rem', color: '#d3d3d4' }} />,
+  },
+]
 
 export default function Profile() {
   const { data: session, status } = useSession()
 
   if (status === 'authenticated') {
     return (
-      <ConfigProvider theme={theme}>
-        <SectionPage title="Mi Cuenta" breadcrumbs={breadcrumbs} />
-        <Container>
-          <Row>
-            <Col xs={24}>
-              <br />
-              <Button onClick={() => signOut()}>Cerrar sesion</Button>
-            </Col>
-          </Row>
-        </Container>
-      </ConfigProvider>
+      <>
+        <Row>
+          <Col xs={24}>
+            <Paragraph>
+              Desde el panel de su cuenta puede ver sus{' '}
+              <Link href="/profile/orders">pedidos recientes</Link>, administrar
+              sus{' '}
+              <Link href="/profile/orders">
+                direcciones de envío y facturación
+              </Link>{' '}
+              y{' '}
+              <Link href="/profile/orders">
+                editar su contraseña y los detalles de su cuenta.
+              </Link>
+            </Paragraph>
+          </Col>
+        </Row>
+        <br />
+        <br />
+        <Row gutter={[40, 40]}>
+          {items.map((item) => {
+            return (
+              <Col xs={8}>
+                <Link
+                  href={item.link}
+                  onClick={item.onclick ? item.onclick : () => {}}
+                >
+                  <Card style={{ width: '100%' }}>
+                    <Flex vertical justify="center" align="center" gap={20}>
+                      {item.icon}
+                      <Title level={4}>{item.title}</Title>
+                    </Flex>
+                  </Card>
+                </Link>
+              </Col>
+            )
+          })}
+        </Row>
+        <br />
+        <br />
+        <br />
+        <br />
+      </>
     )
   }
 }
