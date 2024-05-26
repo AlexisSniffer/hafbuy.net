@@ -101,7 +101,7 @@ export default function LoginForm() {
           </Button>
         </Form.Item>
         <Form.Item>
-          <Button type="default" block size="large" onClick={loginForm.submit}>
+          <Button type="default" block size="large" onClick={()=> {}}>
             Crear una cuenta
           </Button>
         </Form.Item>
