@@ -8,6 +8,7 @@ import {
   MenuProps,
   ThemeConfig,
 } from 'antd'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 
 const theme: ThemeConfig = {
@@ -25,15 +26,9 @@ interface DrawerMenuProps {
   onClose: () => void
 }
 
-const items: MenuProps['items'] = [
-  { key: 'home', label: <Link href="/">Inicio</Link> },
-  { key: 'shop', label: <Link href="/shop">Tienda</Link> },
-  // { key: 'about', label: 'Nosotros' },
-  // { key: 'blog', label: 'Blog' },
-  // { key: 'contact', label: 'Contáctenos' },
-]
-
 export default function DrawerMenu(props: DrawerMenuProps) {
+  const { data: session, status } = useSession()
+
   return (
     <ConfigProvider theme={theme}>
       <Drawer
@@ -49,7 +44,27 @@ export default function DrawerMenu(props: DrawerMenuProps) {
         }}
       >
         <Sider width={'100%'} theme="dark">
-          <Menu style={{ height: '100%' }} items={items} />
+          <Menu
+            style={{ height: '100%' }}
+            items={[
+              { key: 'home', label: <Link href="/">Inicio</Link> },
+              { key: 'shop', label: <Link href="/shop">Tienda</Link> },
+              {
+                key: 'myAccount',
+                label: (
+                  <Link
+                    href={
+                      status === 'authenticated' ? '/profile' : '/auth/login'
+                    }
+                  >
+                    {status === 'authenticated'
+                      ? 'Mi Cuenta'
+                      : 'Iniciar Sesion'}
+                  </Link>
+                ),
+              },
+            ]}
+          />
         </Sider>
       </Drawer>
     </ConfigProvider>
