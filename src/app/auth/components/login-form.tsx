@@ -58,7 +58,16 @@ export default function LoginForm() {
       <Title level={3}>Iniciar Sesión</Title>
       {errorLogin && (
         <>
-          <Alert message={errorLogin} type="error" showIcon closable /> <br />
+          <Alert
+            message={errorLogin}
+            type="error"
+            showIcon
+            closable
+            onClose={() => {
+              setErrorLogin(null)
+            }}
+          />
+          <br />
         </>
       )}
       <Form

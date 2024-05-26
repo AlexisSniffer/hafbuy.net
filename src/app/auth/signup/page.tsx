@@ -3,7 +3,7 @@
 import SectionPage from '@/components/common/section-page'
 import Container from '@/components/utils/container'
 import { Col, ConfigProvider, Row, ThemeConfig } from 'antd'
-import LoginForm from '../components/login-form'
+import SignupForm from '../components/signup-form'
 
 const theme: ThemeConfig = {
   components: {},
@@ -22,7 +22,9 @@ export default function Login() {
         }}
       >
         <Row>
-          <Col xs={{ span: 24 }} md={{ span: 12, offset: 6 }}></Col>
+          <Col xs={{ span: 24 }} md={{ span: 12, offset: 6 }}>
+            <SignupForm />
+          </Col>
         </Row>
       </Container>
     </ConfigProvider>
