@@ -46,9 +46,10 @@ export default function LoginForm() {
     if (response?.error) {
       setErrorLogin(response.error)
     } else {
-      setLoading(false)
       router.push('/profile')
     }
+
+    setLoading(false)
   }
 
   return (
@@ -101,7 +102,7 @@ export default function LoginForm() {
           </Button>
         </Form.Item>
         <Form.Item>
-          <Button type="default" block size="large" onClick={()=> {}}>
+          <Button type="default" block size="large" onClick={() => {}}>
             Crear una cuenta
           </Button>
         </Form.Item>
