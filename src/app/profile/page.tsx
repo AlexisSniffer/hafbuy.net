@@ -37,7 +37,7 @@ const items = [
   },
   {
     title: 'Detalle de la Cuenta',
-    link: '/profile/orders',
+    link: '/profile/account-details',
     icon: <UserOutlined style={{ fontSize: '4rem', color: '#d3d3d4' }} />,
   },
   {
@@ -71,7 +71,7 @@ export default function Profile() {
                 direcciones de envío y facturación
               </Link>{' '}
               y{' '}
-              <Link href="/profile/orders">
+              <Link href="/profile/account-details">
                 editar su contraseña y los detalles de su cuenta.
               </Link>
             </Paragraph>

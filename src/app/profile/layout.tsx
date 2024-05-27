@@ -41,7 +41,7 @@ const items = [
   },
   {
     key: 'accountDetails',
-    label: <Link href="/profile/orders">Detalle de la Cuenta</Link>,
+    label: <Link href="/profile/account-details">Detalle de la Cuenta</Link>,
   },
   {
     key: 'whishlist',
