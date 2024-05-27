@@ -103,28 +103,7 @@
   }
 }
 
-/*
-  HOME: SERVICES
-*/
-.services {
-  .name,
-  .description {
-    text-transform: uppercase;
-  }
 
-  .name {
-    color: $primary-color-dark;
-    margin: 0;
-  }
-
-  .description {
-    color: $body-text;
-  }
-
-  .icon {
-    margin-right: 0.5rem;
-  }
-}
 
 /*
   HOME: ORDENAR POR

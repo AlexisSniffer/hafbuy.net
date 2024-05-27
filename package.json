@@ -9,24 +9,22 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ant-design/cssinjs": "^1.18.4",
-    "@ant-design/icons": "^5.3.0",
-    "@vercel/edge-config": "^1.0.2",
-    "antd": "^5.14.2",
+    "@ant-design/cssinjs": "^1.20.0",
+    "@ant-design/icons": "^5.3.7",
+    "@vercel/edge-config": "^1.1.1",
+    "antd": "^5.17.3",
     "dayjs": "^1.11.10",
-    "js-cookie": "^3.0.5",
     "next": "14.1.0",
     "next-auth": "^4.24.7",
-    "qs": "^6.11.2",
+    "qs": "^6.12.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-google-recaptcha": "^3.1.0",
     "swr": "^2.2.5",
     "typescript": "5.3.3",
-    "zustand": "^4.5.1"
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
-    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20.10.4",
     "@types/qs": "^6.9.10",
     "@types/react": "^18.2.45",
