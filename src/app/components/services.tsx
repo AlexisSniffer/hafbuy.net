@@ -66,7 +66,7 @@ export default function Services() {
         dots={false}
         autoplay
         responsive={responsive}
-        style={{ paddingTop: '1rem', paddingBottom: '1.5rem' }}
+        style={{ paddingTop: '1rem', paddingBottom: '2rem' }}
       >
         {services.data.map((service: Service, index: number) => {
           return (

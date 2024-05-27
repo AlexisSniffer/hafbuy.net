@@ -4,9 +4,11 @@ import { qsProductUntil } from '@/queries/product'
 import { Payload } from '@/types/payload'
 import { Product } from '@/types/product'
 import { fetcher } from '@/utils/fetcher'
+import { CalendarOutlined } from '@ant-design/icons'
 import {
   Col,
   ConfigProvider,
+  Flex,
   Row,
   Skeleton,
   ThemeConfig,
@@ -33,7 +35,12 @@ export default function ProductsFilterOffers() {
   return (
     <ConfigProvider theme={theme}>
       <Row>
-        <Title level={3}>Ofertas Especiales</Title>
+        <Flex gap={10} align="center" style={{ margin: '0.5rem' }}>
+          <CalendarOutlined style={{ fontSize: '1.5rem' }} />
+          <Title level={3} style={{ margin: 0 }}>
+            Ofertas Especiales
+          </Title>
+        </Flex>
       </Row>
       <Row>
         <Col xs={24} md={8}>
@@ -48,7 +55,7 @@ export default function ProductsFilterOffers() {
               return (
                 <Col
                   xs={{ span: 12 }}
-                  sm={{ span: 8 }}                
+                  sm={{ span: 8 }}
                   md={{ span: 8 }}
                   lg={{ span: 6 }}
                   key={product.attributes.slug}
