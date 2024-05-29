@@ -1,12 +1,13 @@
+import styles from '@/styles/social-icons.module.scss'
 import SizeProps from '@/types/size-props'
 import {
   FacebookFilled,
   InstagramFilled,
   MailFilled,
-  TwitterSquareFilled,
+  PhoneFilled,
+  TikTokFilled,
 } from '@ant-design/icons'
 import Link from 'next/link'
-import styles from '@/styles/social-icons.module.scss'
 
 type SocialIconsProps = {
   link: string
@@ -16,19 +17,24 @@ type SocialIconsProps = {
 
 const socialIcons: SocialIconsProps[] = [
   {
-    link: 'https://facebook.com',
+    link: 'https://www.facebook.com/people/hafbuy/100066751616477/',
     icon: <FacebookFilled rev={undefined} />,
     className: 'facebook',
   },
   {
-    link: 'https://instagram.com',
+    link: 'https://www.instagram.com/hafbuy',
     icon: <InstagramFilled rev={undefined} />,
     className: 'instagram',
   },
   {
-    link: 'https://twitter.com',
-    icon: <TwitterSquareFilled rev={undefined} />,
-    className: 'twitter',
+    link: 'https://www.tiktok.com/@hafbuyoficial',
+    icon: <TikTokFilled rev={undefined} />,
+    className: 'tiktok',
+  },
+  {
+    link: 'https://wa.me/68748978',
+    icon: <PhoneFilled rev={undefined} />,
+    className: 'whatsapp',
   },
   {
     link: 'mailto:no-reply@e-commerce.com',

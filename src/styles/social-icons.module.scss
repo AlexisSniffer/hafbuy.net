@@ -5,7 +5,7 @@
   width: 32px;
   height: 32px;
   color: #fff;
-  background-color: red;
+  background-color: transparent;
   font-size: 14px;
   line-height: 3.2rem;
   text-align: center;
@@ -46,6 +46,23 @@
       border-color: #7c4a3a;
     }
   }
+
+  &.social-icon--tiktok {
+    background-color: #ff0000;
+
+    &:hover {
+      border-color: #ff0000;
+    }
+  }
+
+  &.social-icon--whatsapp {
+    background-color: #00a884;
+
+    &:hover {
+      border-color: #00a884;
+    }
+  }
+
 
   &.social-icon--mail {
     background-color: #dd4b39;
