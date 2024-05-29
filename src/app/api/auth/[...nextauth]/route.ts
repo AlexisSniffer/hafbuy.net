@@ -30,17 +30,34 @@ const handler = nextAuth({
 
         const data = await response.json()
 
-        if (data && data.error)
+        if (data && data.error) {
           throw Error('No se pudo iniciar sesion, intentelo mas tarde.')
+        }
+
+        console.log(data)
 
         return {
           id: data.user.id,
-          name: data.user.username,
+          username: data.user.username,
+          name: data.user.name,
+          lastname: data.user.lastname,
           email: data.user.email,
+          confirmed: data.user.confirmed,
+          blocked: data.user.blocked,
+          token: data.jwt,
         }
       },
     }),
   ],
+  callbacks: {
+    jwt: async ({ token, user }) => {
+      return { ...token, ...user }
+    },
+    session: async ({ session, token }) => {
+      session.user = token as any
+      return session
+    },
+  },
 })
 
 export { handler as GET, handler as POST }

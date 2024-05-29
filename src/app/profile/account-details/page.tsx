@@ -13,9 +13,9 @@ import {
   Row,
   ThemeConfig,
   Typography,
+  notification,
 } from 'antd'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { signOut, useSession } from 'next-auth/react'
 import { useState } from 'react'
 
 const { Title } = Typography
@@ -40,19 +40,101 @@ const theme: ThemeConfig = {
 
 export default function AccountDetailProfile() {
   const { data: session, status } = useSession()
-  const router = useRouter()
   const [form] = Form.useForm()
+  const [api, contextHolder] = notification.useNotification()
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
   const onFinish = async (values: any) => {
     setLoading(true)
-    setLoading(false)
-    setError(JSON.stringify(session))
-    router.push('#accountDetail')
 
-    // /api/auth/change-password
-    // /api/users/:id
+    try {
+      const {
+        name,
+        lastname,
+        username,
+        email,
+        currentPassword,
+        password,
+        passwordConfirmation,
+      } = values
+
+      let response = null
+      let passwordResponse = null
+
+      if (
+        name != session?.user.name ||
+        lastname != session?.user.lastname ||
+        username != session?.user.username ||
+        email != session?.user.email
+      ) {
+        response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/users/${session?.user.id}`,
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${session?.user.token}`,
+            },
+            body: JSON.stringify({
+              name: name,
+              lastname: lastname,
+              username: username,
+              email: email,
+            }),
+          },
+        )
+
+        if (!response.ok) {
+          const errorData = await response.json()
+          throw new Error(errorData.message || 'Error al actualizar datos.')
+        }
+      }
+
+      if (currentPassword) {
+        if (password !== passwordConfirmation) {
+          throw new Error('Las contraseñas no coinciden.')
+        }
+
+        passwordResponse = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/auth/change-password`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${session?.user.token}`,
+            },
+            body: JSON.stringify({
+              currentPassword: currentPassword,
+              password: password,
+              passwordConfirmation: passwordConfirmation,
+            }),
+          },
+        )
+
+        if (!passwordResponse.ok) {
+          const errorData = await passwordResponse.json()
+          throw new Error(
+            errorData.message || 'Error al cambiar la contraseña.',
+          )
+        }
+      }
+
+      if (response || passwordResponse) {
+        api.success({
+          message: 'Actualizaciòn',
+          description: 'Se actualizo el usuario correctamente.',
+          placement: 'bottomRight',
+        })
+
+        signOut()
+      }
+    } catch (error: any) {
+      setLoading(false)
+      setError(error || 'Error al actualizar el usuario.')
+    }
+
+    setLoading(false)
   }
 
   const validateCurrentPassword = async (rule: any, value: any) => {
@@ -89,6 +171,7 @@ export default function AccountDetailProfile() {
 
   return (
     <ConfigProvider theme={theme}>
+      {contextHolder}
       <Row style={{ marginBottom: '2rem' }}>
         <Col xs={24}>
           <Flex align="center" gap={5}>
@@ -121,13 +204,13 @@ export default function AccountDetailProfile() {
             layout={'vertical'}
             onFinish={onFinish}
             initialValues={{
-              ['name']: '',
-              ['lastname']: '',
-              ['displayName']: null,
-              ['email']: '',
-              ['passwordCurrent']: null,
-              ['passwordNew']: null,
-              ['passwordValidate']: null,
+              ['name']: session?.user.name,
+              ['lastname']: session?.user.lastname,
+              ['username']: session?.user.username,
+              ['email']: session?.user.email,
+              ['currentPassword']: null,
+              ['password']: null,
+              ['passwordConfirmation']: null,
             }}
           >
             <Flex gap={16} justify="space-between">
@@ -150,7 +233,7 @@ export default function AccountDetailProfile() {
             </Flex>
             <Form.Item
               label="Nombre para mostrar"
-              name="displayName"
+              name="username"
               rules={[{ required: true, message: requiredMessage }]}
               style={{ width: '100%' }}
               extra={
@@ -169,7 +252,7 @@ export default function AccountDetailProfile() {
             <Form.Item>
               <Card style={{ width: '100%' }} title={'Cambio de Contraseña'}>
                 <Form.Item
-                  name="passwordCurrent"
+                  name="currentPassword"
                   label="Contraseña Actual"
                   rules={[
                     {
@@ -187,8 +270,8 @@ export default function AccountDetailProfile() {
                   <Input.Password size="large" minLength={8} />
                 </Form.Item>
                 <Form.Item
-                  name="passwordNew"
-                  label="Contraseña Actual"
+                  name="password"
+                  label="Contraseña Nueva"
                   rules={[
                     {
                       pattern:
@@ -198,7 +281,7 @@ export default function AccountDetailProfile() {
                     },
                     ({ getFieldValue }) => ({
                       validator(_, value) {
-                        if (getFieldValue('passwordCurrent') && !value) {
+                        if (getFieldValue('currentPassword') && !value) {
                           return Promise.reject(new Error(requiredMessage))
                         }
 
@@ -213,7 +296,7 @@ export default function AccountDetailProfile() {
                   <Input.Password size="large" minLength={8} />
                 </Form.Item>
                 <Form.Item
-                  name="passwordValidate"
+                  name="passwordConfirmation"
                   label="Confirma Nueva Contraseña"
                   rules={[
                     {
@@ -224,12 +307,12 @@ export default function AccountDetailProfile() {
                     },
                     ({ getFieldValue }) => ({
                       validator(_, value) {
-                        const passwordCurrent = getFieldValue('passwordCurrent')
-                        const passwordNew = getFieldValue('passwordNew')
-                        if (!passwordCurrent) {
+                        const currentPassword = getFieldValue('currentPassword')
+                        const password = getFieldValue('password')
+                        if (!currentPassword) {
                           return Promise.resolve()
                         }
-                        if (value === passwordNew) {
+                        if (value === password) {
                           return Promise.resolve()
                         }
                         return Promise.reject(

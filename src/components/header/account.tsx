@@ -14,7 +14,7 @@ export default function Account() {
         <Link href={status === 'authenticated' ? '/profile' : '/auth/login'}>
           <span className={styles['account-info-subtitle']}>Bienvenido</span>
           <h3 className={styles['account-info-title']}>
-            {status === 'authenticated' ? session.user!.name : 'Mi Cuenta'}
+            {status === 'authenticated' ? session.user!.username : 'Mi Cuenta'}
           </h3>
         </Link>
       </Space>
