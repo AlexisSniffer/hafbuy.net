@@ -86,8 +86,9 @@ export default function AccountDetailProfile() {
         )
 
         if (!response.ok) {
-          const errorData = await response.json()
-          throw new Error(errorData.message || 'Error al actualizar datos.')
+          throw new Error(
+            'No se pudo actualizar los datos, intentelo más tarde.',
+          )
         }
       }
 
@@ -113,16 +114,15 @@ export default function AccountDetailProfile() {
         )
 
         if (!passwordResponse.ok) {
-          const errorData = await passwordResponse.json()
           throw new Error(
-            errorData.message || 'Error al cambiar la contraseña.',
+            'No se pudo actualizar la contraseña, intentelo más tarde.',
           )
         }
       }
 
       if (response || passwordResponse) {
         api.success({
-          message: 'Actualizaciòn',
+          message: 'Actualización',
           description: 'Se actualizo el usuario correctamente.',
           placement: 'bottomRight',
         })
@@ -131,7 +131,10 @@ export default function AccountDetailProfile() {
       }
     } catch (error: any) {
       setLoading(false)
-      setError(error || 'Error al actualizar el usuario.')
+      setError(
+        error.message ||
+          'No se pudo actualizar los datos, intentelo más tarde.',
+      )
     }
 
     setLoading(false)
@@ -254,6 +257,8 @@ export default function AccountDetailProfile() {
                 <Form.Item
                   name="currentPassword"
                   label="Contraseña Actual"
+                  hasFeedback
+                  validateDebounce={1000}
                   rules={[
                     {
                       pattern:
@@ -272,6 +277,8 @@ export default function AccountDetailProfile() {
                 <Form.Item
                   name="password"
                   label="Contraseña Nueva"
+                  hasFeedback
+                  validateDebounce={1000}
                   rules={[
                     {
                       pattern:
@@ -298,6 +305,8 @@ export default function AccountDetailProfile() {
                 <Form.Item
                   name="passwordConfirmation"
                   label="Confirma Nueva Contraseña"
+                  hasFeedback
+                  validateDebounce={1000}
                   rules={[
                     {
                       pattern:
