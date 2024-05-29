@@ -4,8 +4,8 @@ import StyledComponentsRegistry from '@/lib/antd-registry'
 import '@/styles/global.scss'
 
 export const metadata = {
-  title: 'e-commerce',
-  description: 'e-commerce with Next.js and Strapi',
+  title: 'Hafbuy',
+  description: 'Tienda Online',
 }
 
 export default function RootLayout({
