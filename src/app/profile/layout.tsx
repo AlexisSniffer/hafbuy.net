@@ -37,7 +37,7 @@ const items = [
   },
   {
     key: 'addresses',
-    label: <Link href="/profile/orders">Direcciones</Link>,
+    label: <Link href="/profile/address">Direcciones</Link>,
   },
   {
     key: 'accountDetails',

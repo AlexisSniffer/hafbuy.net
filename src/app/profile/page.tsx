@@ -30,7 +30,7 @@ const items = [
   },
   {
     title: 'Direcciones',
-    link: '/profile/orders',
+    link: '/profile/address',
     icon: (
       <EnvironmentOutlined style={{ fontSize: '4rem', color: '#d3d3d4' }} />
     ),
