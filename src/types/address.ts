@@ -6,7 +6,11 @@ export interface Address {
     createdAt: Date
     updatedAt: Date
     publishedAt?: Date
-    address?: string
+    name: string
+    lastname: string
+    address: string
+    phone: number
+    email: string
     coordinates?: any
     user?: { data: User }
   }

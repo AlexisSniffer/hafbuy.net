@@ -1,13 +1,15 @@
 'use client'
 
+import { qsAddress } from '@/queries/address'
 import useCartStore from '@/store/cartStore'
 import styles2 from '@/styles/cart.module.scss'
 import styles from '@/styles/product.module.scss'
+import { Address } from '@/types/address'
 import { Payload } from '@/types/payload'
 import { PaymentMethod } from '@/types/payment-method'
 import { ProductCart } from '@/types/product'
 import { getBase64 } from '@/utils/base64'
-import { fetcher } from '@/utils/fetcher'
+import { fetcher, fetcherToken } from '@/utils/fetcher'
 import { money } from '@/utils/formatters'
 import { PlusOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import {
@@ -25,6 +27,7 @@ import {
   RadioChangeEvent,
   Result,
   Row,
+  Space,
   ThemeConfig,
   Typography,
   Upload,
@@ -32,6 +35,7 @@ import {
   message,
   notification,
 } from 'antd'
+import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -55,6 +59,7 @@ const theme: ThemeConfig = {
 const { TextArea } = Input
 
 export default function Checkout() {
+  const { data: session, status } = useSession()
   const [form] = Form.useForm()
   const [api, contextHolder] = notification.useNotification()
   const [loading, setLoading] = useState<boolean>(false)
@@ -62,6 +67,7 @@ export default function Checkout() {
   const [isUploadVoucher, setIsUploadVoucher] = useState<boolean>(false)
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
+  const [address, setAddress] = useState<Address | null>(null)
   const cartStore = useCartStore((state) => state.cart)
   const subtotalStore = useCartStore((state) => state.subtotal)
   const { setStep, setOrder } = useCartStore()
@@ -71,6 +77,17 @@ export default function Checkout() {
   const { data: paymentMethods, error: errorPaymentMethods } = useSWR<
     Payload<PaymentMethod[]>
   >(`${process.env.NEXT_PUBLIC_API_URL}/api/payment-methods`, fetcher)
+
+  const { data: addresses } = useSWR(
+    [
+      `${process.env.NEXT_PUBLIC_API_URL}/api/addresses?${qsAddress({
+        user: session?.user.id,
+        pagination: { page: 1, pageSize: 10 },
+      })}`,
+      session?.user.token!,
+    ],
+    ([url, token]) => fetcherToken(url, token),
+  )
 
   if (!cartStore.length) {
     return (
@@ -194,6 +211,57 @@ export default function Checkout() {
   return (
     <ConfigProvider theme={theme}>
       {contextHolder}
+
+      {addresses ? (
+        <>
+          <Radio.Group
+            value={address}
+            onChange={(e) => {
+              const value: Address = e.target.value
+
+              setAddress(value)
+              form.setFieldsValue({
+                name: value.attributes.name,
+                lastname: value.attributes.lastname,
+                address: value.attributes.address,
+                phone: value.attributes.phone,
+                email: value.attributes.email,
+              })
+            }}
+          >
+            {addresses?.data?.map((address: Address) => {
+              return (
+                <Radio value={address}>
+                  <Card>
+                    <Space direction="vertical">
+                      <Text>
+                        <b>Dirección:</b> {address.attributes.address}
+                      </Text>
+                      <Text>
+                        <b>Nombre:</b> {address.attributes.name}
+                        {address.attributes.lastname}
+                      </Text>
+                      <Text>
+                        <b>Teléfono:</b> {address.attributes.phone}
+                      </Text>
+                      <Text>
+                        <b>Email:</b> {address.attributes.email}
+                      </Text>
+                    </Space>
+                  </Card>
+                </Radio>
+              )
+            })}
+          </Radio.Group>
+        </>
+      ) : (
+        <></>
+      )}
+
+      <br />
+      <br />
+      <br />
+
       <Form
         form={form}
         name="cheackoutForm"
@@ -218,7 +286,7 @@ export default function Checkout() {
                 rules={[{ required: true, message: requiredMessage }]}
                 style={{ width: '100%' }}
               >
-                <Input />
+                <Input disabled={address != null} />
               </Form.Item>
               <Form.Item
                 label="Apellido"
@@ -226,7 +294,7 @@ export default function Checkout() {
                 rules={[{ required: true, message: requiredMessage }]}
                 style={{ width: '100%' }}
               >
-                <Input />
+                <Input disabled={address != null} />
               </Form.Item>
             </Flex>
             <Form.Item
@@ -234,24 +302,24 @@ export default function Checkout() {
               label="Dirección"
               rules={[{ required: true, message: requiredMessage }]}
             >
-              <TextArea size="middle" />
+              <TextArea size="middle" disabled={address != null} />
             </Form.Item>
             <Form.Item
               name="phone"
               label="Teléfono"
               rules={[{ required: true, message: requiredMessage }]}
             >
-              <Input />
+              <Input disabled={address != null} />
             </Form.Item>
             <Form.Item
               name="email"
               label="Correo electrónico"
               rules={[{ required: true, message: requiredMessage }]}
             >
-              <Input placeholder="Ingrese su correo electrónico" />
+              <Input disabled={address != null} />
             </Form.Item>
             <Form.Item name="notes" label="Notas del pedido (opcional)">
-              <TextArea size="middle" placeholder="Notas sobre tu pedido" />
+              <TextArea size="middle" />
             </Form.Item>
           </Col>
           <Col xs={24} sm={12} md={10}>

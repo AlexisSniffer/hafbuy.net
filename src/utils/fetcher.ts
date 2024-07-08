@@ -1,8 +1,8 @@
-export const fetcher = (url: string, token: string) =>
-  token
-    ? fetch(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }).then((res) => res.json())
-    : fetch(url).then((res) => res.json())
+export const fetcher = (url: string) => fetch(url).then((res) => res.json())
+
+export const fetcherToken = (url: string, token: string) =>
+  fetch(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => res.json())

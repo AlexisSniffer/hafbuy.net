@@ -10,7 +10,7 @@ export const qsAddress = (filters: {
       filters: {
         user: {
           id: {
-            $eq: filters.user,
+            $eq: filters.user?.toString,
           },
         },
       },

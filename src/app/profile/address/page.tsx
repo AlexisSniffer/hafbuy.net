@@ -2,21 +2,23 @@
 
 import { qsAddress } from '@/queries/address'
 import { Address } from '@/types/address'
-import { Payload } from '@/types/payload'
-import { fetcher } from '@/utils/fetcher'
-import { EnvironmentOutlined, UserOutlined } from '@ant-design/icons'
+import { fetcherToken } from '@/utils/fetcher'
+import { EnvironmentOutlined } from '@ant-design/icons'
 import {
+  Button,
   Card,
   Col,
   ConfigProvider,
   Flex,
   Form,
   Row,
+  Space,
   ThemeConfig,
   Typography,
   notification,
 } from 'antd'
 import { useSession } from 'next-auth/react'
+import Link from 'next/link'
 import { useState } from 'react'
 import useSWR from 'swr'
 
@@ -47,7 +49,7 @@ export default function AddressPage() {
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
-  const { data: address } = useSWR(
+  const { data: addresses } = useSWR(
     [
       `${process.env.NEXT_PUBLIC_API_URL}/api/addresses?${qsAddress({
         user: session?.user.id,
@@ -55,7 +57,7 @@ export default function AddressPage() {
       })}`,
       session?.user.token!,
     ],
-    ([url, token]) => fetcher(url, token),
+    ([url, token]) => fetcherToken(url, token),
   )
 
   const onFinish = async (values: any) => {
@@ -93,11 +95,30 @@ export default function AddressPage() {
         </Col>
       </Row>
       <Row gutter={[10, 10]}>
-        {address?.data?.map((address: Address) => {
+        <Col span={24}>
+          <Link href="/profile/address/add">
+            <Button type="primary">Añadir Dirección</Button>
+          </Link>
+        </Col>
+        {addresses?.data?.map((address: Address) => {
           return (
             <Col xs={24} md={12} lg={8}>
               <Card>
-                <Text>{address.attributes.address}</Text>
+                <Space direction="vertical">
+                  <Text>
+                    <b>Dirección:</b> {address.attributes.address}
+                  </Text>
+                  <Text>
+                    <b>Nombre:</b> {address.attributes.name}
+                    {address.attributes.lastname}
+                  </Text>
+                  <Text>
+                    <b>Teléfono:</b> {address.attributes.phone}
+                  </Text>
+                  <Text>
+                    <b>Email:</b> {address.attributes.email}
+                  </Text>
+                </Space>
               </Card>
             </Col>
           )
