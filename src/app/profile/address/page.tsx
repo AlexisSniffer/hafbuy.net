@@ -23,7 +23,6 @@ import { useState } from 'react'
 import useSWR from 'swr'
 
 const { Title, Paragraph, Text } = Typography
-const requiredMessage = 'Campo requerido'
 
 const theme: ThemeConfig = {
   components: {
@@ -44,7 +43,6 @@ const theme: ThemeConfig = {
 
 export default function AddressPage() {
   const { data: session, status } = useSession()
-  const [form] = Form.useForm()
   const [api, contextHolder] = notification.useNotification()
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
@@ -59,19 +57,6 @@ export default function AddressPage() {
     ],
     ([url, token]) => fetcherToken(url, token),
   )
-
-  const onFinish = async (values: any) => {
-    try {
-    } catch (error: any) {
-      setLoading(false)
-      setError(
-        error.message ||
-          'No se pudo actualizar los datos, intentelo más tarde.',
-      )
-    }
-
-    setLoading(false)
-  }
 
   if (status === 'loading') return <div>Loading...</div>
 
@@ -102,7 +87,7 @@ export default function AddressPage() {
         </Col>
         {addresses?.data?.map((address: Address) => {
           return (
-            <Col xs={24} md={12} lg={8}>
+            <Col xs={24} md={12} lg={8} key={address.id}>
               <Card>
                 <Space direction="vertical">
                   <Text>

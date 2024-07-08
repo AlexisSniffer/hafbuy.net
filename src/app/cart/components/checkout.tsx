@@ -231,7 +231,7 @@ export default function Checkout() {
           >
             {addresses?.data?.map((address: Address) => {
               return (
-                <Radio value={address}>
+                <Radio value={address} key={address.id}>
                   <Card>
                     <Space direction="vertical">
                       <Text>
