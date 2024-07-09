@@ -10,7 +10,6 @@ import {
   Col,
   ConfigProvider,
   Flex,
-  Form,
   Row,
   Space,
   ThemeConfig,
@@ -82,7 +81,9 @@ export default function AddressPage() {
       <Row gutter={[10, 10]}>
         <Col span={24}>
           <Link href="/profile/address/add">
-            <Button type="primary">Añadir Dirección</Button>
+            <Button type="primary" disabled={addresses?.data.length! >= 6}>
+              Añadir Dirección
+            </Button>
           </Link>
         </Col>
         {addresses?.data?.map((address: Address) => {

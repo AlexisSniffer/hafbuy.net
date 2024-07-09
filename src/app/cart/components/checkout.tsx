@@ -16,6 +16,7 @@ import {
   Alert,
   Button,
   Card,
+  Carousel,
   Col,
   ConfigProvider,
   Divider,
@@ -35,10 +36,11 @@ import {
   message,
   notification,
 } from 'antd'
+import { CarouselRef } from 'antd/es/carousel'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 import useSWR from 'swr'
 
@@ -71,8 +73,49 @@ export default function Checkout() {
   const cartStore = useCartStore((state) => state.cart)
   const subtotalStore = useCartStore((state) => state.subtotal)
   const { setStep, setOrder } = useCartStore()
+  const [value, setValue] = useState(1)
+  const carouselRef = useRef<CarouselRef>(null)
 
   const requiredMessage = 'Campo requerido'
+
+  const responsive = [
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+      },
+    },
+    {
+      breakpoint: 576,
+      settings: {
+        slidesToShow: 1,
+      },
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 2,
+      },
+    },
+    {
+      breakpoint: 992,
+      settings: {
+        slidesToShow: 2,
+      },
+    },
+    {
+      breakpoint: 1200,
+      settings: {
+        slidesToShow: 3,
+      },
+    },
+    {
+      breakpoint: 9999,
+      settings: {
+        slidesToShow: 3,
+      },
+    },
+  ]
 
   const { data: paymentMethods, error: errorPaymentMethods } = useSWR<
     Payload<PaymentMethod[]>
@@ -208,30 +251,41 @@ export default function Checkout() {
     setPreviewOpen(true)
   }
 
+  const onChangeAddress = (e: any) => {
+    const value: Address = e.target.value
+
+    setAddress(value)
+    setValue(e.target.value)
+    form.setFieldsValue({
+      name: value.attributes.name,
+      lastname: value.attributes.lastname,
+      address: value.attributes.address,
+      phone: value.attributes.phone,
+      email: value.attributes.email,
+    })
+
+    if (carouselRef.current) {
+      carouselRef.current?.goTo(e.target.value - 1)
+    }
+  }
+
   return (
     <ConfigProvider theme={theme}>
       {contextHolder}
 
-      {addresses ? (
-        <>
-          <Radio.Group
-            value={address}
-            onChange={(e) => {
-              const value: Address = e.target.value
-
-              setAddress(value)
-              form.setFieldsValue({
-                name: value.attributes.name,
-                lastname: value.attributes.lastname,
-                address: value.attributes.address,
-                phone: value.attributes.phone,
-                email: value.attributes.email,
-              })
-            }}
-          >
-            {addresses?.data?.map((address: Address) => {
-              return (
-                <Radio value={address} key={address.id}>
+      <Carousel
+        draggable={true}
+        dots={false}
+        responsive={responsive}
+        infinite
+        autoplay
+        ref={carouselRef}
+      >
+        {addresses?.data?.map((address: Address, index: number) => {
+          return (
+            <div key={address.id}>
+              <Radio.Group onChange={onChangeAddress} value={value}>
+                <Radio value={address}>
                   <Card>
                     <Space direction="vertical">
                       <Text>
@@ -250,13 +304,11 @@ export default function Checkout() {
                     </Space>
                   </Card>
                 </Radio>
-              )
-            })}
-          </Radio.Group>
-        </>
-      ) : (
-        <></>
-      )}
+              </Radio.Group>
+            </div>
+          )
+        })}
+      </Carousel>
 
       <br />
       <br />
