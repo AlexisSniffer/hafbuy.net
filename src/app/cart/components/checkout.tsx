@@ -273,42 +273,46 @@ export default function Checkout() {
     <ConfigProvider theme={theme}>
       {contextHolder}
 
-      <Carousel
-        draggable={true}
-        dots={false}
-        responsive={responsive}
-        infinite
-        autoplay
-        ref={carouselRef}
-      >
-        {addresses?.data?.map((address: Address, index: number) => {
-          return (
-            <div key={address.id}>
-              <Radio.Group onChange={onChangeAddress} value={value}>
-                <Radio value={address}>
-                  <Card>
-                    <Space direction="vertical">
-                      <Text>
-                        <b>Dirección:</b> {address.attributes.address}
-                      </Text>
-                      <Text>
-                        <b>Nombre:</b> {address.attributes.name}
-                        {address.attributes.lastname}
-                      </Text>
-                      <Text>
-                        <b>Teléfono:</b> {address.attributes.phone}
-                      </Text>
-                      <Text>
-                        <b>Email:</b> {address.attributes.email}
-                      </Text>
-                    </Space>
-                  </Card>
-                </Radio>
-              </Radio.Group>
-            </div>
-          )
-        })}
-      </Carousel>
+      {addresses ? (
+        <Carousel
+          draggable={true}
+          dots={false}
+          responsive={responsive}
+          infinite
+          autoplay
+          ref={carouselRef}
+        >
+          {addresses?.data?.map((address: Address, index: number) => {
+            return (
+              <div key={address.id}>
+                <Radio.Group onChange={onChangeAddress} value={value}>
+                  <Radio value={address}>
+                    <Card>
+                      <Space direction="vertical">
+                        <Text>
+                          <b>Dirección:</b> {address.attributes.address}
+                        </Text>
+                        <Text>
+                          <b>Nombre:</b> {address.attributes.name}
+                          {address.attributes.lastname}
+                        </Text>
+                        <Text>
+                          <b>Teléfono:</b> {address.attributes.phone}
+                        </Text>
+                        <Text>
+                          <b>Email:</b> {address.attributes.email}
+                        </Text>
+                      </Space>
+                    </Card>
+                  </Radio>
+                </Radio.Group>
+              </div>
+            )
+          })}
+        </Carousel>
+      ) : (
+        <></>
+      )}
 
       <br />
       <br />
