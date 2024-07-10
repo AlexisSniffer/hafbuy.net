@@ -13,6 +13,8 @@ export const disableProduct = ({
 
   if (attributes.variants.length) {
     if (selectedVariant == undefined) return true
+
+    if (selectedVariant?.stock! <= 0) return true
   }
 
   return false

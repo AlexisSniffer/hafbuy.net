@@ -1,4 +1,5 @@
 import useCartStore from '@/store/cartStore'
+import styles from '@/styles/product.module.scss'
 import { Product, ProductCart } from '@/types/product'
 import { Variants } from '@/types/variants'
 import { Variation } from '@/types/variation'
@@ -12,13 +13,18 @@ import {
   Form,
   InputNumber,
   Row,
+  Space,
+  Tag,
   ThemeConfig,
+  Typography,
   notification,
 } from 'antd'
 import { useState } from 'react'
 import ProductAddMessage from './product-add-message'
 import ProductPrices from './product-price'
 import ProductVariants from './product-variants'
+
+const { Title, Paragraph, Text } = Typography
 
 const theme: ThemeConfig = {
   components: {
@@ -56,6 +62,7 @@ export default function ProductAdd({ id, attributes }: Product) {
       discount: variant.discount,
       isDiscount: variant.isDiscount,
       until: variant.until,
+      stock: variant.stock,
       variant: allOptions,
     }
   })
@@ -130,15 +137,37 @@ export default function ProductAdd({ id, attributes }: Product) {
       {contextHolder}
       <Row>
         <Col span={24}>
-          {options.map(({ type, values }) => (
-            <ProductVariants
-              key={type}
-              type={type}
-              values={Array.from(values)}
-              selectedOptions={selectedOptions}
-              setOptions={setOptions}
-            />
-          ))}
+          <Flex vertical gap={5}>
+            {attributes.variants.length ? (
+              <Space>
+                <Text className={styles['detail']}>stock:</Text>
+                {selectedVariant ? (
+                  <Tag
+                    className={`${styles['detail']} ${styles['detail-stock']} ${
+                      selectedVariant.stock > 0
+                        ? styles['detail-stock-available']
+                        : styles['detail-stock-soldout']
+                    }`}
+                  >
+                    {selectedVariant.stock > 0 ? 'disponible' : 'agotado'}
+                  </Tag>
+                ) : (
+                  <Tag>Seleccione una variante</Tag>
+                )}
+              </Space>
+            ) : (
+              <></>
+            )}
+            {options.map(({ type, values }) => (
+              <ProductVariants
+                key={type}
+                type={type}
+                values={Array.from(values)}
+                selectedOptions={selectedOptions}
+                setOptions={setOptions}
+              />
+            ))}
+          </Flex>
         </Col>
       </Row>
       <Divider style={{ marginTop: '0.5em', marginBottom: '0em' }} />

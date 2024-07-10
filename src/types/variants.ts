@@ -8,5 +8,6 @@ export interface Variants {
   discount?: number
   isDiscount: boolean
   until?: Date
+  stock: number
   variant: Variation[]
 }

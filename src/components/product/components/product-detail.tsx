@@ -103,18 +103,22 @@ export default function ProductDetail({ id, attributes }: Product) {
                 : 'N/A'}
             </Text>
           </Space>
-          <Space>
-            <Text className={styles['detail']}>stock:</Text>
-            <Tag
-              className={`${styles['detail']} ${styles['detail-stock']} ${
-                attributes.stock > 0
-                  ? styles['detail-stock-available']
-                  : styles['detail-stock-soldout']
-              }`}
-            >
-              {attributes.stock > 0 ? 'disponible' : 'agotado'}
-            </Tag>
-          </Space>
+          {attributes.variants.length ? (
+            <></>
+          ) : (
+            <Space>
+              <Text className={styles['detail']}>stock:</Text>
+              <Tag
+                className={`${styles['detail']} ${styles['detail-stock']} ${
+                  attributes.stock > 0
+                    ? styles['detail-stock-available']
+                    : styles['detail-stock-soldout']
+                }`}
+              >
+                {attributes.stock > 0 ? 'disponible' : 'agotado'}
+              </Tag>
+            </Space>
+          )}
         </Flex>
         <ProductAdd id={id} attributes={attributes}></ProductAdd>
         <Divider style={{ marginTop: '0.5em', marginBottom: '0.5em' }} />
