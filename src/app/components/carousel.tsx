@@ -42,7 +42,13 @@ export default function CarouselMain() {
                   width={100}
                   height={100}
                   sizes="100vw"
-                  style={{ width: '100%', height: 'auto' }}
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                    maxHeight: '400px',
+                    minHeight: '400px',
+                    objectFit: 'cover',
+                  }}
                 />
               </div>
             )
