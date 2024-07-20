@@ -2,23 +2,24 @@
 
 import Container from '@/components/utils/container'
 import { qsCategory } from '@/queries/category'
+import { qsHomePage } from '@/queries/pages'
 import styles from '@/styles/products-filter.module.scss'
 import { Category } from '@/types/category'
 import { Payload } from '@/types/payload'
 import { fetcher } from '@/utils/fetcher'
 import { randomCategory } from '@/utils/random'
+import { Col, Row } from 'antd'
 import { useEffect, useState } from 'react'
 import useSWR from 'swr'
+import CarouselMain from './components/carousel'
 import CategoriesSlider from './components/categories-slider'
 import FeaturedBrands from './components/featured-brands'
 import ProductsFilterCategory1 from './components/products-filter-category1'
 import ProductsFilterCategory2 from './components/products-filter-category2'
 import ProductsFilterCategory3 from './components/products-filter-category3'
 import ProductsFilterOffers from './components/products-filter-offers'
-import ProductsFilterSortBy from './components/products-filter-sortby'
-
-import { Col, Row } from 'antd'
 import ProductsFilterSelected from './components/products-filter-selected'
+import ProductsFilterSortBy from './components/products-filter-sortby'
 import ProductsFilterViewed from './components/products-filter-viewed'
 import Services from './components/services'
 
@@ -42,6 +43,9 @@ export default function Home() {
   return (
     <>
       <Container className={styles['section-gray']}>
+        <CarouselMain />
+        <br />
+        <br />
         <CategoriesSlider categories={categories} />
       </Container>
 
