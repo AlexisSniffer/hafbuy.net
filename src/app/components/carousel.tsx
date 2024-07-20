@@ -5,6 +5,7 @@ import Image from 'next/image'
 import useSWR from 'swr'
 
 import { Carousel, ConfigProvider, Skeleton, ThemeConfig } from 'antd'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 const theme: ThemeConfig = {
@@ -36,20 +37,27 @@ export default function CarouselMain() {
           {homePage?.data.attributes.carousel.sliders.map((slide: any) => {
             return (
               <div key={slide.id}>
-                <Image
-                  src={slide.image.data.attributes.url}
-                  alt={slide.image.data.attributes.alternativeText ?? ''}
-                  width={100}
-                  height={100}
-                  sizes="100vw"
-                  style={{
-                    width: '100%',
-                    height: 'auto',
-                    maxHeight: '400px',
-                    minHeight: '400px',
-                    objectFit: 'cover',
-                  }}
-                />
+                <Link
+                  href={slide.link && slide.link.href ? slide.link.href : ''}
+                  target={
+                    slide.link && slide.link.target ? slide.link.target : null
+                  }
+                >
+                  <Image
+                    src={slide.image.data.attributes.url}
+                    alt={slide.image.data.attributes.alternativeText ?? ''}
+                    width={100}
+                    height={100}
+                    sizes="100vw"
+                    style={{
+                      width: '100%',
+                      height: 'auto',
+                      maxHeight: '400px',
+                      minHeight: '400px',
+                      objectFit: 'cover',
+                    }}
+                  />
+                </Link>
               </div>
             )
           })}
