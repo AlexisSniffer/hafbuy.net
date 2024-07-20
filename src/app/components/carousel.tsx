@@ -28,7 +28,10 @@ export default function CarouselMain() {
 
   return (
     <ConfigProvider theme={theme}>
-      {homePage?.data.attributes.carousel.sliders ? (
+      {homePage &&
+      homePage?.data &&
+      homePage?.data.attributes.carousel &&
+      homePage?.data.attributes.carousel.sliders ? (
         <Carousel draggable={true} infinite={false} autoplay={true} arrows>
           {homePage?.data.attributes.carousel.sliders.map((slide: any) => {
             return (
