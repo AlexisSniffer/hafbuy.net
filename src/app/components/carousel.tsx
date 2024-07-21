@@ -1,12 +1,11 @@
 import { qsHomePage } from '@/queries/pages'
 import useFilterStore from '@/store/filterStore'
 import { fetcher } from '@/utils/fetcher'
-import Image from 'next/image'
-import useSWR from 'swr'
-
 import { Carousel, ConfigProvider, Skeleton, ThemeConfig } from 'antd'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import useSWR from 'swr'
 
 const theme: ThemeConfig = {
   components: {

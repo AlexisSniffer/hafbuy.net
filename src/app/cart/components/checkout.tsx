@@ -506,7 +506,7 @@ export default function Checkout() {
               )}
               <Divider className={styles2['divider']} />
               <ReCAPTCHA
-                sitekey={'6LdTvVYpAAAAAAekOFi5Am0rpzGT7Vv9-iqhMM9w'}
+                sitekey={`${process.env.NEXT_PUBLIC_RECAPTCHA}`}
                 onChange={onRecaptcha}
               />
               <Button
