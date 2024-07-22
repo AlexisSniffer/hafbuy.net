@@ -42,7 +42,7 @@ const items = [
   },
   {
     title: 'Lista de Deseos',
-    link: '/profile/orders',
+    link: '/profile',
     icon: <HeartOutlined style={{ fontSize: '4rem', color: '#d3d3d4' }} />,
   },
   {
@@ -67,7 +67,7 @@ export default function Profile() {
               Desde el panel de su cuenta puede ver sus{' '}
               <Link href="/profile/orders">pedidos recientes</Link>, administrar
               sus{' '}
-              <Link href="/profile/orders">
+              <Link href="/profile/address">
                 direcciones de envío y facturación
               </Link>{' '}
               y{' '}

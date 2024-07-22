@@ -45,7 +45,7 @@ const items = [
   },
   {
     key: 'whishlist',
-    label: <Link href="/profile/orders">Lista de Deseos</Link>,
+    label: <Link href="/profile">Lista de Deseos</Link>,
   },
   {
     key: 'logout',
