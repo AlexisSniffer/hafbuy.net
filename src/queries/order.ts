@@ -14,7 +14,7 @@ export const qsOrders = (filters: {
       filters: {
         user: {
           id: {
-            $eq: filters.user?.toString,
+            $eq: filters.user,
           },
         },
       },
