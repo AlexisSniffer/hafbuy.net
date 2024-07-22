@@ -185,9 +185,11 @@ export default function Checkout() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${session?.user.token}`,
         },
         body: JSON.stringify({
           data: {
+            _user: session?.user.id,
             _billing: {
               name: values.name,
               lastname: values.lastname,
