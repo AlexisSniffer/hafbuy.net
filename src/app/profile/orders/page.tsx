@@ -113,7 +113,11 @@ export default function ProfileOrders() {
       </Row>
       <Row gutter={[10, 10]}>
         <Col span={24}>
-          <Table dataSource={orders?.data} columns={columns} />
+          <Table
+            dataSource={orders?.data}
+            columns={columns}
+            pagination={false}
+          />
         </Col>
       </Row>
     </ConfigProvider>
