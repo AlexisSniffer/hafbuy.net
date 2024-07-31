@@ -6,7 +6,7 @@ const nextConfig = {
     includePaths: [path.join(__dirname, 'src', 'styles')],
   },
   images: {
-    domains: ['localhost', 'hafbuy-strapi-space.nyc3.digitaloceanspaces.com'],
+    domains: ['localhost', 'hafbuy-strapi-space.nyc3.digitaloceanspaces.com', 'hafbuy-strapi-space.nyc3.cdn.digitaloceanspaces.com'],
   },
 }
 
