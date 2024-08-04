@@ -18,7 +18,7 @@ const theme: ThemeConfig = {
   },
 }
 
-export default function ProductCart({ product }: { product: ProductCart }) {
+export default function ProductCartPage({ product }: { product: ProductCart }) {
   const { remove } = useCartStore()
 
   const Variation = ({ value, className }: any) => (

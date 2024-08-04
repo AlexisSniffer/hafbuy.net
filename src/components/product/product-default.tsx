@@ -136,6 +136,13 @@ export default function ProductDefault({ id, attributes }: Product) {
             width={0}
             height={0}
             sizes="100vw"
+            style={{
+              width: '100%',
+              height: 'auto',
+              maxHeight: '200px',
+              minHeight: '200px',
+              objectFit: 'cover',
+            }}
           />
         ) : (
           <></>
