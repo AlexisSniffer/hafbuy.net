@@ -72,7 +72,9 @@ export default function FeaturedBrands() {
   const { setBrands } = useFilterStore()
 
   const { data: brands, error: errorBrands } = useSWR<Payload<Brand[]>>(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/brands?${qsBrands}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/brands?${qsBrands({
+      pagination: { page: 1, pageSize: 20 },
+    })}`,
     fetcher,
   )
 
