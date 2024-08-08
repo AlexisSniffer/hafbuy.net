@@ -183,10 +183,6 @@ export default function Checkout() {
       `${process.env.NEXT_PUBLIC_API_URL}/api/orders`,
       {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${session?.user.token}`,
-        },
         body: JSON.stringify({
           data: {
             _user: session?.user.id,
