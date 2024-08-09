@@ -460,7 +460,7 @@ export default function Checkout() {
                     ]}
                   >
                     <Upload
-                      action="https://run.mocky.io/v3/b913c448-278a-47ad-82d9-c25c1a11b7d3"
+                      action="/api/upload"
                       maxCount={1}
                       listType="picture-card"
                       accept="image/png, image/jpeg"
