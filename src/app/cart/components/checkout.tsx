@@ -199,7 +199,10 @@ export default function Checkout() {
             _products: cartStore,
             _payment: {
               payment_method: values.paymentMethod,
-              voucher: responseUpload ? responseUpload[0].id : null,
+              voucher:
+                responseUpload && responseUpload.length
+                  ? responseUpload[0].id
+                  : null,
             },
           },
         }),
