@@ -12,8 +12,9 @@ import {
   ConfigProvider,
   Row,
   ThemeConfig,
-  Typography
+  Typography,
 } from 'antd'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import useSWR from 'swr'
 
@@ -98,32 +99,32 @@ export default function ProductsFilterCategory1({ id, attributes }: Category) {
           </Row>
           <Row className={styles['article']} gutter={[10, 10]}>
             <Col xs={24} md={12}>
-              <div
+              <Image
+                src={'/publicidad/Publicidad 4.jpg'}
+                alt={'Publicidad'}
+                width={0}
+                height={0}
+                sizes="100vw"
                 style={{
-                  color: '#000',
-                  height: '150px',
-                  maxHeight: '150px',
                   width: '100%',
-                  padding: '2rem',
-                  backgroundColor: '#B0BEC5',
+                  height: 'auto',
+                  maxHeight: '150px',
                 }}
-              >
-                Espacio publicitario
-              </div>
+              />
             </Col>
             <Col xs={24} md={12}>
-              <div
+              <Image
+                src={'/publicidad/Publicidad 5.jpg'}
+                alt={'Publicidad'}
+                width={0}
+                height={0}
+                sizes="100vw"
                 style={{
-                  color: '#000',
-                  height: '150px',
-                  maxHeight: '150px',
                   width: '100%',
-                  padding: '2rem',
-                  backgroundColor: '#B0BEC5',
+                  height: 'auto',
+                  maxHeight: '150px',
                 }}
-              >
-                Espacio publicitario
-              </div>
+              />
             </Col>
           </Row>
           <Row className={`${styles['categories']}`}>

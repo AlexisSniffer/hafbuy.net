@@ -22,6 +22,7 @@ import ProductsFilterSelected from './components/products-filter-selected'
 import ProductsFilterSortBy from './components/products-filter-sortby'
 import ProductsFilterViewed from './components/products-filter-viewed'
 import Services from './components/services'
+import Image from 'next/image'
 
 export default function Home() {
   const [random1, setRandom1] = useState<number>(0)
@@ -79,18 +80,17 @@ export default function Home() {
 
         <Row className={styles['article']}>
           <Col xs={24}>
-            <div
+            <Image
+              src={'/publicidad/Publicidad 8.jpg'}
+              alt={'Publicidad'}
+              width={0}
+              height={0}
+              sizes="100vw"
               style={{
-                color: '#000',
-                height: '180px',
-                maxHeight: '180px',
                 width: '100%',
-                padding: '2rem',
-                backgroundColor: '#B0BEC5',
+                height: 'auto',
               }}
-            >
-              Espacio publicitario
-            </div>
+            />
           </Col>
         </Row>
 

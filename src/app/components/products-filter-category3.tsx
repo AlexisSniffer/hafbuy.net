@@ -18,6 +18,7 @@ import {
   ThemeConfig,
   Typography,
 } from 'antd'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import useSWR from 'swr'
 
@@ -173,18 +174,18 @@ export default function ProductsFilterCategory3({ id, attributes }: Category) {
               </Row>
               <Row>
                 <Col xs={24}>
-                  <div
+                  <Image
+                    src={'/publicidad/Publicidad 7.jpg'}
+                    alt={'Publicidad'}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
                     style={{
-                      color: '#000',
-                      height: '300px',
-                      maxHeight: '300px',
                       width: '100%',
-                      padding: '2rem',
-                      backgroundColor: '#B0BEC5',
+                      height: 'auto',
+                      maxHeight: '300px',
                     }}
-                  >
-                    Espacio publicitario
-                  </div>
+                  />
                 </Col>
               </Row>
             </Col>

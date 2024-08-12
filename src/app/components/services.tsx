@@ -4,6 +4,7 @@ import { Service } from '@/types/service'
 import { fetcher } from '@/utils/fetcher'
 import { BorderOutlined } from '@ant-design/icons'
 import { Carousel, Col, Flex, Row, Skeleton, Typography } from 'antd'
+import Image from 'next/image'
 import useSWR from 'swr'
 
 const { Text, Title, Paragraph } = Typography
@@ -90,32 +91,34 @@ export default function Services() {
       </Carousel>
       <Row gutter={[10, 10]}>
         <Col xs={24} md={8}>
-          <div
+          <Image
+            src={'/publicidad/Publicidad 1.jpg'}
+            alt={'Publicidad'}
+            width={0}
+            height={0}
+            sizes="100vw"
             style={{
               color: '#000',
               height: '200px',
               maxHeight: '200px',
               width: '100%',
-              padding: '2rem',
-              backgroundColor: '#B0BEC5',
             }}
-          >
-            Espacio publicitario
-          </div>
+          />
         </Col>
         <Col xs={24} md={16}>
-          <div
+          <Image
+            src={'/publicidad/Publicidad 2.jpg'}
+            alt={'Publicidad'}
+            width={0}
+            height={0}
+            sizes="100vw"
             style={{
               color: '#000',
               height: '200px',
               maxHeight: '200px',
               width: '100%',
-              padding: '2rem',
-              backgroundColor: '#B0BEC5',
             }}
-          >
-            Espacio publicitario
-          </div>
+          />
         </Col>
       </Row>
       <br />

@@ -17,6 +17,7 @@ import {
   ThemeConfig,
   Typography,
 } from 'antd'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
 import { useState } from 'react'
@@ -35,9 +36,9 @@ export default function ProductsFilterSortBy() {
 
   const { data: products, error: errorProducts } = useSWR<Payload<Product[]>>(
     `${process.env.NEXT_PUBLIC_API_URL}/api/products?${qsProductsByCategory({
-      category: filterCategories
+      category: filterCategories,
     })}`,
-    fetcher, 
+    fetcher,
   )
 
   const { data: categories, error: errorCategories } = useSWR<
@@ -103,19 +104,17 @@ export default function ProductsFilterSortBy() {
           sm={{ span: 12, order: 2 }}
           lg={{ span: 6, order: 2 }}
         >
-          <div
+          <Image
+            src={'/publicidad/Publicidad 3.jpg'}
+            alt={'Publicidad'}
+            width={0}
+            height={0}
+            sizes="100vw"
             style={{
-              color: '#000',
-              padding: '2rem',
-              display: 'block',
+              height: 'auto',
               width: '100%',
-              minHeight: '200px',
-              height: '100%',
-              backgroundColor: '#B0BEC5',
             }}
-          >
-            Espacio Publicitario
-          </div>
+          />
         </Col>
         <Col
           xs={{ span: 24, order: 3 }}
