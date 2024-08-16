@@ -68,15 +68,6 @@ export default function AddressAdd() {
       },
     )
 
-    console.log({
-      name: values.name,
-      lastname: values.lastname,
-      address: values.address,
-      phone: values.phone,
-      email: values.email,
-      user: session?.user.id,
-    })
-
     if (response.ok) {
       router.push('/profile/address')
     } else {

@@ -34,8 +34,6 @@ const handler = nextAuth({
           throw Error('No se pudo iniciar sesion, intentelo mas tarde.')
         }
 
-        console.log(data)
-
         return {
           id: data.user.id,
           username: data.user.username,
