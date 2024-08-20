@@ -32,7 +32,7 @@ const socialIcons: SocialIconsProps[] = [
     className: 'tiktok',
   },
   {
-    link: 'https://wa.me/68748978',
+    link: 'https://wa.me/62505218',
     icon: <PhoneFilled rev={undefined} />,
     className: 'whatsapp',
   },
