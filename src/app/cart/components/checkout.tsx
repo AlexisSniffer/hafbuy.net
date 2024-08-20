@@ -167,6 +167,7 @@ export default function Checkout() {
     if (values.voucher) {
       const formData = new FormData()
       formData.append('files', values.voucher.file.originFileObj)
+      formData.append('path', 'vouchers')
 
       const fetchUpload = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/upload`,
