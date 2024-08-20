@@ -183,15 +183,19 @@ export default function RootFooter() {
                       gap={5}
                       style={{ whiteSpace: 'nowrap' }}
                     >
-                      <Text key={category.attributes.slug} strong>
-                        {category.attributes.name}:
-                      </Text>
                       <Flex gap={5} wrap>
                         {category.attributes.categories.data
                           .slice(0, 6)
                           .map((category2: Category, index, array) => {
                             return (
                               <>
+                                {index == 0 ? (
+                                  <Text key={category.attributes.slug} strong>
+                                    {category.attributes.name}:
+                                  </Text>
+                                ) : (
+                                  <></>
+                                )}
                                 <Text
                                   key={category2.id}
                                   style={{
