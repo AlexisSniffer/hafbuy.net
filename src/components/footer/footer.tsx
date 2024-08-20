@@ -2,9 +2,12 @@
 
 import Container from '@/components/utils/container'
 import { qsCategory } from '@/queries/category'
+import useFilterStore from '@/store/filterStore'
+import styles from '@/styles/products-filter.module.scss'
 import { Category } from '@/types/category'
 import { Payload } from '@/types/payload'
 import { fetcher } from '@/utils/fetcher'
+import { MailOutlined } from '@ant-design/icons'
 import {
   Button,
   Col,
@@ -18,10 +21,9 @@ import {
   ThemeConfig,
   Typography,
 } from 'antd'
+import { useRouter } from 'next/navigation'
 import useSWR from 'swr'
 import SocialIcons from '../common/social-icons'
-import { MailOutlined } from '@ant-design/icons'
-import styles from '@/styles/products-filter.module.scss'
 
 const { Title, Text } = Typography
 
@@ -43,7 +45,9 @@ const theme: ThemeConfig = {
 }
 
 export default function RootFooter() {
+  const router = useRouter()
   const [form] = Form.useForm()
+  const { setCategories } = useFilterStore()
 
   const { data: categories, error: errorCategories } = useSWR<
     Payload<Category[]>
@@ -183,24 +187,34 @@ export default function RootFooter() {
                         {category.attributes.name}:
                       </Text>
                       <Flex gap={5}>
-                        {category.attributes.categories.data.map(
-                          (category2: Category) => {
+                        {category.attributes.categories.data
+                          .slice(0, 6)
+                          .map((category2: Category) => {
                             return (
-                              <Text key={category2.id}>
+                              <Text
+                                key={category2.id}
+                                style={{
+                                  cursor: 'pointer',
+                                }}
+                                onClick={() => {
+                                  setCategories([category2.attributes.slug])
+                                  router.push('/shop')
+                                }}
+                              >
                                 {`${category2.attributes.name} | `}
                               </Text>
                             )
-                          },
-                        )}
+                          })}
                       </Flex>
                       <Text
                         className={styles['view-all']}
                         style={{
                           margin: 0,
+                          cursor: 'pointer',
                         }}
                         onClick={() => {
-                          //setCategories([attributes.slug])
-                          // router.push('/shop')
+                          setCategories([category.attributes.slug])
+                          router.push('/shop')
                         }}
                       >
                         ver más
