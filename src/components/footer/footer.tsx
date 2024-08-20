@@ -186,39 +186,45 @@ export default function RootFooter() {
                       <Text key={category.attributes.slug} strong>
                         {category.attributes.name}:
                       </Text>
-                      <Flex gap={5}>
+                      <Flex gap={5} wrap>
                         {category.attributes.categories.data
                           .slice(0, 6)
-                          .map((category2: Category) => {
+                          .map((category2: Category, index, array) => {
                             return (
-                              <Text
-                                key={category2.id}
-                                style={{
-                                  cursor: 'pointer',
-                                }}
-                                onClick={() => {
-                                  setCategories([category2.attributes.slug])
-                                  router.push('/shop')
-                                }}
-                              >
-                                {`${category2.attributes.name} | `}
-                              </Text>
+                              <>
+                                <Text
+                                  key={category2.id}
+                                  style={{
+                                    cursor: 'pointer',
+                                  }}
+                                  onClick={() => {
+                                    setCategories([category2.attributes.slug])
+                                    router.push('/shop')
+                                  }}
+                                >
+                                  {`${category2.attributes.name} | `}
+                                </Text>
+                                {index == array.length - 1 ? (
+                                  <Text
+                                    className={styles['view-all']}
+                                    style={{
+                                      margin: 0,
+                                      cursor: 'pointer',
+                                    }}
+                                    onClick={() => {
+                                      setCategories([category.attributes.slug])
+                                      router.push('/shop')
+                                    }}
+                                  >
+                                    ver más
+                                  </Text>
+                                ) : (
+                                  <></>
+                                )}
+                              </>
                             )
                           })}
                       </Flex>
-                      <Text
-                        className={styles['view-all']}
-                        style={{
-                          margin: 0,
-                          cursor: 'pointer',
-                        }}
-                        onClick={() => {
-                          setCategories([category.attributes.slug])
-                          router.push('/shop')
-                        }}
-                      >
-                        ver más
-                      </Text>
                     </Flex>
                   )
                 })}
