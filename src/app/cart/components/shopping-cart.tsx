@@ -72,7 +72,10 @@ export default function ShoppingCart() {
   }
 
   const handleIncrement = (product: ProductCart) => {
-    product.qty = Math.min(product.qty + 1, 100)
+    product.qty = Math.min(
+      product.qty + 1,
+      product.variant ? product.variant.stock : product.attributes.stock,
+    )
     edit(product)
   }
 
@@ -158,7 +161,11 @@ export default function ShoppingCart() {
           <Input
             size="large"
             min={1}
-            max={100}
+            max={
+              product.variant
+                ? product.variant?.stock
+                : product.attributes.stock
+            }
             value={product.qty}
             className={styles['qty']}
           />
@@ -247,7 +254,11 @@ export default function ShoppingCart() {
               <Input
                 size="large"
                 min={1}
-                max={100}
+                max={
+                  product.variant
+                    ? product.variant?.stock
+                    : product.attributes.stock
+                }
                 value={product.qty}
                 className={styles['qty']}
               />

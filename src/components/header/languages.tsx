@@ -13,7 +13,7 @@ const theme: ThemeConfig = {
 
 const languageOptions = [
   { value: 'es', label: '🇵🇦 ESP' },
-  // { value: 'en', label: '🇺🇸 English' },
+  { value: 'en', label: '🇺🇸 English' },
 ]
 
 export default function Languages() {

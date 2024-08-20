@@ -208,7 +208,11 @@ export default function ProductAdd({ id, attributes }: Product) {
                   style={{ width: '100px' }}
                   maxLength={16}
                   min={1}
-                  max={20}
+                  max={
+                    attributes.variants.length
+                      ? selectedVariant?.stock
+                      : attributes.stock
+                  }
                   disabled={disableProduct({
                     id: id,
                     attributes: attributes,

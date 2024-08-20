@@ -73,6 +73,7 @@ export default function ProductDefault({ id, attributes }: Product) {
     stack: { threshold: 4 },
   })
   const { add } = useCartStore()
+  const cartStore = useCartStore((state) => state.cart)
 
   const handleResize = () => {
     if (window.innerWidth >= 480 && window.innerWidth < 576)
@@ -112,6 +113,16 @@ export default function ProductDefault({ id, attributes }: Product) {
 
   const linkProduct = () => {
     router.push(`/products/${attributes.slug}`)
+  }
+
+  const disabledStock = (attributes: { id: number; stock: number }) => {
+    const cartItem = cartStore.find((item) => item.id === attributes.id)
+
+    const isStockExceeded = cartItem
+      ? cartItem.qty >= attributes.stock
+      : false || !(attributes.stock > 0)
+
+    return isStockExceeded
   }
 
   useEffect(() => {
@@ -156,7 +167,7 @@ export default function ProductDefault({ id, attributes }: Product) {
         </Button>
         <Button
           shape="circle"
-          disabled={!(attributes.stock > 0)}
+          disabled={disabledStock({ id: id, stock: attributes.stock })}
           icon={
             attributes.variants?.length ? (
               <ArrowRightOutlined />
