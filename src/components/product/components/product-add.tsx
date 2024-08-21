@@ -43,6 +43,7 @@ const theme: ThemeConfig = {
 export default function ProductAdd({ id, attributes }: Product) {
   const [form] = Form.useForm()
   const { add } = useCartStore()
+  const cartStore = useCartStore((state) => state.cart)
   const [api, contextHolder] = notification.useNotification({
     stack: { threshold: 4 },
   })
@@ -113,6 +114,17 @@ export default function ProductAdd({ id, attributes }: Product) {
   ///////////////////////////////////////////////
 
   const onFinish = (values: any) => {
+    if (validateStock({ id: id, stock: attributes.stock, qty: values.qty })) {
+      api.open({
+        message: null,
+        type: 'warning',
+        description: 'No hay la cantidad solicitada',
+        placement: 'bottomRight',
+      })
+
+      return
+    }
+
     let product: ProductCart = {
       id,
       attributes,
@@ -130,6 +142,48 @@ export default function ProductAdd({ id, attributes }: Product) {
     })
 
     add(product)
+  }
+
+  const validateStock = (attributes: {
+    id: number
+    stock: number
+    qty: number
+  }) => {
+    if (selectedVariant) {
+      const cartItem = cartStore.find(
+        (item) =>
+          item.id === attributes.id && item.variant?.id === selectedVariant.id,
+      )
+
+      return cartItem
+        ? cartItem.qty + attributes.qty > selectedVariant.stock
+        : false || !(selectedVariant.stock > 0)
+    } else {
+      const cartItem = cartStore.find((item) => item.id === attributes.id)
+
+      return cartItem
+        ? cartItem.qty + attributes.qty > attributes.stock
+        : false || !(attributes.stock > 0)
+    }
+  }
+
+  const disabledStock = (attributes: { id: number; stock: number }) => {
+    if (selectedVariant) {
+      const cartItem = cartStore.find(
+        (item) =>
+          item.id === attributes.id && item.variant?.id === selectedVariant.id,
+      )
+
+      return cartItem
+        ? cartItem.qty >= selectedVariant.stock
+        : false || !(selectedVariant.stock > 0)
+    } else {
+      const cartItem = cartStore.find((item) => item.id === attributes.id)
+
+      return cartItem
+        ? cartItem.qty >= attributes.stock
+        : false || !(attributes.stock > 0)
+    }
   }
 
   return (
@@ -213,10 +267,9 @@ export default function ProductAdd({ id, attributes }: Product) {
                       ? selectedVariant?.stock
                       : attributes.stock
                   }
-                  disabled={disableProduct({
+                  disabled={disabledStock({
                     id: id,
-                    attributes: attributes,
-                    selectedVariant: selectedVariant,
+                    stock: attributes.stock,
                   })}
                 />
               </Form.Item>
@@ -224,10 +277,9 @@ export default function ProductAdd({ id, attributes }: Product) {
                 type="primary"
                 size="large"
                 onClick={form.submit}
-                disabled={disableProduct({
+                disabled={disabledStock({
                   id: id,
-                  attributes: attributes,
-                  selectedVariant: selectedVariant,
+                  stock: attributes.stock,
                 })}
               >
                 Añadir a carrito
