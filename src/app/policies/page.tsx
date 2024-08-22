@@ -29,7 +29,7 @@ export default function Policies() {
       >
         <Row>
           <Col xs={{ span: 24 }} md={{ span: 20, offset: 2 }}>
-            <RenderContent content={policies?.data?.attributes?.terms} />
+            <RenderContent content={policies?.data?.attributes?.policies} />
           </Col>
         </Row>
       </Container>
