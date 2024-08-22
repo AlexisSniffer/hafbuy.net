@@ -24,6 +24,7 @@ import {
 import { useRouter } from 'next/navigation'
 import useSWR from 'swr'
 import SocialIcons from '../common/social-icons'
+import Link from 'next/link'
 
 const { Title, Text } = Typography
 
@@ -161,14 +162,14 @@ export default function RootFooter() {
                       marginBottom: '1rem',
                     }}
                   >
-                    Términos y Condiciones
+                    <Link href="/terms">Términos y Condiciones</Link>
                   </li>
                   <li
                     style={{
                       marginBottom: '1rem',
                     }}
                   >
-                    Políticas y Privacidad
+                    <Link href="/policies">Política de Privacidad</Link>
                   </li>
                 </ul>
               </Space>
