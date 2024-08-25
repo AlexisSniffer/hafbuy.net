@@ -34,7 +34,7 @@ export default function ReviewForm({ id }: Product) {
             name: values.name,
             email: values.email,
             product: id,
-            user: session?.user.id,
+            user: session?.user != null ? session?.user.id : null,
           },
         }),
       },
