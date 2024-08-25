@@ -42,7 +42,7 @@ export default function Review({ id, attributes }: ReviewProps) {
                 {dayjs(attributes.createdAt).format('DD/MM/YYYY')}
               </Text>
             </Paragraph>
-            <RenderContent content={attributes.comment} />
+            <Text>{attributes.comment}</Text>
           </div>
           <Rate
             value={attributes.rating}

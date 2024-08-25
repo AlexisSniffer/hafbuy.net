@@ -34,7 +34,7 @@ export default function ReviewForm({ id }: Product) {
       },
     )
 
-    if (response.status == 200) {
+    if (response.ok) {
       api.success({
         message: `Enviada con éxito`,
         description: `Su reseña para el producto se ha creado exitosamente.`,

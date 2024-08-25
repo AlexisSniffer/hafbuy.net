@@ -20,7 +20,7 @@ import useSWR from 'swr'
 import Review from './Review'
 import ReviewForm from './ReviewForm'
 
-const { Text } = Typography
+const { Text, Title } = Typography
 
 export default function Reviews({ id, attributes }: Product) {
   const [api, contextHolder] = notification.useNotification()
@@ -43,7 +43,7 @@ export default function Reviews({ id, attributes }: Product) {
       key: '1',
       label: `Reseñas (${reviews?.meta?.pagination?.total})`,
       children: reviews?.data ? (
-        <>
+        <Flex vertical gap={10}>
           <Flex vertical gap={10}>
             {reviews?.data.map((review: ReviewProps) => {
               return (
@@ -55,11 +55,11 @@ export default function Reviews({ id, attributes }: Product) {
               )
             })}
           </Flex>
-          <br />
           <Pagination
             defaultCurrent={pagination.page}
             pageSize={pagination.pageSize}
             total={reviews?.meta?.pagination?.total}
+            style={{ textAlign: 'right' }}
             onChange={(page, pageSize) => {
               setPagination({
                 page: page,
@@ -67,7 +67,7 @@ export default function Reviews({ id, attributes }: Product) {
               })
             }}
           />
-        </>
+        </Flex>
       ) : (
         <Text italic>Aún no hay reseñas.</Text>
       ),
@@ -78,6 +78,7 @@ export default function Reviews({ id, attributes }: Product) {
     <>
       <Tabs defaultActiveKey="1" items={items} onChange={() => {}} />
       <Divider />
+      <Title level={4}>Añadir una reseña</Title>
       <ReviewForm id={id} attributes={attributes}></ReviewForm>
     </>
   )

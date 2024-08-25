@@ -13,7 +13,7 @@ export const qsReviews = (filters: {
           },
         },
       },
-
+      sort: ['createdAt:desc'],
       pagination: filters.pagination,
     },
     {
