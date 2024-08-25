@@ -6,7 +6,7 @@ export interface Review {
     createdAt: Date
     updatedAt: Date
     publishedAt?: Date
-    ratings: number
+    rating: number
     comment: string
     name: string
     email: string
