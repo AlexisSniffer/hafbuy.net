@@ -16,6 +16,7 @@ import {
   Flex,
   Form,
   Input,
+  notification,
   Row,
   Space,
   ThemeConfig,
@@ -25,6 +26,7 @@ import { useRouter } from 'next/navigation'
 import useSWR from 'swr'
 import SocialIcons from '../common/social-icons'
 import Link from 'next/link'
+import { useState } from 'react'
 
 const { Title, Text } = Typography
 
@@ -49,13 +51,51 @@ export default function RootFooter() {
   const router = useRouter()
   const [form] = Form.useForm()
   const { setCategories } = useFilterStore()
+  const [loading, setLoading] = useState<boolean>(false)
+  const [api, contextHolder] = notification.useNotification()
 
   const { data: categories, error: errorCategories } = useSWR<
     Payload<Category[]>
   >(`${process.env.NEXT_PUBLIC_API_URL}/api/categories?${qsCategory}`, fetcher)
 
+  const onFinish = async (values: { email: string }) => {
+    setLoading(true)
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/newsletters`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: {
+            email: values.email,
+          },
+        }),
+      },
+    )
+
+    if (response.ok) {
+      api.success({
+        message: 'Newslatter',
+        description: 'Correo agregado correctamente.',
+        placement: 'bottomRight',
+      })
+    } else {
+      api.warning({
+        message: 'Newslatter',
+        description: 'Su correo ya existe.',
+        placement: 'bottomRight',
+      })
+    }
+
+    setLoading(false)
+  }
+
   return (
     <ConfigProvider theme={theme}>
+      {contextHolder}
       <footer>
         <Container
           style={{
@@ -85,19 +125,27 @@ export default function RootFooter() {
             <Col xs={24} md={12} lg={16}>
               <Form
                 form={form}
-                name="headerSearch"
-                onFinish={() => {}}
+                name="newslatter"
+                onFinish={onFinish}
                 initialValues={{
                   ['email']: '',
                 }}
               >
-                <Form.Item name="email">
+                <Form.Item
+                  name="email"
+                  rules={[{ required: true, message: 'E-mail es requerido' }]}
+                >
                   <Space.Compact style={{ width: '100%' }}>
                     <Input
                       placeholder="Ingresa tu correo electrónico"
                       size="large"
                     />
-                    <Button type="primary" size="large">
+                    <Button
+                      onClick={form.submit}
+                      type="primary"
+                      size="large"
+                      loading={loading}
+                    >
                       ¡Suscribete!
                     </Button>
                   </Space.Compact>
