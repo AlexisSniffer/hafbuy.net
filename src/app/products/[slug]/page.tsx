@@ -13,6 +13,7 @@ import { Alert, Breadcrumb, Col, Divider, Row, Skeleton } from 'antd'
 import Link from 'next/link'
 import { useEffect } from 'react'
 import useSWR from 'swr'
+import Reviews from './components/Reviews'
 
 export default function ProductPage({ params }: { params: { slug: string } }) {
   const { add } = useViewStore()
@@ -77,6 +78,17 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
         </Col>
         <Col xs={24} md={14}>
           <ProductDetail
+            id={product.data[0].id}
+            attributes={product.data[0].attributes}
+          />
+        </Col>
+      </Row>
+      <br />
+      <br />
+      <br />
+      <Row>
+        <Col span={24}>
+          <Reviews
             id={product.data[0].id}
             attributes={product.data[0].attributes}
           />

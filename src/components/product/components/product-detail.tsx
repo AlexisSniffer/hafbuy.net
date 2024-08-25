@@ -18,6 +18,7 @@ import {
 import Link from 'next/link'
 import { useEffect } from 'react'
 import Countdown from '../../common/countdown'
+import Reviews from '@/app/products/[slug]/components/Reviews'
 
 const theme: ThemeConfig = {
   components: {
