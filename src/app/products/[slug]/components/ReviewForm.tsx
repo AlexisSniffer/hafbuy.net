@@ -2,10 +2,12 @@
 
 import { Product } from '@/types/product'
 import { Button, Card, Form, Input, notification, Rate, Typography } from 'antd'
+import { useSession } from 'next-auth/react'
 
 const { Text } = Typography
 
 export default function ReviewForm({ id }: Product) {
+  const { data: session, status } = useSession()
   const [form] = Form.useForm()
   const [api, contextHolder] = notification.useNotification()
 
@@ -21,6 +23,9 @@ export default function ReviewForm({ id }: Product) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(session?.user != null && {
+            Authorization: `Bearer ${session?.user.token}`,
+          }),
         },
         body: JSON.stringify({
           data: {
@@ -29,6 +34,7 @@ export default function ReviewForm({ id }: Product) {
             name: values.name,
             email: values.email,
             product: id,
+            user: session?.user.id,
           },
         }),
       },
@@ -71,8 +77,11 @@ export default function ReviewForm({ id }: Product) {
           initialValues={{
             ['rating']: 0,
             ['comment']: '',
-            ['name']: '',
-            ['email']: '',
+            ['name']:
+              session?.user != null
+                ? `${session.user.name} ${session.user.lastname}`
+                : '',
+            ['email']: session?.user != null ? session.user.email : '',
           }}
         >
           <Form.Item
@@ -89,7 +98,6 @@ export default function ReviewForm({ id }: Product) {
           >
             <Rate />
           </Form.Item>
-
           <Form.Item
             name="comment"
             label="Comentario"
@@ -102,15 +110,13 @@ export default function ReviewForm({ id }: Product) {
           >
             <Input.TextArea showCount={true} maxLength={200} />
           </Form.Item>
-
           <Form.Item
             name="name"
             label="Nombre"
             rules={[{ required: true, message: 'Ingrese su nombre' }]}
           >
-            <Input maxLength={50} />
+            <Input maxLength={50} disabled={session?.user != null} />
           </Form.Item>
-
           <Form.Item
             name="email"
             label="Correo Electrónico"
@@ -122,7 +128,7 @@ export default function ReviewForm({ id }: Product) {
               },
             ]}
           >
-            <Input maxLength={100} />
+            <Input maxLength={100} disabled={session?.user != null} />
           </Form.Item>
           <Form.Item>
             <Button type="primary" onClick={form.submit}>
