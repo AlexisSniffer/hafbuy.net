@@ -55,7 +55,12 @@ const selectBefore = (data: Category[]) => {
 
   return (
     <Form.Item name="category" noStyle initialValue="all">
-      <Select options={options} />
+      <Select
+        options={options}
+        dropdownStyle={{
+          width: '300px',
+        }}
+      />
     </Form.Item>
   )
 }
