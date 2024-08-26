@@ -18,9 +18,9 @@ export default function Contact() {
     <ConfigProvider theme={theme}>
       <Space direction="horizontal">
         <PhoneOutlined />
-        <LinkAntd href={'tel:+68748978'}>
+        <LinkAntd href={'tel:+62505218'}>
           <span>
-            <b>(+507) 6874-8978</b>
+            <b>(+507) 6250-5218</b>
           </span>
         </LinkAntd>
       </Space>
