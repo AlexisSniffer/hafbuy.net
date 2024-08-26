@@ -63,7 +63,7 @@ const RenderContent = ({ content }: any) => {
       case 'list':
         const ListTag = element.format === 'ordered' ? 'ol' : 'ul'
         return (
-          <ListTag>
+          <ListTag style={{ marginLeft: '3rem' }}>
             {element.children.map((child: any, index: any) => (
               <li key={index}>
                 {child.children.map((listChild: any, childIndex: any) => (

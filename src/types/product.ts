@@ -13,6 +13,7 @@ export interface Product {
     name: string
     slug: string
     description: string
+    description2: any
     images: { data: Media[] }
     price: number
     discount: number
