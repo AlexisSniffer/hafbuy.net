@@ -42,7 +42,7 @@ export default function Reviews({ id, attributes }: Product) {
   const items: TabsProps['items'] = [
     {
       key: '1',
-      label: 'Descripción',
+      label: 'Especificaciones',
       children: (
         <>
           {attributes.description2 ? (
