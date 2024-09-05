@@ -439,11 +439,8 @@ export default function Checkout() {
                         {paymentMethods.data.map(
                           (paymentMethod: PaymentMethod) => {
                             return (
-                              <Flex vertical gap={10}>
-                                <Radio
-                                  key={paymentMethod.id}
-                                  value={paymentMethod.id}
-                                >
+                              <Flex vertical gap={10} key={paymentMethod.id}>
+                                <Radio value={paymentMethod.id}>
                                   {paymentMethod.attributes.name}
                                 </Radio>
                                 {selectedPaymentMethod &&
