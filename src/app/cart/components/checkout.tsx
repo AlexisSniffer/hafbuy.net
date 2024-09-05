@@ -1,5 +1,6 @@
 'use client'
 
+import RenderContent from '@/components/utils/render-content'
 import { qsAddress } from '@/queries/address'
 import useCartStore from '@/store/cartStore'
 import styles2 from '@/styles/cart.module.scss'
@@ -66,6 +67,8 @@ export default function Checkout() {
   const [api, contextHolder] = notification.useNotification()
   const [loading, setLoading] = useState<boolean>(false)
   const [recaptcha, setRecaptcha] = useState<boolean>(true)
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    useState<PaymentMethod | null>(null)
   const [isUploadVoucher, setIsUploadVoucher] = useState<boolean>(false)
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
@@ -230,6 +233,7 @@ export default function Checkout() {
       (paymentMethod: PaymentMethod) => paymentMethod.id === value,
     )
 
+    setSelectedPaymentMethod(paymentMethod!)
     setIsUploadVoucher(paymentMethod?.attributes.voucher ?? false)
   }
 
@@ -435,12 +439,98 @@ export default function Checkout() {
                         {paymentMethods.data.map(
                           (paymentMethod: PaymentMethod) => {
                             return (
-                              <Radio
-                                key={paymentMethod.id}
-                                value={paymentMethod.id}
-                              >
-                                {paymentMethod.attributes.name}
-                              </Radio>
+                              <Flex vertical gap={10}>
+                                <Radio
+                                  key={paymentMethod.id}
+                                  value={paymentMethod.id}
+                                >
+                                  {paymentMethod.attributes.name}
+                                </Radio>
+                                {selectedPaymentMethod &&
+                                  selectedPaymentMethod.id ===
+                                    paymentMethod.id && (
+                                    <>
+                                      <RenderContent
+                                        content={
+                                          selectedPaymentMethod.attributes
+                                            .description
+                                        }
+                                      />
+                                      {isUploadVoucher ? (
+                                        <>
+                                          <Form.Item
+                                            label="Comprobante de pago"
+                                            name="voucher"
+                                            rules={[
+                                              {
+                                                required: isUploadVoucher,
+                                                message: requiredMessage,
+                                              },
+                                            ]}
+                                          >
+                                            <Upload
+                                              action="/api/upload"
+                                              maxCount={1}
+                                              listType="picture-card"
+                                              accept="image/png, image/jpeg"
+                                              onPreview={handlePreview}
+                                              beforeUpload={(file: any) => {
+                                                const isImage =
+                                                  file.type === 'image/png' ||
+                                                  file.type === 'image/jpeg'
+
+                                                if (!isImage) {
+                                                  message.error(
+                                                    `${file.name} no es una imagen`,
+                                                  )
+                                                }
+
+                                                return (
+                                                  isImage || Upload.LIST_IGNORE
+                                                )
+                                              }}
+                                            >
+                                              <button
+                                                style={{
+                                                  border: 0,
+                                                  background: 'none',
+                                                }}
+                                                type="button"
+                                              >
+                                                <PlusOutlined />
+                                                <div style={{ marginTop: 8 }}>
+                                                  Comprobante
+                                                </div>
+                                              </button>
+                                            </Upload>
+                                          </Form.Item>
+                                          <Modal
+                                            open={previewOpen}
+                                            title="Comprobante"
+                                            footer={null}
+                                            onCancel={() =>
+                                              setPreviewOpen(false)
+                                            }
+                                          >
+                                            <Image
+                                              alt="voucher"
+                                              src={previewImage}
+                                              width={0}
+                                              height={0}
+                                              sizes="100vw"
+                                              style={{
+                                                width: '100%',
+                                                height: 'auto',
+                                              }}
+                                            />
+                                          </Modal>
+                                        </>
+                                      ) : (
+                                        <></>
+                                      )}
+                                    </>
+                                  )}
+                              </Flex>
                             )
                           },
                         )}
@@ -451,64 +541,7 @@ export default function Checkout() {
               ) : (
                 <></>
               )}
-              {isUploadVoucher ? (
-                <>
-                  <Form.Item
-                    label="Comprobante de pago"
-                    name="voucher"
-                    rules={[
-                      {
-                        required: isUploadVoucher,
-                        message: requiredMessage,
-                      },
-                    ]}
-                  >
-                    <Upload
-                      action="/api/upload"
-                      maxCount={1}
-                      listType="picture-card"
-                      accept="image/png, image/jpeg"
-                      onPreview={handlePreview}
-                      beforeUpload={(file: any) => {
-                        const isImage =
-                          file.type === 'image/png' ||
-                          file.type === 'image/jpeg'
 
-                        if (!isImage) {
-                          message.error(`${file.name} no es una imagen`)
-                        }
-
-                        return isImage || Upload.LIST_IGNORE
-                      }}
-                    >
-                      <button
-                        style={{ border: 0, background: 'none' }}
-                        type="button"
-                      >
-                        <PlusOutlined />
-                        <div style={{ marginTop: 8 }}>Comprobante</div>
-                      </button>
-                    </Upload>
-                  </Form.Item>
-                  <Modal
-                    open={previewOpen}
-                    title="Comprobante"
-                    footer={null}
-                    onCancel={() => setPreviewOpen(false)}
-                  >
-                    <Image
-                      alt="voucher"
-                      src={previewImage}
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      style={{ width: '100%', height: 'auto' }}
-                    />
-                  </Modal>
-                </>
-              ) : (
-                <></>
-              )}
               <Divider className={styles2['divider']} />
               <ReCAPTCHA
                 sitekey={`${process.env.NEXT_PUBLIC_RECAPTCHA}`}
