@@ -6,7 +6,7 @@ export interface PaymentMethod {
     publishedAt?: Date
     name: string
     voucher: boolean
-    description?: string
+    description?: any
     locale: string
     localizations?: { data: PaymentMethod[] }
   }
