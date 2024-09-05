@@ -46,7 +46,7 @@ const RenderContent = ({ content }: any) => {
     switch (element.type) {
       case 'paragraph':
         return (
-          <Paragraph>
+          <Paragraph style={{ marginBottom: 0 }}>
             {element.children.map((child: any, index: any) => (
               <React.Fragment key={index}>{renderNode(child)}</React.Fragment>
             ))}

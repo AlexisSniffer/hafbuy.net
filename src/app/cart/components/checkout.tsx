@@ -449,7 +449,7 @@ export default function Checkout() {
                                 {selectedPaymentMethod &&
                                   selectedPaymentMethod.id ===
                                     paymentMethod.id && (
-                                    <>
+                                    <div>
                                       <RenderContent
                                         content={
                                           selectedPaymentMethod.attributes
@@ -528,7 +528,7 @@ export default function Checkout() {
                                       ) : (
                                         <></>
                                       )}
-                                    </>
+                                    </div>
                                   )}
                               </Flex>
                             )
