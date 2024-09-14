@@ -167,18 +167,19 @@ export default function ProductAdd({ id, attributes }: Product) {
     }
   }
 
-  const disabledStock = (attributes: { id: number; stock: number }) => {
-    if (selectedVariant) {
+  const disabledStock = ({ id, attributes }: Product) => {
+    if (attributes.variants.length && !selectedVariant) return true
+
+    if (attributes.variants.length && selectedVariant) {
       const cartItem = cartStore.find(
-        (item) =>
-          item.id === attributes.id && item.variant?.id === selectedVariant.id,
+        (item) => item.id === id && item.variant?.id === selectedVariant.id,
       )
 
       return cartItem
         ? cartItem.qty >= selectedVariant.stock
         : false || !(selectedVariant.stock > 0)
     } else {
-      const cartItem = cartStore.find((item) => item.id === attributes.id)
+      const cartItem = cartStore.find((item) => item.id === id)
 
       return cartItem
         ? cartItem.qty >= attributes.stock
@@ -269,7 +270,7 @@ export default function ProductAdd({ id, attributes }: Product) {
                   }
                   disabled={disabledStock({
                     id: id,
-                    stock: attributes.stock,
+                    attributes: attributes,
                   })}
                 />
               </Form.Item>
@@ -279,7 +280,7 @@ export default function ProductAdd({ id, attributes }: Product) {
                 onClick={form.submit}
                 disabled={disabledStock({
                   id: id,
-                  stock: attributes.stock,
+                  attributes: attributes,
                 })}
               >
                 Añadir a carrito
