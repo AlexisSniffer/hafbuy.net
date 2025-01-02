@@ -3,6 +3,7 @@ import RootFooter from '@/components/footer/footer'
 import RootHeader from '@/components/header/header'
 import StyledComponentsRegistry from '@/lib/antd-registry'
 import '@/styles/global.scss'
+import MobileAffix from './components/affix'
 
 export const metadata = {
   title: 'Hafbuy',
@@ -19,6 +20,7 @@ export default function RootLayout({
       <body>
         <StyledComponentsRegistry>
           <SessionProvider>
+            <MobileAffix />
             <RootHeader />
             {children}
             <RootFooter />
