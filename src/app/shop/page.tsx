@@ -111,6 +111,7 @@ export default function Shop() {
         closable={false}
         onClose={() => setOpen(!open)}
         open={open}
+        width={250}
         styles={{
           body: {
             padding: '10px',
