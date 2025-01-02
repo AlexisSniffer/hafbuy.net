@@ -30,6 +30,7 @@ export default function CartIcons({
             content={<HeaderSearch data={data} meta={meta} />}
             trigger="click"
             overlayStyle={{ maxWidth: '100vw' }}
+            overlayInnerStyle={{ padding: '0' }}
           >
             <SearchOutlined style={{ fontSize: '1.7rem' }} rev={undefined} />
           </Popover>
