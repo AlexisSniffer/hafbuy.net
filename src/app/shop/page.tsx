@@ -108,7 +108,7 @@ export default function Shop() {
     <ConfigProvider theme={theme}>
       <Drawer
         placement={'left'}
-        closable={true}
+        closable={false}
         onClose={() => setOpen(!open)}
         open={open}
         styles={{
