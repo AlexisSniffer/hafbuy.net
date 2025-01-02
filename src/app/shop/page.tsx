@@ -7,20 +7,23 @@ import useFilterStore from '@/store/filterStore'
 import { Payload } from '@/types/payload'
 import { Product } from '@/types/product'
 import { fetcher } from '@/utils/fetcher'
-import { HomeOutlined } from '@ant-design/icons'
+import { FilterOutlined, HomeOutlined } from '@ant-design/icons'
 import type { CollapseProps, PaginationProps, ThemeConfig } from 'antd'
 import {
   Alert,
   Breadcrumb,
+  Button,
   Col,
   Collapse,
   ConfigProvider,
   Divider,
+  Drawer,
   Pagination,
   Row,
   Skeleton,
 } from 'antd'
 import Link from 'next/link'
+import { useState } from 'react'
 import useSWR from 'swr'
 import FilterBrand from './components/filter-brand'
 import FilterCategory from './components/filter-category'
@@ -67,6 +70,7 @@ export default function Shop() {
   const viewsStore = useFilterStore((state) => state.views)
   const paginationStore = useFilterStore((state) => state.pagination)
   const { setPagination } = useFilterStore()
+  const [open, setOpen] = useState(false)
 
   const { data: products, error: errorProducts } = useSWR<Payload<Product[]>>(
     `${process.env.NEXT_PUBLIC_API_URL}/api/products?${qsProducts({
@@ -102,6 +106,24 @@ export default function Shop() {
 
   return (
     <ConfigProvider theme={theme}>
+      <Drawer
+        placement={'left'}
+        closable={true}
+        onClose={() => setOpen(!open)}
+        open={open}
+        styles={{
+          body: {
+            padding: '10px',
+          },
+        }}
+      >
+        <Collapse
+          activeKey={['1', '2', '3']}
+          items={items}
+          defaultActiveKey={['1']}
+          expandIconPosition={'end'}
+        />
+      </Drawer>
       <Container>
         <Row gutter={24}>
           <Col span={24}>
@@ -132,6 +154,23 @@ export default function Shop() {
             />
           </Col>
           <Col xs={24} lg={16} xl={18}>
+            <Row
+              style={{
+                backgroundColor: '#f4f4f4',
+                marginBottom: '1rem',
+              }}
+            >
+              <Col xs={24} lg={0} style={{ padding: '10px' }}>
+                <Button
+                  type="default"
+                  size="small"
+                  icon={<FilterOutlined />}
+                  onClick={() => setOpen(!open)}
+                >
+                  Filtros
+                </Button>
+              </Col>
+            </Row>
             {products ? (
               <>
                 <Row>
