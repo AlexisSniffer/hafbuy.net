@@ -13,6 +13,7 @@ import {
   Typography,
 } from 'antd'
 import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 const { Search } = Input
 const { Paragraph } = Typography
@@ -73,6 +74,18 @@ export default function HeaderSearch({
   const [form] = Form.useForm()
   const paginationStore = useFilterStore((state) => state.pagination)
   const { setFilter, setCategories, setPagination } = useFilterStore()
+  const [isDesktopOrTablet, setIsDesktopOrTablet] = useState(false)
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(min-width: 500px)')
+
+    const updateMatches = () => setIsDesktopOrTablet(mediaQuery.matches)
+    updateMatches()
+
+    mediaQuery.addEventListener('change', updateMatches)
+
+    return () => mediaQuery.removeEventListener('change', updateMatches)
+  }, [])
 
   const onFinish = (values: SearchProps) => {
     const { filter, category } = values
@@ -102,7 +115,9 @@ export default function HeaderSearch({
             allowClear
             size="large"
             placeholder="Buscar..."
-            addonBefore={data ? selectBefore(data) : <Spin />}
+            addonBefore={
+              isDesktopOrTablet ? data ? selectBefore(data) : <Spin /> : null
+            }
             onSearch={form.submit}
           />
         </Form.Item>
