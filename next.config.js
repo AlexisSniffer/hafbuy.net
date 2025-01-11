@@ -6,7 +6,23 @@ const nextConfig = {
     includePaths: [path.join(__dirname, 'src', 'styles')],
   },
   images: {
-    domains: ['localhost', 'hafbuy-strapi-space.nyc3.digitaloceanspaces.com', 'hafbuy-strapi-space.nyc3.cdn.digitaloceanspaces.com'],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'hafbuy-strapi-space.nyc3.digitaloceanspaces.com',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'hafbuy-strapi-space.nyc3.cdn.digitaloceanspaces.com',
+        pathname: '**',
+      },
+    ],
   },
 }
 

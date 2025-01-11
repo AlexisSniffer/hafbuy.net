@@ -42,8 +42,6 @@ export default function MobileAffix() {
     }
   }, [])
 
-  console.log('Mostrar Affix:', isMobile && affix)
-
   if (!isMobile || !affix) return null
 
   return (

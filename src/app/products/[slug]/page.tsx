@@ -14,14 +14,15 @@ import Link from 'next/link'
 import { useEffect } from 'react'
 import useSWR from 'swr'
 import Reviews from './components/Reviews'
+import { useParams } from 'next/navigation'
 
-export default function ProductPage({ params }: { params: { slug: string } }) {
+
+export default function ProductPage() {
   const { add } = useViewStore()
+  const params = useParams<{ slug: string}>()
 
   const { data: product, error: errorProduct } = useSWR<Payload<Product[]>>(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/products?${qsProductsBySlug(
-      params.slug,
-    )}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/products?${qsProductsBySlug(params.slug)}`,
     fetcher,
   )
 

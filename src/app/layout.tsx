@@ -1,8 +1,8 @@
 import SessionProvider from '@/components/common/session-provider'
 import RootFooter from '@/components/footer/footer'
 import RootHeader from '@/components/header/header'
-import StyledComponentsRegistry from '@/lib/antd-registry'
 import '@/styles/global.scss'
+import { AntdRegistry } from '@ant-design/nextjs-registry'
 import MobileAffix from './components/affix'
 
 export const metadata = {
@@ -18,14 +18,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <StyledComponentsRegistry>
+        <AntdRegistry>
           <SessionProvider>
             <MobileAffix />
             <RootHeader />
             {children}
             <RootFooter />
           </SessionProvider>
-        </StyledComponentsRegistry>
+        </AntdRegistry>
       </body>
     </html>
   )
