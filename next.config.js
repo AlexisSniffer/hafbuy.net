@@ -6,6 +6,7 @@ const nextConfig = {
     includePaths: [path.join(__dirname, 'src', 'styles')],
   },
   images: {
+    unoptimized: false,
     remotePatterns: [
       {
         protocol: 'http',
