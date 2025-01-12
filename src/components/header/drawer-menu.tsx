@@ -39,6 +39,8 @@ export default function DrawerMenu(props: DrawerMenuProps) {
   const router = useRouter()
   const { setFilter, setCategories } = useFilterStore()
 
+  if (!props.categories) return null
+
   return (
     <ConfigProvider theme={theme}>
       <Drawer
@@ -73,6 +75,7 @@ export default function DrawerMenu(props: DrawerMenuProps) {
                           key: category2.id,
                           label: (
                             <Text
+                              key={category2.id}
                               onClick={() => {
                                 setFilter('')
                                 setCategories([category2.attributes.slug])
