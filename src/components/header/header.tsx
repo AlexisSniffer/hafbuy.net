@@ -133,7 +133,12 @@ export default function RootHeader() {
         </Container>
       </header>
 
-      <DrawerMenu isOpen={open} onClose={() => setOpen(!open)} />
+      <DrawerMenu
+        isOpen={open}
+        onClose={() => setOpen(!open)}
+        setOpen={setOpen}
+        categories={categories!}
+      />
     </>
   )
 }
