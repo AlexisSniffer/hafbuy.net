@@ -67,24 +67,36 @@ export default function DrawerMenu(props: DrawerMenuProps) {
                 label: 'Departamentos',
                 children: props.categories.data?.map((category: Category) => {
                   return {
-                    key: category.id,
+                    key: category.id + Math.floor(Math.random() * 1000) + 1,
                     label: category.attributes.name,
                     children: category.attributes.categories.data?.map(
                       (category2: Category) => {
                         return {
-                          key: category2.id,
-                          label: (
-                            <Text
-                              key={category2.id}
-                              onClick={() => {
-                                setFilter('')
-                                setCategories([category2.attributes.slug])
-                                props.setOpen(false)
-                                router.push('/shop')
-                              }}
-                            >
-                              {category2.attributes.name}
-                            </Text>
+                          key:
+                            category2.id + Math.floor(Math.random() * 1000) + 1,
+                          label: category2.attributes.name,
+                          children: category2.attributes.categories.data.map(
+                            (category3: Category) => {
+                              return {
+                                key:
+                                  category3.id +
+                                  Math.floor(Math.random() * 1000) +
+                                  1,
+                                label: (
+                                  <Text
+                                    key={category3.id}
+                                    onClick={() => {
+                                      setFilter('')
+                                      setCategories([category3.attributes.slug])
+                                      props.setOpen(false)
+                                      router.push('/shop')
+                                    }}
+                                  >
+                                    {category3.attributes.name}
+                                  </Text>
+                                ),
+                              }
+                            },
                           ),
                         }
                       },
