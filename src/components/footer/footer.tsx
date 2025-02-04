@@ -312,7 +312,9 @@ export default function RootFooter() {
           <Divider />
           <Row>
             <Col span={24}>
-              <center>Hafbuy © 2024. All Rights Reserved</center>
+              <center>
+                Hafbuy © {new Date().getFullYear()}. All Rights Reserved
+              </center>
             </Col>
           </Row>
         </Container>
