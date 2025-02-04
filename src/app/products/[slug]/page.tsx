@@ -15,11 +15,12 @@ import { useEffect } from 'react'
 import useSWR from 'swr'
 import Reviews from './components/Reviews'
 import { useParams } from 'next/navigation'
-
+import ProductsFilterSelected from '@/app/components/products-filter-selected'
+import ProductsFilterRelation from '@/app/components/products-filter-relation'
 
 export default function ProductPage() {
   const { add } = useViewStore()
-  const params = useParams<{ slug: string}>()
+  const params = useParams<{ slug: string }>()
 
   const { data: product, error: errorProduct } = useSWR<Payload<Product[]>>(
     `${process.env.NEXT_PUBLIC_API_URL}/api/products?${qsProductsBySlug(params.slug)}`,
@@ -95,6 +96,14 @@ export default function ProductPage() {
           />
         </Col>
       </Row>
+
+      <ProductsFilterRelation
+        slug={
+          product.data[0].attributes.categories?.data[0].attributes.category
+            ?.data.attributes.slug!
+        }
+      />
+      <ProductsFilterSelected />
     </Container>
   )
 }
