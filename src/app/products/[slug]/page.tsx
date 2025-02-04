@@ -17,7 +17,7 @@ import Reviews from './components/Reviews'
 import { useParams } from 'next/navigation'
 import ProductsFilterSelected from '@/app/components/products-filter-selected'
 import ProductsFilterRelation from '@/app/components/products-filter-relation'
-import ProductsFilterViewed from './components/products-filter-viewed'
+import ProductsFilterViewed from '@/app/components/products-filter-viewed'
 
 export default function ProductPage() {
   const { add } = useViewStore()
@@ -105,7 +105,7 @@ export default function ProductPage() {
         }
       />
       <ProductsFilterSelected />
-<ProductsFilterViewed />
+      <ProductsFilterViewed />
     </Container>
   )
 }
