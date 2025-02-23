@@ -44,7 +44,7 @@ export default function Home() {
   return (
     <>
       <Container className={styles['section-gray']}>
-        <CarouselMain />
+        <CarouselMain name={'carousel'} />
         <br />
         <br />
         <CategoriesSlider categories={categories} />
@@ -80,17 +80,7 @@ export default function Home() {
 
         <Row className={styles['article']}>
           <Col xs={24}>
-            <Image
-              src={'/publicidad/Publicidad 8.jpg'}
-              alt={'Publicidad'}
-              width={0}
-              height={0}
-              sizes="100vw"
-              style={{
-                width: '100%',
-                height: 'auto',
-              }}
-            />
+            <CarouselMain name={'advertising8'} />
           </Col>
         </Row>
 

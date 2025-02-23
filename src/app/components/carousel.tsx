@@ -1,10 +1,14 @@
+'use client'
+
 import { qsHomePage } from '@/queries/pages'
 import useFilterStore from '@/store/filterStore'
 import { fetcher } from '@/utils/fetcher'
 import { Carousel, ConfigProvider, Skeleton, ThemeConfig } from 'antd'
+import { get } from 'http'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import useSWR from 'swr'
 
 const theme: ThemeConfig = {
@@ -13,27 +17,63 @@ const theme: ThemeConfig = {
   },
 }
 
-export default function CarouselMain() {
+export default function CarouselMain({ name }: { name: string }) {
   const router = useRouter()
-  const { setCategories } = useFilterStore()
+  const [breakpoint, setBreakpoint] = useState('lg')
+  const breakpoints = ['xs', 'sm', 'md', 'lg']
 
   const { data: homePage, error: errorHomePage } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/api/home-page?${qsHomePage}`,
     fetcher,
   )
 
+  useEffect(() => {
+    const calculateBreakpoint = () => {
+      const width = window.innerWidth
+
+      if (width < 480) setBreakpoint('xs')
+      else if (width < 576) setBreakpoint('sm')
+      else if (width < 768) setBreakpoint('md')
+      else if (width < 992) setBreakpoint('lg')
+      else setBreakpoint('lg')
+    }
+
+    calculateBreakpoint()
+    window.addEventListener('resize', calculateBreakpoint)
+
+    return () => window.removeEventListener('resize', calculateBreakpoint)
+  }, [])
+
   if (!homePage) {
     return <Skeleton />
   }
 
+  const getResponsiveImages = (bp: string): string => {
+    let index = breakpoints.indexOf(bp)
+
+    while (index >= 0) {
+      const currentBp = breakpoints[index]
+      const images = homePage.data.attributes[name][currentBp]
+
+      if (images && images.length > 0) {
+        return currentBp
+      }
+
+      index -= 1
+    }
+
+    return breakpoints[0]
+  }
+
+  const images =
+    homePage.data.attributes[name] &&
+    homePage.data.attributes[name][getResponsiveImages(breakpoint)]
+
   return (
     <ConfigProvider theme={theme}>
-      {homePage &&
-      homePage?.data &&
-      homePage?.data.attributes.carousel &&
-      homePage?.data.attributes.carousel.sliders ? (
+      {images && (
         <Carousel draggable={true} infinite={false} autoplay={true} arrows>
-          {homePage?.data.attributes.carousel.sliders.map((slide: any) => {
+          {images.map((slide: any) => {
             return (
               <div key={slide.id}>
                 <Link
@@ -61,8 +101,6 @@ export default function CarouselMain() {
             )
           })}
         </Carousel>
-      ) : (
-        <></>
       )}
     </ConfigProvider>
   )

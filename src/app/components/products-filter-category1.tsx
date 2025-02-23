@@ -17,6 +17,7 @@ import {
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import useSWR from 'swr'
+import CarouselMain from './carousel'
 
 const { Title, Text } = Typography
 
@@ -99,32 +100,10 @@ export default function ProductsFilterCategory1({ id, attributes }: Category) {
           </Row>
           <Row className={styles['article']} gutter={[10, 10]}>
             <Col xs={24} md={12}>
-              <Image
-                src={'/publicidad/Publicidad 4.jpg'}
-                alt={'Publicidad'}
-                width={0}
-                height={0}
-                sizes="100vw"
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                  maxHeight: '150px',
-                }}
-              />
+              <CarouselMain name={'advertising4'} />
             </Col>
             <Col xs={24} md={12}>
-              <Image
-                src={'/publicidad/Publicidad 5.jpg'}
-                alt={'Publicidad'}
-                width={0}
-                height={0}
-                sizes="100vw"
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                  maxHeight: '150px',
-                }}
-              />
+              <CarouselMain name={'advertising5'} />
             </Col>
           </Row>
           <Row className={`${styles['categories']}`}>

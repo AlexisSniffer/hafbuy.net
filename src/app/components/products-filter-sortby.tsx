@@ -22,6 +22,7 @@ import { useRouter } from 'next/navigation'
 
 import { useState } from 'react'
 import useSWR from 'swr'
+import CarouselMain from './carousel'
 
 const { Title, Text } = Typography
 
@@ -104,17 +105,7 @@ export default function ProductsFilterSortBy() {
           sm={{ span: 12, order: 2 }}
           lg={{ span: 6, order: 2 }}
         >
-          <Image
-            src={'/publicidad/Publicidad 3.jpg'}
-            alt={'Publicidad'}
-            width={0}
-            height={0}
-            sizes="100vw"
-            style={{
-              height: 'auto',
-              width: '100%',
-            }}
-          />
+          <CarouselMain name={'advertising3'} />
         </Col>
         <Col
           xs={{ span: 24, order: 3 }}

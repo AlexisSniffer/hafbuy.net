@@ -6,6 +6,7 @@ import { BorderOutlined } from '@ant-design/icons'
 import { Carousel, Col, Flex, Row, Skeleton, Typography } from 'antd'
 import Image from 'next/image'
 import useSWR from 'swr'
+import CarouselMain from './carousel'
 
 const { Text, Title, Paragraph } = Typography
 
@@ -91,34 +92,10 @@ export default function Services() {
       </Carousel>
       <Row gutter={[10, 10]}>
         <Col xs={24} md={8}>
-          <Image
-            src={'/publicidad/Publicidad 1.jpg'}
-            alt={'Publicidad'}
-            width={0}
-            height={0}
-            sizes="100vw"
-            style={{
-              color: '#000',
-              height: '200px',
-              maxHeight: '200px',
-              width: '100%',
-            }}
-          />
+          <CarouselMain name={'advertising1'} />
         </Col>
         <Col xs={24} md={16}>
-          <Image
-            src={'/publicidad/Publicidad 2.jpg'}
-            alt={'Publicidad'}
-            width={0}
-            height={0}
-            sizes="100vw"
-            style={{
-              color: '#000',
-              height: '200px',
-              maxHeight: '200px',
-              width: '100%',
-            }}
-          />
+          <CarouselMain name={'advertising2'} />
         </Col>
       </Row>
       <br />
