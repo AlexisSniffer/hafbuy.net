@@ -3,7 +3,13 @@
 import { qsHomePage } from '@/queries/pages'
 import useFilterStore from '@/store/filterStore'
 import { fetcher } from '@/utils/fetcher'
-import { Carousel, ConfigProvider, Skeleton, ThemeConfig } from 'antd'
+import {
+  Carousel,
+  ConfigProvider,
+  Skeleton,
+  ThemeConfig,
+  Watermark,
+} from 'antd'
 import { get } from 'http'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -71,7 +77,7 @@ export default function CarouselMain({ name }: { name: string }) {
 
   return (
     <ConfigProvider theme={theme}>
-      {images && (
+      {images ? (
         <Carousel draggable={true} infinite={false} autoplay={true} arrows>
           {images.map((slide: any) => {
             return (
@@ -101,6 +107,13 @@ export default function CarouselMain({ name }: { name: string }) {
             )
           })}
         </Carousel>
+      ) : (
+        <Watermark
+          content={['HAFBUY', 'Espacio publicitario']}
+          style={{ width: '100%', height: 'auto' }}
+        >
+          <div style={{ width: '100%', height: '100px' }} />
+        </Watermark>
       )}
     </ConfigProvider>
   )
